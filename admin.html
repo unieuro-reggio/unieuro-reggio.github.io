@@ -3,469 +3,176 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Admin - Unieuro RC</title>
+  <title>Dashboard Admin - Unieuro Reggio Calabria</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icona.png">
+  <meta name="theme-color" content="#002D62">
+
   <style>
     :root {
       --unieuro-blue: #002D62;
+      --unieuro-dark: #001838;
       --unieuro-orange: #FF6700;
+      --bg-color: #EEF2F7;
+      --card-bg: #FFFFFF;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
     }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #EEF2F7;
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      padding: 20px;
-      color: #1E293B;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
     header {
-      background: linear-gradient(135deg, #001838, var(--unieuro-blue));
+      background: linear-gradient(135deg, var(--unieuro-dark), var(--unieuro-blue));
       color: white;
-      padding: 18px;
-      border-radius: 12px;
-      margin-bottom: 20px;
+      padding: 18px 22px;
+      border-radius: 16px;
+      border-bottom: 4px solid var(--unieuro-orange);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 14px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 18px rgba(0, 24, 56, 0.2);
     }
-    .kpi-container {
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-box img {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: white;
+      padding: 3px;
+      object-fit: contain;
+    }
+
+    .brand-box h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.92; }
+    .btn-orange { background: var(--unieuro-orange); color: white; }
+    .btn-blue { background: var(--unieuro-blue); color: white; }
+    .btn-green { background: #16A34A; color: white; }
+    .btn-call { background: #0284C7; color: white; }
+    .btn-red { background: #DC2626; color: white; }
+    .btn-outline-light { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.4); }
+
+    /* STATISTICHE RAPIDE */
+    .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 16px;
     }
+
     .kpi-card {
       background: white;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border-top: 4px solid var(--unieuro-blue);
-      cursor: pointer;
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      border-left: 5px solid var(--unieuro-blue);
     }
-    .kpi-card.purple { border-top-color: #7C3AED; }
-    .kpi-card.orange { border-top-color: var(--unieuro-orange); }
-    .kpi-card.green { border-top-color: #16A34A; }
-    .kpi-card.gray { border-top-color: #64748B; }
-    .kpi-label { font-size: 0.8rem; color: #64748B; font-weight: 700; }
-    .kpi-num { font-size: 1.7rem; font-weight: 800; color: var(--unieuro-blue); margin-top: 6px; }
-    .panel {
+
+    .kpi-card.orange { border-left-color: var(--unieuro-orange); }
+    .kpi-card.green { border-left-color: #16A34A; }
+    .kpi-card.purple { border-left-color: #7C3AED; }
+    .kpi-card.cyan { border-left-color: #0284C7; }
+
+    .kpi-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .kpi-value {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--unieuro-blue);
+      margin-top: 4px;
+    }
+
+    /* RIEPILOGO OPERATORI */
+    .operatori-bar {
       background: white;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .toolbar-filters {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
-      background: #F8FAFC;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #E2E8F0;
-    }
-    .filter-group {
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #475569;
+      flex-wrap: wrap;
     }
-    select {
-      padding: 8px 12px;
-      border-radius: 8px;
+
+    .op-chip {
+      background: #F1F5F9;
       border: 1.5px solid #CBD5E1;
-      font-weight: 700;
-      background: white;
-      font-size: 0.88rem;
-    }
-    .btn {
-      background: var(--unieuro-orange);
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 0.88rem;
-    }
-    .btn-danger { background: #DC2626; }
-    .btn-del-row { background: #EF4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.78rem; }
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.9rem; }
-    th, td { padding: 12px 10px; border-bottom: 1px solid #CBD5E1; text-align: left; vertical-align: top; }
-    th { background: #F8FAFC; color: var(--unieuro-blue); }
-
-    tr.row-aperta { background-color: #FEF3C7; }
-    tr.row-gestita { background-color: #DCFCE7; }
-    tr.row-archiviata { background-color: #F1F5F9; opacity: 0.78; }
-
-    .badge-interno {
-      background: #7C3AED;
-      color: white;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 0.72rem;
+      color: #1E293B;
+      padding: 5px 11px;
+      border-radius: 20px;
+      font-size: 0.78rem;
       font-weight: 800;
-      display: inline-block;
-      margin-top: 4px;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div>
-      <h2 style="margin:0;">📊 Dashboard Admin - Unieuro RC</h2>
-      <small id="syncStatusAdmin" style="color:#CBD5E1;">⚡ Ordinamento: Data Decrescente</small>
-    </div>
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <a href="interno.html" class="btn" style="background:#7C3AED;">📞 + Richiesta Interna</a>
-      <button class="btn btn-danger" onclick="pulisciVecchieChiuse()">🗑️ Pulisci Chiuse > 2 Giorni</button>
-      <button class="btn" onclick="sincronizzaAdmin()">🔄 Aggiorna</button>
-    </div>
-  </header>
-
-  <div class="kpi-container">
-    <div class="kpi-card" onclick="impostaFiltri('OGGI_IERI', 'TUTTI')">
-      <div class="kpi-label">OGGI & IERI</div>
-      <div class="kpi-num" id="totOggiIeri">0</div>
-    </div>
-    <div class="kpi-card purple" onclick="impostaFiltri('TUTTI', 'INTERNA')">
-      <div class="kpi-label">📞 INTERNE</div>
-      <div class="kpi-num" id="totInterne">0</div>
-    </div>
-    <div class="kpi-card orange" onclick="impostaFiltri('Aperta', 'TUTTI')">
-      <div class="kpi-label">APERTE</div>
-      <div class="kpi-num" id="apertePratiche">0</div>
-    </div>
-    <div class="kpi-card green" onclick="impostaFiltri('Gestita', 'TUTTI')">
-      <div class="kpi-label">GESTITE</div>
-      <div class="kpi-num" id="gestitePratiche">0</div>
-    </div>
-    <div class="kpi-card gray" onclick="impostaFiltri('Archivio', 'TUTTI')">
-      <div class="kpi-label">📁 ARCHIVIO STORICO</div>
-      <div class="kpi-num" id="totArchivio">0</div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="toolbar-filters">
-      <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
-        <div class="filter-group">
-          <span>📅 Periodo / Vista:</span>
-          <select id="filtroPeriodoSelect" onchange="renderizzaTabella()">
-            <option value="OGGI_IERI">🕒 Oggi e Ieri (Principale)</option>
-            <option value="TUTTI">📋 Tutte (Oggi, Ieri e Storico)</option>
-            <option value="Archivio">📁 Solo Archivio (Precedenti a ieri)</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <span>📂 Origine:</span>
-          <select id="filtroOrigineSelect" onchange="renderizzaTabella()">
-            <option value="TUTTI">Tutte (Interne ed Esterne)</option>
-            <option value="ESTERNA">🌐 Solo Esterne (Clienti)</option>
-            <option value="INTERNA">📞 Solo Interne (Staff)</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <span>📌 Stato:</span>
-          <select id="filtroStatoSelect" onchange="renderizzaTabella()">
-            <option value="TUTTI">Tutti gli stati</option>
-            <option value="Aperta">🔴 Aperte</option>
-            <option value="Gestita">🟢 Gestite</option>
-            <option value="Archiviata">📂 Archiviate</option>
-          </select>
-        </div>
-      </div>
-      <div id="conteggioRisultati" style="font-size:0.85rem; font-weight:700; color:#64748B;"></div>
-    </div>
-
-    <div style="overflow-x:auto;">
-      <table>
-        <thead>
-          <tr>
-            <th>ID / Tipo</th>
-            <th>Data / Ora</th>
-            <th>Reparto</th>
-            <th>Cliente & Tel</th>
-            <th>Note Richiesta</th>
-            <th>Gestione Operatore</th>
-            <th>Azione</th>
-          </tr>
-        </thead>
-        <tbody id="adminBody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCQYZvPF9TKwLqozpHQMDvM2_i1MG-J9UHKsVxdDTmLnukWua_5tmcv65UlSifCB0D/exec";
-    const NTFY_TOPIC = 'unieuro_reggio_calabria_reparti_live';
-    const REQ_KEY = 'unieuro_requests_db';
-
-    let mappaAdmin = new Map();
-
-    function preparaNumero7Collaboration(num) {
-      if (!num) return "";
-      let clean = String(num).replace(/[\s\-\.\(\)']+/g, '').replace(/^(\+39|0039)/, '');
-      if (!clean) return "";
-      if (!clean.startsWith('0')) clean = '0' + clean;
-      return clean;
+      cursor: pointer;
     }
 
-    function estraiTimestampNumerico(p) {
-      const match = String(p.id || '').match(/(\d{10,})/);
-      if (match) return Number(match[1]);
-      try {
-        return new Date(p.timestamp).getTime() || 0;
-      } catch (e) {
-        return 0;
-      }
+    .op-chip.active {
+      background: var(--unieuro-blue);
+      color: white;
+      border-color: var(--unieuro-blue);
     }
 
-    function analizzaData(timestampStr) {
-      if (!timestampStr) return new Date(0);
-      try {
-        const parti = timestampStr.split(/[\s,\/:]+/);
-        if (parti.length >= 3) {
-          return new Date(parti[2], parti[1] - 1, parti[0]);
-        }
-      } catch (e) {}
-      return new Date(timestampStr);
-    }
-
-    function eOggiOieri(timestampStr) {
-      const dataPratica = analizzaData(timestampStr);
-      const oggi = new Date();
-      oggi.setHours(0, 0, 0, 0);
-
-      const ieri = new Date(oggi);
-      ieri.setDate(ieri.getDate() - 1);
-
-      dataPratica.setHours(0, 0, 0, 0);
-      return dataPratica.getTime() >= ieri.getTime();
-    }
-
-    function normalizza(p) {
-      if (!p) return null;
-      const id = String(p.id || p['ID Pratica'] || '').trim();
-      if (!id) return null;
-      return {
-        id: id,
-        timestamp: p.timestamp || p['Data e Ora'] || '',
-        reparto: String(p.reparto || p['Reparto'] || '').toUpperCase().trim(),
-        tipoRichiesta: p.tipoRichiesta || p['Tipo Richiesta'] || '',
-        nomeCliente: p.nomeCliente || p['Nome Cliente'] || '',
-        telefono: p.telefono || p['Telefono'] || '',
-        emailCliente: p.emailCliente || p['Email Cliente'] || '',
-        noteCliente: p.noteCliente || p['Dettagli / Note Cliente'] || '',
-        stato: p.stato || p['Stato'] || 'Aperta',
-        noteRepartista: p.noteRepartista || p['Note Repartista'] || '',
-        operatore: p.operatore || p['Operatore'] || ''
-      };
-    }
-
-    function unisciRecord(raw) {
-      if (!raw) return;
-      if (raw.action === 'update' && raw.id) {
-        const rec = mappaAdmin.get(String(raw.id));
-        if (rec) {
-          if (raw.stato) rec.stato = raw.stato;
-          if (raw.operatore !== undefined) rec.operatore = raw.operatore;
-          if (raw.noteRepartista !== undefined) rec.noteRepartista = raw.noteRepartista;
-          mappaAdmin.set(String(raw.id), rec);
-        }
-        return;
-      }
-      if (raw.action === 'delete' && raw.id) {
-        mappaAdmin.delete(String(raw.id));
-        return;
-      }
-      const norm = normalizza(raw);
-      if (!norm) return;
-      mappaAdmin.set(norm.id, norm);
-    }
-
-    function impostaFiltri(periodo, origine) {
-      document.getElementById('filtroPeriodoSelect').value = periodo;
-      document.getElementById('filtroOrigineSelect').value = origine;
-      document.getElementById('filtroStatoSelect').value = 'TUTTI';
-      renderizzaTabella();
-    }
-
-    function aggiornaKPI() {
-      const lista = Array.from(mappaAdmin.values());
-      const oggiIeriList = lista.filter(x => eOggiOieri(x.timestamp));
-      const archivioList = lista.filter(x => !eOggiOieri(x.timestamp));
-
-      document.getElementById('totOggiIeri').textContent = oggiIeriList.length;
-      document.getElementById('totInterne').textContent = lista.filter(x => x.id.startsWith('INT-') || x.tipoRichiesta.includes('INTERNO')).length;
-      document.getElementById('apertePratiche').textContent = oggiIeriList.filter(x => x.stato === 'Aperta').length;
-      document.getElementById('gestitePratiche').textContent = oggiIeriList.filter(x => x.stato === 'Gestita').length;
-      document.getElementById('totArchivio').textContent = archivioList.length;
-
-      renderizzaTabella();
-    }
-
-    function sincronizzaAdmin() {
-      const statusEl = document.getElementById('syncStatusAdmin');
-      statusEl.textContent = '🔄 Sincronizzazione in corso...';
-
-      const pNtfy = fetch(`https://ntfy.sh/${NTFY_TOPIC}/json?poll=1&since=48h`)
-        .then(r => r.text())
-        .then(txt => {
-          txt.trim().split('\n').forEach(line => {
-            if (!line) return;
-            try {
-              const ev = JSON.parse(line);
-              if (ev.event === 'message' && ev.message) {
-                unisciRecord(JSON.parse(ev.message));
-              }
-            } catch (e) {}
-          });
-          aggiornaKPI();
-        }).catch(() => {});
-
-      const pSheet = fetch(`${SCRIPT_URL}?action=get`, { redirect: 'follow' })
-        .then(r => r.json())
-        .then(json => {
-          const daSheet = Array.isArray(json) ? json : (json.data || []);
-          daSheet.forEach(item => unisciRecord(item));
-          try {
-            localStorage.setItem(REQ_KEY, JSON.stringify(Array.from(mappaAdmin.values()).slice(0, 150)));
-          } catch (e) {}
-          aggiornaKPI();
-        }).catch(() => {});
-
-      Promise.allSettled([pNtfy, pSheet]).then(() => {
-        statusEl.textContent = '✅ Aggiornato alle ' + new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-      });
-    }
-
-    function eliminaRiga(id) {
-      if (!confirm(`Sei sicuro di voler eliminare definitivamente la pratica ${id}?`)) return;
-
-      mappaAdmin.delete(id);
-      try {
-        localStorage.setItem(REQ_KEY, JSON.stringify(Array.from(mappaAdmin.values())));
-      } catch (e) {}
-      aggiornaKPI();
-
-      const deletePayload = { action: "delete", id: id };
-      fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify(deletePayload) }).catch(() => {});
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(deletePayload)
-      }).catch(() => {});
-    }
-
-    function pulisciVecchieChiuse() {
-      if (confirm("Vuoi eliminare tutte le pratiche GESTITE o ARCHIVIATE più vecchie di 2 giorni?")) {
-        const daMantenere = [];
-        mappaAdmin.forEach((p, id) => {
-          const eVecchia = !eOggiOieri(p.timestamp);
-          const eChiusa = (p.stato === 'Gestita' || p.stato === 'Archiviata');
-          if (eVecchia && eChiusa) {
-            // Elimina
-          } else {
-            daMantenere.push(p);
-          }
-        });
-
-        mappaAdmin.clear();
-        daMantenere.forEach(p => mappaAdmin.set(p.id, p));
-        try {
-          localStorage.setItem(REQ_KEY, JSON.stringify(daMantenere));
-        } catch (e) {}
-        aggiornaKPI();
-        alert("✅ Pulizia completata con successo!");
-      }
-    }
-
-    function renderizzaTabella() {
-      const tbody = document.getElementById('adminBody');
-      const filtroPeriodo = document.getElementById('filtroPeriodoSelect').value;
-      const filtroOrigine = document.getElementById('filtroOrigineSelect').value;
-      const filtroStato = document.getElementById('filtroStatoSelect').value;
-
-      let lista = Array.from(mappaAdmin.values());
-
-      // Ordinamento per data decrescente (più recenti in alto)
-      lista.sort((a, b) => estraiTimestampNumerico(b) - estraiTimestampNumerico(a));
-
-      if (filtroPeriodo === 'OGGI_IERI') {
-        lista = lista.filter(x => eOggiOieri(x.timestamp));
-      } else if (filtroPeriodo === 'Archivio') {
-        lista = lista.filter(x => !eOggiOieri(x.timestamp));
-      }
-
-      if (filtroOrigine === 'INTERNA') {
-        lista = lista.filter(x => x.id.startsWith('INT-') || x.tipoRichiesta.includes('INTERNO'));
-      } else if (filtroOrigine === 'ESTERNA') {
-        lista = lista.filter(x => !x.id.startsWith('INT-') && !x.tipoRichiesta.includes('INTERNO'));
-      }
-
-      if (filtroStato !== 'TUTTI') {
-        lista = lista.filter(x => x.stato === filtroStato);
-      }
-
-      document.getElementById('conteggioRisultati').textContent = `Mostrate ${lista.length} pratiche`;
-
-      if (lista.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#64748B; padding:20px;">Nessuna richiesta trovata per i filtri selezionati.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = lista.map(p => {
-        const tel = preparaNumero7Collaboration(p.telefono);
-        const isInterno = p.id.startsWith('INT-') || p.tipoRichiesta.includes('INTERNO');
-
-        let rowClass = 'row-aperta';
-        if (p.stato === 'Gestita') rowClass = 'row-gestita';
-        if (p.stato === 'Archiviata') rowClass = 'row-archiviata';
-
-        return `
-          <tr class="${rowClass}">
-            <td>
-              <strong>${p.id}</strong><br>
-              <span style="font-size:0.78rem; color:#475569;">${p.tipoRichiesta || 'Richiesta'}</span>
-              ${isInterno ? `<br><span class="badge-interno">📞 INTERNO</span>` : ''}
-            </td>
-            <td>${p.timestamp}</td>
-            <td><strong>${p.reparto}</strong></td>
-            <td>
-              ${p.nomeCliente}<br>
-              ${tel ? `<a href="tel:${tel}" style="color:#0284C7; font-weight:700;">📞 ${tel}</a>` : ''}
-            </td>
-            <td>${p.noteCliente}</td>
-            <td>
-              <strong>Op:</strong> ${p.operatore || '-'}<br>
-              <small style="color:#334155; font-weight:600;">${p.noteRepartista || '-'}</small>
-            </td>
-            <td>
-              <button class="btn-del-row" onclick="eliminaRiga('${p.id}')">❌ Elimina</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      try {
-        const cache = JSON.parse(localStorage.getItem(REQ_KEY) || '[]');
-        cache.forEach(p => unisciRecord(p));
-      } catch (e) {}
-      aggiornaKPI();
-      sincronizzaAdmin();
-    });
-  </script>
-</body>
-</html>
+    /* BARRA FILTRI */
+    .filters-card {
+      background: white;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      display: grid;
+      grid-
