@@ -142,7 +142,7 @@
       padding: 0 14px;
     }
 
-    /* BANNER FISSO DI INSTALLazione RAPIDA (SE NON ANCORA INSTALLATA) */
+    /* BANNER FISSO DI INSTALLAZIONE RAPIDA */
     #topInstallBanner {
       display: none;
       background: linear-gradient(135deg, #FF6700, #E65100);
@@ -210,7 +210,7 @@
       margin: 12px 0;
     }
 
-    /* PULSANTI MAPS E SOCIAL CON COLORI E LOGHI ORIGINALI */
+    /* PULSANTI MAPS E SOCIAL */
     .quick-links {
       display: grid;
       grid-template-columns: 1.2fr 1fr 1fr;
@@ -253,6 +253,7 @@
     }
 
     .card.orange-border { border-top-color: var(--unieuro-orange); }
+    .card.green-border { border-top-color: #16A34A; }
 
     .card-title {
       font-size: 1.05rem;
@@ -264,7 +265,7 @@
       align-items: center;
     }
 
-    /* PULSANTI REPARTI SEPARATI */
+    /* PULSANTI REPARTI RAGGRUPPATI */
     .reparti-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -289,8 +290,8 @@
       font-size: 0.84rem;
     }
 
-    .reparto-btn span.icon { font-size: 1.45rem; }
-    .reparto-btn small { font-size: 0.68rem; color: var(--unieuro-orange); font-weight: 700; }
+    .reparto-btn span.icon { font-size: 1.5rem; letter-spacing: 2px; }
+    .reparto-btn small { font-size: 0.68rem; color: var(--unieuro-orange); font-weight: 700; line-height: 1.2; }
 
     .reparto-btn:hover,
     .reparto-btn.selected {
@@ -445,22 +446,24 @@
       color: white;
       text-decoration: none;
       border: 2px solid #86EFAC;
-      padding: 15px;
+      padding: 14px;
       border-radius: 14px;
       cursor: pointer;
       text-align: left;
       box-shadow: 0 5px 14px rgba(22, 163, 74, 0.3);
       transition: transform 0.15s;
+      margin-bottom: 8px;
     }
 
+    .wa-audio-banner:last-child { margin-bottom: 0; }
     .wa-audio-banner:active { transform: scale(0.98); }
 
     .wa-audio-icon {
-      font-size: 2.2rem;
+      font-size: 2rem;
       background: white;
       color: #16A34A;
-      width: 54px;
-      height: 54px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -469,9 +472,9 @@
       box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
 
-    .wa-audio-text { display: flex; flex-direction: column; gap: 3px; }
-    .wa-audio-text strong { font-size: 1rem; font-weight: 900; line-height: 1.25; text-transform: uppercase; }
-    .wa-audio-text span { font-size: 0.86rem; font-weight: 600; color: #ECFDF5; line-height: 1.3; }
+    .wa-audio-text { display: flex; flex-direction: column; gap: 2px; }
+    .wa-audio-text strong { font-size: 0.95rem; font-weight: 900; line-height: 1.25; text-transform: uppercase; }
+    .wa-audio-text span { font-size: 0.82rem; font-weight: 600; color: #ECFDF5; line-height: 1.3; }
 
     /* FINESTRA GUIDA WHATSAPP */
     .wa-modal-overlay {
@@ -601,17 +604,58 @@
 
     .canvas-wrapper {
       width: 100%;
-      min-height: 270px;
+      min-height: 250px;
       background: #E2E8F0;
       border-radius: 12px;
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
-    #pdfCanvas { max-width: 100%; height: auto; display: block; }
+    #pdfCanvas, #pdfCanvasRico { max-width: 100%; height: auto; display: block; }
     .crop-toolbar { display: none; gap: 8px; margin-top: 10px; }
+
+    /* BANNER RICONDIZIONATO */
+    .rico-hero-banner {
+      background: linear-gradient(135deg, #059669, #047857);
+      color: white;
+      padding: 16px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      text-align: center;
+      border: 2px solid #6EE7B7;
+      box-shadow: 0 5px 15px rgba(5, 150, 105, 0.25);
+    }
+
+    .rico-hero-banner h3 {
+      font-size: 1.02rem;
+      font-weight: 900;
+      line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-portale-rico {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 12px;
+      background: linear-gradient(135deg, var(--unieuro-blue), var(--unieuro-dark));
+      color: white;
+      border: 2px solid var(--unieuro-orange);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 0.92rem;
+      font-weight: 900;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(0, 45, 98, 0.25);
+    }
 
     /* TESSERA UNIEURO CLUB */
     .club-card {
@@ -791,17 +835,15 @@
   <div id="installPwaModal" class="install-modal-overlay">
     <div class="install-modal-card">
       <img src="icona.png" alt="Unieuro RC" onerror="this.style.display='none'">
-      <h2 style="color:var(--unieuro-blue); font-size:1.2rem; margin-bottom:6px;">📲 Installa l'App nella tua Home!</h2>
+      <h2 style="color:var(--unieuro-blue); font-size:1.2rem; margin-bottom:6px;">📲 Installa UNIEURO RC IN TASCA!</h2>
       <p style="font-size:0.9rem; color:#475569; line-height:1.4; margin-bottom:14px;">
-        Aggiungi <strong>Unieuro Reggio Calabria in Tasca</strong> alla schermata principale del tuo telefono per aprirla con un solo tocco.
+        Aggiungi <strong>UNIEURO RC IN TASCA</strong> alla schermata Home del tuo telefono per aprirla con un solo tocco.
       </p>
 
-      <!-- Pulsante diretto per Android / Chrome / Samsung / Edge -->
       <button type="button" id="btnTriggerInstall" class="btn btn-orange btn-block" style="padding:14px; font-size:1rem; margin-bottom:10px;" onclick="eseguiInstallazioneHome()">
         ➕ INSTALLA E AGGIUNGI ALLA HOME
       </button>
 
-      <!-- Istruzioni automatiche se aperto da iPhone / iPad -->
       <div id="iosInstallBox" class="ios-instructions">
         <strong>🍏 Come inserirla sulla Home del tuo iPhone:</strong><br>
         1. Tocca l'icona <strong>Condividi</strong> <span style="font-size:1.1rem;">⬆️</span> in basso sullo schermo.<br>
@@ -839,13 +881,13 @@
 
   <div class="container">
 
-    <!-- Banner rapido sempre disponibile se l'utente chiude il popup iniziale -->
+    <!-- Banner rapido di installazione se non ancora installata -->
     <div id="topInstallBanner" onclick="apriPopupInstallazioneManuale()">
       <div style="display:flex; align-items:center; gap:10px;">
         <span style="font-size:1.5rem;">📲</span>
         <div style="font-size:0.85rem; line-height:1.25;">
           <strong style="font-size:0.92rem; display:block;">METTI L'APP SULLA SCHERMATA HOME</strong>
-          Tocca qui per installarla subito sul telefono
+          Tocca qui per installare UNIEURO RC IN TASCA
         </div>
       </div>
       <span style="background:white; color:var(--unieuro-orange); padding:6px 10px; border-radius:8px; font-weight:900; font-size:0.78rem;">INSTALLA</span>
@@ -883,35 +925,30 @@
         <button type="button" class="btn btn-red" style="padding:6px 10px; font-size:0.78rem;" onclick="rimuoviRitaglio()">Rimuovi</button>
       </div>
 
+      <!-- Pulsanti Reparti Raggruppati -->
       <div class="reparti-grid">
-        <button type="button" class="reparto-btn" onclick="selezionaReparto('GRANDI ELETTRODOMESTICI', this)">
-          <span class="icon">🧺</span>
-          GRANDI ELETTRODOMESTICI
-        </button>
-
-        <button type="button" class="reparto-btn" onclick="selezionaReparto('PICCOLI ELETTRODOMESTICI', this)">
-          <span class="icon">☕</span>
-          PICCOLI ELETTRODOMESTICI
+        <button type="button" class="reparto-btn" onclick="selezionaReparto('ELETTRODOMESTICI', this)">
+          <span class="icon">🧺☕</span>
+          ELETTRODOMESTICI
+          <small>Grandi e Piccoli</small>
         </button>
 
         <button type="button" class="reparto-btn" onclick="selezionaReparto('TELEFONIA', this)">
           <span class="icon">📱</span>
           TELEFONIA
+          <small>Smartphone e Accessori</small>
         </button>
 
-        <button type="button" class="reparto-btn" onclick="selezionaReparto('TV', this)">
-          <span class="icon">📺</span>
-          TV
-        </button>
-
-        <button type="button" class="reparto-btn" onclick="selezionaReparto('INFORMATICA', this)">
-          <span class="icon">💻</span>
-          INFORMATICA
+        <button type="button" class="reparto-btn" onclick="selezionaReparto('INFORMATICA / TV', this)">
+          <span class="icon">💻📺</span>
+          INFORMATICA / TV
+          <small>PC, Tablet, TV e Audio</small>
         </button>
 
         <button type="button" class="reparto-btn" onclick="selezionaReparto('ASSISTENZA', this)">
           <span class="icon">🛠️</span>
           ASSISTENZA
+          <small>Supporto e Garanzie</small>
         </button>
 
         <button type="button" class="reparto-btn full-width" onclick="selezionaReparto('RITIRO RAEE', this)">
@@ -931,6 +968,16 @@
         <form id="requestForm" onsubmit="inviaRichiesta(event)" autocomplete="off">
           <input type="hidden" id="repartoHidden" required>
 
+          <!-- Se il cliente clicca su ASSISTENZA, sceglie il reparto così va in automatico al numero WA giusto -->
+          <div class="form-group" id="boxSottoRepartoAssistenza" style="display:none; background:#FFF7ED; padding:10px; border-radius:10px; border:1.5px solid var(--unieuro-orange);">
+            <label for="repartoAssistenzaSelect" style="color:#C2410C;">🛠️ Per quale reparto richiedi Assistenza? *</label>
+            <select id="repartoAssistenzaSelect">
+              <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
+              <option value="TELEFONIA">📱 TELEFONIA</option>
+              <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
+            </select>
+          </div>
+
           <div class="grid-2">
             <div class="form-group">
               <label for="nomeCliente">Nome *</label>
@@ -945,7 +992,7 @@
           <div class="form-group">
             <label for="metodoRicontatto">Metodo di Ricontatto *</label>
             <select id="metodoRicontatto" onchange="aggiornaCampiContatto()" required>
-              <option value="Telefono">📞 Telefono</option>
+              <option value="Telefono">📞 Telefono / WhatsApp</option>
               <option value="Mail">✉️ Mail</option>
             </select>
           </div>
@@ -972,7 +1019,7 @@
       </div>
 
       <div id="confirmToast" class="toast">
-        ✅ Richiesta inviata con successo! Un nostro addetto ti ricontatterà al più presto.
+        ✅ Richiesta inviata con successo! Il reparto ti ricontatterà al più presto.
       </div>
 
       <!-- SALTA FILA COLLEGATO NELLO STESSO PANNELLO -->
@@ -994,15 +1041,22 @@
           <form id="saltaFilaForm" onsubmit="inviaSaltaFila(event)" autocomplete="off">
             <div class="form-group">
               <label for="sfReparto">Seleziona il Reparto *</label>
-              <select id="sfReparto" required>
+              <select id="sfReparto" required onchange="verificaAssistenzaSaltaFila()">
                 <option value="">-- Scegli Reparto --</option>
-                <option value="GRANDI ELETTRODOMESTICI">🧺 GRANDI ELETTRODOMESTICI</option>
-                <option value="PICCOLI ELETTRODOMESTICI">☕ PICCOLI ELETTRODOMESTICI</option>
+                <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
                 <option value="TELEFONIA">📱 TELEFONIA</option>
-                <option value="TV">📺 TV</option>
-                <option value="INFORMATICA">💻 INFORMATICA</option>
+                <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
                 <option value="ASSISTENZA">🛠️ ASSISTENZA</option>
                 <option value="RITIRO RAEE">♻️ RITIRO RAEE</option>
+              </select>
+            </div>
+
+            <div class="form-group" id="sfBoxAssistenzaReparto" style="display:none; background:#F5F3FF; padding:10px; border-radius:10px; border:1.5px solid #C4B5FD;">
+              <label for="sfRepartoAssistenza" style="color:#5B21B6;">🛠️ Per quale reparto prenoti l'Assistenza? *</label>
+              <select id="sfRepartoAssistenza">
+                <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
+                <option value="TELEFONIA">📱 TELEFONIA</option>
+                <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
               </select>
             </div>
 
@@ -1060,7 +1114,7 @@
             <div class="form-group">
               <label for="sfMetodo">Metodo di Ricontatto *</label>
               <select id="sfMetodo" onchange="aggiornaCampiContattoSF()" required>
-                <option value="Telefono">📞 Telefono</option>
+                <option value="Telefono">📞 Telefono / WhatsApp</option>
                 <option value="Mail">✉️ Mail</option>
               </select>
             </div>
@@ -1092,20 +1146,31 @@
       </div>
     </div>
 
-    <!-- 2. UNICA CASELLA RICHIESTA FACILE CON MESSAGGIO VOCALE -->
+    <!-- 2. RICHIESTA FACILE CON MESSAGGIO VOCALE (SMISTATA SUI 2 NUMERI WA) -->
     <div class="wa-helper-box">
       <div class="wa-helper-title">
         <span>👵👴 Richiesta Facile con Messaggio Vocale</span>
       </div>
       <div class="wa-pre-steps">
-        <div>📱 <strong>Cosa farà l'app:</strong> Toccando il pulsante verde qui sotto, si aprirà subito il tuo WhatsApp nella chat di Unieuro Reggio Calabria (<strong>0965 598722</strong>).</div>
+        <div>📱 <strong>Cosa farà l'app:</strong> Toccando uno dei pulsanti verdi qui sotto, si aprirà subito WhatsApp nella chat del reparto scelto.</div>
         <div>🗣️ <strong>Cosa dovrai fare tu:</strong> Tieni premuto il microfono verde in basso a destra su WhatsApp e dicci a voce il tuo nome e cosa ti serve!</div>
       </div>
-      <a href="https://wa.me/390965598722" target="_blank" rel="noopener" class="wa-audio-banner" onclick="mostraSchermataWhatsAppAperta()">
-        <div class="wa-audio-icon">🎤</div>
+
+      <!-- Pulsante Vocale Linea 1: Elettrodomestici & RAEE (0965 340336) -->
+      <a href="https://wa.me/390965340336" target="_blank" rel="noopener" class="wa-audio-banner" onclick="mostraSchermataWhatsAppAperta('0965 340336', 'https://wa.me/390965340336')">
+        <div class="wa-audio-icon">🧺☕</div>
         <div class="wa-audio-text">
-          <strong>Inviaci un audio su WhatsApp con la tua richiesta, al resto ci pensiamo noi...</strong>
-          <span>👉 Tocca qui per aprire subito WhatsApp (0965 598722)</span>
+          <strong>Inviaci un audio per ELETTRODOMESTICI o RAEE</strong>
+          <span>👉 Al resto ci pensiamo noi! Tocca qui (WA 0965 340336)</span>
+        </div>
+      </a>
+
+      <!-- Pulsante Vocale Linea 2: Telefonia, Informatica & TV (0965 598722) -->
+      <a href="https://wa.me/390965598722" target="_blank" rel="noopener" class="wa-audio-banner" onclick="mostraSchermataWhatsAppAperta('0965 598722', 'https://wa.me/390965598722')">
+        <div class="wa-audio-icon">📱📺</div>
+        <div class="wa-audio-text">
+          <strong>Inviaci un audio per TELEFONIA, PC o TV</strong>
+          <span>👉 Al resto ci pensiamo noi! Tocca qui (WA 0965 598722)</span>
         </div>
       </a>
     </div>
@@ -1157,7 +1222,37 @@
       </div>
     </div>
 
-    <!-- 4. LA TUA TESSERA UNIEURO -->
+    <!-- 4. NUOVA SEZIONE RICONDIZIONATO CON VOLANTINO DEDICATO E LINK AL PORTALE -->
+    <div class="card green-border">
+      <div class="rico-hero-banner">
+        <h3>♻️ HAI MAI PENSATO AL RICONDIZIONATO?<br>SCOPRI PERCHÉ POTREBBE ESSERE LA SCELTA GIUSTA</h3>
+      </div>
+
+      <div class="pdf-controls">
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button type="button" class="btn btn-outline" onclick="cambiaPaginaRico(-1)">◀</button>
+          <span id="pageIndicatorRico" style="font-size:0.88rem; font-weight:800;">Pag. 1 / 1</span>
+          <button type="button" class="btn btn-outline" onclick="cambiaPaginaRico(1)">▶</button>
+        </div>
+        <button type="button" id="btnStartCropRico" class="btn btn-orange" onclick="avviaRitaglioRico()">✂️ Ritaglia Offerta</button>
+      </div>
+
+      <div id="cropToolbarRico" class="crop-toolbar">
+        <button type="button" class="btn btn-green btn-block" onclick="confermaRitaglioRico()">✅ Allega Ritaglio e Scegli Reparto</button>
+        <button type="button" class="btn btn-red" onclick="annullaRitaglioRico()">✖</button>
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas id="pdfCanvasRico"></canvas>
+      </div>
+
+      <!-- LINK AL PORTALE RICONDIZIONATI (Attualmente punta a www.unieuro.it) -->
+      <a href="https://www.unieuro.it" id="linkPortaleRicondizionati" target="_blank" rel="noopener" class="btn-portale-rico">
+        🌐 VAI AL NOSTRO PORTALE RICONDIZIONATI
+      </a>
+    </div>
+
+    <!-- 5. LA TUA TESSERA UNIEURO -->
     <div class="club-card">
       <div class="club-header">
         <strong>💳 La Tua Tessera Unieuro</strong>
@@ -1197,7 +1292,7 @@
       </a>
     </div>
 
-    <!-- 5. MOTTO FINALE -->
+    <!-- 6. MOTTO FINALE -->
     <div class="motto-footer">
       <p>"E COME SEMPRE, GRAZIE"</p>
       <span>Unieuro Reggio Calabria</span>
@@ -1205,7 +1300,7 @@
 
   </div>
 
-  <!-- MODALE GUIDA WHATSAPP -->
+  <!-- MODALE GUIDA WHATSAPP AUDIO -->
   <div id="waGuideModal" class="wa-modal-overlay">
     <div class="wa-modal-card">
       <h2 style="color:#15803D; font-size:1.22rem; margin-bottom:10px;">✅ WhatsApp si sta aprendo!</h2>
@@ -1223,10 +1318,10 @@
 
       <div class="wa-step-box" style="background:#F0FDF4; border-color:#86EFAC;">
         <strong>🤝 Hai già inviato il messaggio vocale?</strong><br>
-        Allora <strong>hai finito!</strong> Il nostro reparto ha ricevuto il tuo audio sul numero <strong>0965 598722</strong> e ti ricontatterà al più presto.
+        Allora <strong>hai finito!</strong> Il nostro reparto ha ricevuto il tuo audio sul numero <strong id="waModalNumeroLabel">0965 598722</strong> e ti ricontatterà al più presto.
       </div>
 
-      <a href="https://wa.me/390965598722" target="_blank" rel="noopener" class="btn-go-wa" style="margin-bottom:10px;">
+      <a href="https://wa.me/390965598722" id="waModalReopenLink" target="_blank" rel="noopener" class="btn-go-wa" style="margin-bottom:10px;">
         🔄 Riapri la chat WhatsApp di Unieuro
       </a>
 
@@ -1248,11 +1343,30 @@
     const CARD_KEY = 'unieuro_tessera_code';
     const REQ_KEY = 'unieuro_requests_db';
 
+    // URL DEL PORTALE RICONDIZIONATI (Modifica qui quando il nuovo portale sarà pronto)
+    const PORTALE_RICONDIZIONATI_URL = "https://www.unieuro.it";
+
+    // SMISTAMENTO AUTOMATICO REPARTI -> 2 NUMERI WHATSAPP BUSINESS
+    function getNumeroWhatsAppReparto(repartoScelto, sottoRepartoAssistenza) {
+      const target = (repartoScelto === 'ASSISTENZA' ? (sottoRepartoAssistenza || 'ELETTRODOMESTICI') : repartoScelto).toUpperCase();
+      if (target.includes('ELETTRODOMESTICI') || target.includes('RAEE')) {
+        return "0965340336"; // WA Elettrodomestici (Grandi/Piccoli) e Ritiro RAEE
+      }
+      return "0965598722";   // WA Telefonia e Informatica/TV
+    }
+
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
+    // Variabili PDF Volantino/Promo
     let pdfDoc = null;
     let currentPage = 1;
     let cropperInstance = null;
+
+    // Variabili PDF Ricondizionato
+    let pdfDocRico = null;
+    let currentPageRico = 1;
+    let cropperInstanceRico = null;
+
     let croppedBase64 = "";
     let html5QrCodeScanner = null;
 
@@ -1303,7 +1417,6 @@
         document.getElementById('iosInstallBox').style.display = 'block';
         document.getElementById('installPwaModal').style.display = 'flex';
       } else {
-        // Su Android/PC mostra subito il popup all'apertura
         document.getElementById('installPwaModal').style.display = 'flex';
       }
     }
@@ -1369,7 +1482,9 @@
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
     };
 
-    window.mostraSchermataWhatsAppAperta = function() {
+    window.mostraSchermataWhatsAppAperta = function(numLabel, urlWa) {
+      if (numLabel) document.getElementById('waModalNumeroLabel').textContent = numLabel;
+      if (urlWa) document.getElementById('waModalReopenLink').href = urlWa;
       const modal = document.getElementById('waGuideModal');
       if (modal) modal.style.display = 'flex';
     };
@@ -1395,17 +1510,26 @@
       window.speechSynthesis.speak(msg);
     };
 
-    // 1. REPARTI E RICHIESTE + SALTA FILA INTEGRATO
+    // -------------------------------------------------------------------------
+    // 1. REPARTI E RICHIESTE + SMISTAMENTO AUTOMATICO WA (0965340336 / 0965598722)
+    // -------------------------------------------------------------------------
     window.selezionaReparto = function(nomeReparto, btnElement) {
       chiudiSaltaFila();
       document.querySelectorAll('.reparto-btn').forEach(b => b.classList.remove('selected'));
       if (btnElement) btnElement.classList.add('selected');
+
       const repHidden = document.getElementById('repartoHidden');
       const repLabel = document.getElementById('repartoSceltoLabel');
       const formBox = document.getElementById('formContainerBox');
+      const boxAss = document.getElementById('boxSottoRepartoAssistenza');
 
       if (repHidden) repHidden.value = nomeReparto;
       if (repLabel) repLabel.textContent = '📍 Reparto: ' + nomeReparto;
+
+      if (boxAss) {
+        boxAss.style.display = (nomeReparto === 'ASSISTENZA') ? 'block' : 'none';
+      }
+
       if (formBox) {
         formBox.style.display = 'block';
         formBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1448,8 +1572,14 @@
 
     window.inviaRichiesta = async function(e) {
       e.preventDefault();
-      const reparto = document.getElementById('repartoHidden').value;
-      if (!reparto) { alert('Clicca prima sul reparto desiderato.'); return; }
+      const repartoBase = document.getElementById('repartoHidden').value;
+      if (!repartoBase) { alert('Clicca prima sul reparto desiderato.'); return; }
+
+      const sottoRepartoAss = document.getElementById('repartoAssistenzaSelect').value;
+      const numeroWaDest = getNumeroWhatsAppReparto(repartoBase, sottoRepartoAss);
+      const repartoFinale = (repartoBase === 'ASSISTENZA')
+        ? `ASSISTENZA (${sottoRepartoAss})`
+        : repartoBase;
 
       const btn = document.getElementById('btnSubmit');
       if (btn) { btn.disabled = true; btn.textContent = '⏳ Invio in corso...'; }
@@ -1467,10 +1597,18 @@
 
       const payload = {
         action: "create",
-        id: idPratica, timestamp: timestamp, reparto: reparto,
-        tipoRichiesta: reparto === 'RITIRO RAEE' ? 'Ritiro RAEE (in negozio)' : 'Richiesta Cliente',
-        nomeCliente: `${nome} ${cognome}`.trim(), telefono: telefono7Collab, emailCliente: email,
-        preferenzaContatto: metodo, noteCliente: note, stato: "Aperta", image: croppedBase64
+        id: idPratica,
+        timestamp: timestamp,
+        reparto: repartoFinale,
+        waDestinatario: numeroWaDest,
+        tipoRichiesta: repartoBase === 'RITIRO RAEE' ? 'Ritiro RAEE (in negozio)' : `Richiesta Cliente (WA ${numeroWaDest})`,
+        nomeCliente: `${nome} ${cognome}`.trim(),
+        telefono: telefono7Collab,
+        emailCliente: email,
+        preferenzaContatto: metodo,
+        noteCliente: note,
+        stato: "Aperta",
+        image: croppedBase64
       };
 
       try {
@@ -1479,7 +1617,9 @@
         localStorage.setItem(REQ_KEY, JSON.stringify(lista.slice(0, 60)));
       } catch (err) {}
 
+      // Notifica istantanea sia al canale generale sia al canale specifico del numero WA
       fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify({ ...payload, image: "" }) }).catch(() => {});
+      fetch(`https://ntfy.sh/unieuro_rc_wa_${numeroWaDest}`, { method: 'POST', body: JSON.stringify({ ...payload, image: "" }) }).catch(() => {});
 
       try {
         await fetch(SCRIPT_URL, {
@@ -1498,13 +1638,21 @@
       }
     };
 
-    // SALTA FILA (PRENOTAZIONE CON MINIMO 1 GIORNO DI ANTICIPO)
+    // -------------------------------------------------------------------------
+    // SALTA FILA (CON REPARTI AGGIORNATI E SMISTAMENTO AUTOMATICO WA)
+    // -------------------------------------------------------------------------
+    window.verificaAssistenzaSaltaFila = function() {
+      const rep = document.getElementById('sfReparto').value;
+      const boxAss = document.getElementById('sfBoxAssistenzaReparto');
+      if (boxAss) {
+        boxAss.style.display = (rep === 'ASSISTENZA') ? 'block' : 'none';
+      }
+    };
+
     function getDataDomaniISO() {
       const d = new Date();
       d.setDate(d.getDate() + 1);
-      if (d.getDay() === 0) {
-        d.setDate(d.getDate() + 1);
-      }
+      if (d.getDay() === 0) d.setDate(d.getDate() + 1);
       const yyyy = d.getFullYear();
       const mm = String(d.getMonth() + 1).padStart(2, '0');
       const gg = String(d.getDate()).padStart(2, '0');
@@ -1582,7 +1730,13 @@
 
     window.inviaSaltaFila = async function(e) {
       e.preventDefault();
-      const reparto = document.getElementById('sfReparto').value;
+      const repartoBase = document.getElementById('sfReparto').value;
+      const sottoRepartoAss = document.getElementById('sfRepartoAssistenza').value;
+      const numeroWaDest = getNumeroWhatsAppReparto(repartoBase, sottoRepartoAss);
+      const repartoFinale = (repartoBase === 'ASSISTENZA')
+        ? `ASSISTENZA (${sottoRepartoAss})`
+        : repartoBase;
+
       const dataScelta = document.getElementById('sfData').value;
       const oraScelta = document.getElementById('sfOra').value;
 
@@ -1614,8 +1768,9 @@
         action: "create",
         id: idPratica,
         timestamp: timestamp,
-        reparto: reparto,
-        tipoRichiesta: `🎟️ SALTA FILA (${dataFormattata} ore ${oraScelta})`,
+        reparto: repartoFinale,
+        waDestinatario: numeroWaDest,
+        tipoRichiesta: `🎟️ SALTA FILA (${dataFormattata} ore ${oraScelta} - WA ${numeroWaDest})`,
         nomeCliente: `${nome} ${cognome}`.trim(),
         telefono: telefono7Collab,
         emailCliente: email,
@@ -1632,6 +1787,7 @@
       } catch (err) {}
 
       fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify({ ...payload, image: "" }) }).catch(() => {});
+      fetch(`https://ntfy.sh/unieuro_rc_wa_${numeroWaDest}`, { method: 'POST', body: JSON.stringify({ ...payload, image: "" }) }).catch(() => {});
 
       try {
         await fetch(SCRIPT_URL, {
@@ -1643,6 +1799,7 @@
 
       if (btn) { btn.disabled = false; btn.textContent = '🎟️ Conferma Prenotazione Salta Fila'; }
       document.getElementById('saltaFilaForm').reset();
+      verificaAssistenzaSaltaFila();
       aggiornaCampiContattoSF();
       chiudiSaltaFila();
       rimuoviRitaglio();
@@ -1654,7 +1811,9 @@
       }
     };
 
-    // 2. VOLANTINO & RICERCA
+    // -------------------------------------------------------------------------
+    // 2. VOLANTINO PRINCIPALE & PROMO
+    // -------------------------------------------------------------------------
     window.caricaPdf = async function(url, tabId) {
       annullaRitaglio();
       searchMatches = [];
@@ -1746,30 +1905,102 @@
       if (!canvas || !canvas.width) return;
       if (cropperInstance) cropperInstance.destroy();
       cropperInstance = new Cropper(canvas, { viewMode: 1, autoCropArea: 0.6 });
-      const btnCrop = document.getElementById('btnStartCrop');
-      const tool = document.getElementById('cropToolbar');
-      if (btnCrop) btnCrop.style.display = 'none';
-      if (tool) tool.style.display = 'flex';
+      document.getElementById('btnStartCrop').style.display = 'none';
+      document.getElementById('cropToolbar').style.display = 'flex';
     };
 
     window.confermaRitaglio = function() {
       if (!cropperInstance) return;
       const croppedCanvas = cropperInstance.getCroppedCanvas({ maxWidth: 550, maxHeight: 550 });
       croppedBase64 = croppedCanvas.toDataURL('image/jpeg', 0.68);
-      const imgPrev = document.getElementById('cropPreviewImg');
-      const prevContainer = document.getElementById('cropPreviewContainer');
-      const repartiCard = document.getElementById('sezioneRepartiCard');
-
-      if (imgPrev) imgPrev.src = croppedBase64;
-      if (prevContainer) prevContainer.style.display = 'flex';
+      document.getElementById('cropPreviewImg').src = croppedBase64;
+      document.getElementById('cropPreviewContainer').style.display = 'flex';
       annullaRitaglio();
-      if (repartiCard) repartiCard.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('sezioneRepartiCard').scrollIntoView({ behavior: 'smooth' });
     };
 
     window.annullaRitaglio = function() {
       if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
       const btnCrop = document.getElementById('btnStartCrop');
       const tool = document.getElementById('cropToolbar');
+      if (btnCrop) btnCrop.style.display = 'inline-flex';
+      if (tool) tool.style.display = 'none';
+    };
+
+    // -------------------------------------------------------------------------
+    // 3. VOLANTINO RICONDIZIONATO (Legge il file "ricondizionato.pdf")
+    // -------------------------------------------------------------------------
+    async function caricaPdfRicondizionato() {
+      const canvas = document.getElementById('pdfCanvasRico');
+      try {
+        pdfDocRico = await pdfjsLib.getDocument('ricondizionato.pdf').promise;
+        currentPageRico = 1;
+        await renderPaginaRico(currentPageRico);
+      } catch (e) {
+        if (canvas) {
+          canvas.width = 500;
+          canvas.height = 220;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#F0FDF4';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#047857';
+          ctx.font = 'bold 16px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('♻️ Volantino Ricondizionati in arrivo!', 250, 95);
+          ctx.font = '13px sans-serif';
+          ctx.fillStyle = '#334155';
+          ctx.fillText('(Carica il file "ricondizionato.pdf" su GitHub per mostrarlo qui)', 250, 130);
+        }
+      }
+    }
+
+    async function renderPaginaRico(num) {
+      if (!pdfDocRico) return;
+      annullaRitaglioRico();
+      const page = await pdfDocRico.getPage(num);
+      const canvas = document.getElementById('pdfCanvasRico');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const viewport = page.getViewport({ scale: 1.4 });
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+      const ind = document.getElementById('pageIndicatorRico');
+      if (ind) ind.textContent = `Pag. ${num} / ${pdfDocRico.numPages}`;
+    }
+
+    window.cambiaPaginaRico = function(delta) {
+      if (!pdfDocRico) return;
+      const next = currentPageRico + delta;
+      if (next >= 1 && next <= pdfDocRico.numPages) {
+        currentPageRico = next;
+        renderPaginaRico(currentPageRico);
+      }
+    };
+
+    window.avviaRitaglioRico = function() {
+      const canvas = document.getElementById('pdfCanvasRico');
+      if (!canvas || !canvas.width || !pdfDocRico) return;
+      if (cropperInstanceRico) cropperInstanceRico.destroy();
+      cropperInstanceRico = new Cropper(canvas, { viewMode: 1, autoCropArea: 0.6 });
+      document.getElementById('btnStartCropRico').style.display = 'none';
+      document.getElementById('cropToolbarRico').style.display = 'flex';
+    };
+
+    window.confermaRitaglioRico = function() {
+      if (!cropperInstanceRico) return;
+      const croppedCanvas = cropperInstanceRico.getCroppedCanvas({ maxWidth: 550, maxHeight: 550 });
+      croppedBase64 = croppedCanvas.toDataURL('image/jpeg', 0.68);
+      document.getElementById('cropPreviewImg').src = croppedBase64;
+      document.getElementById('cropPreviewContainer').style.display = 'flex';
+      annullaRitaglioRico();
+      document.getElementById('sezioneRepartiCard').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.annullaRitaglioRico = function() {
+      if (cropperInstanceRico) { cropperInstanceRico.destroy(); cropperInstanceRico = null; }
+      const btnCrop = document.getElementById('btnStartCropRico');
+      const tool = document.getElementById('cropToolbarRico');
       if (btnCrop) btnCrop.style.display = 'inline-flex';
       if (tool) tool.style.display = 'none';
     };
@@ -1782,7 +2013,9 @@
       if (prevContainer) prevContainer.style.display = 'none';
     };
 
-    // 3. TESSERA UNIEURO
+    // -------------------------------------------------------------------------
+    // 4. TESSERA UNIEURO
+    // -------------------------------------------------------------------------
     function disegnaBarcodeCassa(code) {
       try {
         JsBarcode("#barcodeSvg", code, {
@@ -1866,6 +2099,7 @@
       if (form) form.reset();
       const sfForm = document.getElementById('saltaFilaForm');
       if (sfForm) sfForm.reset();
+      verificaAssistenzaSaltaFila();
       aggiornaCampiContatto();
       aggiornaCampiContattoSF();
       chiudiFormReparto();
@@ -1877,7 +2111,9 @@
       searchMatches = [];
       const searchNavBar = document.getElementById('searchNavBar');
       if (searchNavBar) searchNavBar.style.display = 'none';
-      annullaRitaglio(); rimuoviRitaglio();
+      annullaRitaglio();
+      annullaRitaglioRico();
+      rimuoviRitaglio();
     }
 
     let timerInattivita;
@@ -1891,12 +2127,14 @@
     });
 
     window.addEventListener('pageshow', () => {
+      document.getElementById('linkPortaleRicondizionati').href = PORTALE_RICONDIZIONATI_URL;
       aggiornaStatoNegozio();
       caricaTessera();
       impostaMinimoDataSaltaFila();
       verificaPropostaInstallazioneAllApertura();
       riavviaTimer();
       if (!pdfDoc) caricaPdf('volantino.pdf', 'btnTabVolantino');
+      if (!pdfDocRico) caricaPdfRicondizionato();
     });
 
     setInterval(aggiornaStatoNegozio, 60000);
