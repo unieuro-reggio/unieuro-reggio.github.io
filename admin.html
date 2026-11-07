@@ -175,4 +175,529 @@
       margin-bottom: 18px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.05);
       display: grid;
-      grid-
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
+
+    .filter-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 9px;
+      font-size: 0.88rem;
+      background: #F8FAFC;
+      outline: none;
+    }
+
+    /* GRIGLIA PRATICHE */
+    .pratiche-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 16px;
+    }
+
+    .pratica-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      border-top: 5px solid var(--unieuro-orange);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pratica-card.salta-fila { border-top-color: #7C3AED; }
+    .pratica-card.da-interno { border-top-color: #0284C7; }
+    .pratica-card.gestita { border-top-color: #16A34A; }
+
+    .badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+
+    .badge-reparto { background: #E0F2FE; color: #0369A1; }
+    .badge-wa { background: #DCFCE7; color: #15803D; }
+    .badge-aperta { background: #FEF3C7; color: #B45309; }
+    .badge-gestita { background: #DCFCE7; color: #166534; }
+
+    .cliente-nome {
+      font-size: 1.08rem;
+      font-weight: 900;
+      color: var(--unieuro-blue);
+      margin-top: 4px;
+    }
+
+    .note-box {
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .ritaglio-preview {
+      text-align: center;
+      background: #FFF7ED;
+      border: 1.5px dashed var(--unieuro-orange);
+      border-radius: 10px;
+      padding: 8px;
+      margin-top: 8px;
+    }
+
+    .ritaglio-preview img {
+      max-width: 100%;
+      max-height: 160px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .admin-edit-box {
+      border-top: 1px solid #E2E8F0;
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .edit-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="brand-box">
+        <img src="icona.png" alt="Unieuro" onerror="this.style.display='none'">
+        <div>
+          <h1>📊 Dashboard Admin - Unieuro RC</h1>
+          <small style="color:#CBD5E1;">Controllo globale Reparti, Postazioni WhatsApp Web, Salta Fila e Statistiche Operatori</small>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-orange" onclick="caricaDatiAdmin()">🔄 Aggiorna Dati</button>
+        <a href="reparto.html" class="btn btn-outline-light">🖥️ Postazioni WA</a>
+        <a href="interno.html" class="btn btn-outline-light">📞 Nuova Interna</a>
+        <a href="index.html" class="btn btn-outline-light">📱 App Cliente</a>
+      </div>
+    </header>
+
+    <!-- STATISTICHE -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Totale Pratiche</div>
+        <div class="kpi-value" id="kpiTotale">0</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-title">⏳ Da Gestire</div>
+        <div class="kpi-value" id="kpiAperte" style="color:#D97706;">0</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-title">✅ Gestite</div>
+        <div class="kpi-value" id="kpiGestite" style="color:#16A34A;">0</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-title">🎟️ Salta Fila</div>
+        <div class="kpi-value" id="kpiSaltaFila" style="color:#7C3AED;">0</div>
+      </div>
+      <div class="kpi-card cyan">
+        <div class="kpi-title">📞 Da Interno</div>
+        <div class="kpi-value" id="kpiInterno" style="color:#0284C7;">0</div>
+      </div>
+    </div>
+
+    <!-- BARRA STATISTICHE E FILTRO RAPIDO OPERATORI (INCLUSO TONINO) -->
+    <div class="operatori-bar" id="operatoriStatsBar"></div>
+
+    <!-- FILTRI -->
+    <div class="filters-card">
+      <div class="filter-group">
+        <label for="fSearch">🔍 Cerca Cliente / Tel / Note</label>
+        <input type="text" id="fSearch" placeholder="Es. Rossi, Lavatrice, 333..." oninput="applicaFiltri()">
+      </div>
+
+      <div class="filter-group">
+        <label for="fStazione">📲 Postazione WhatsApp</label>
+        <select id="fStazione" onchange="applicaFiltri()">
+          <option value="TUTTE">Tutte le Postazioni WA</option>
+          <option value="0965340336">WA 0965 340336 (Elettrodom. / RAEE)</option>
+          <option value="0965598722">WA 0965 598722 (Telefonia / PC / TV)</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="fReparto">📍 Reparto</label>
+        <select id="fReparto" onchange="applicaFiltri()">
+          <option value="TUTTI">Tutti i Reparti</option>
+          <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI</option>
+          <option value="TELEFONIA">📱 TELEFONIA</option>
+          <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
+          <option value="ASSISTENZA">🛠️ ASSISTENZA</option>
+          <option value="RITIRO RAEE">♻️ RITIRO RAEE</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="fOperatore">👤 Operatore</label>
+        <select id="fOperatore" onchange="applicaFiltri()">
+          <option value="TUTTI">Tutti gli Operatori</option>
+          <option value="PEPPE M.">PEPPE M.</option>
+          <option value="DAGO">DAGO</option>
+          <option value="DANIELE">DANIELE</option>
+          <option value="GIORGIO">GIORGIO</option>
+          <option value="PAOLO">PAOLO</option>
+          <option value="MIMMO">MIMMO</option>
+          <option value="OUSMANE">OUSMANE</option>
+          <option value="TONINO">TONINO (RAEE)</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="fStato">📌 Stato Pratica</label>
+        <select id="fStato" onchange="applicaFiltri()">
+          <option value="TUTTI">Tutti gli Stati</option>
+          <option value="Aperta">⏳ Da Gestire (Aperta)</option>
+          <option value="Gestita">✅ Gestita</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- LISTA PRATICHE -->
+    <div id="adminPraticheGrid" class="pratiche-grid"></div>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCQYZvPF9TKwLqozpHQMDvM2_i1MG-J9UHKsVxdDTmLnukWua_5tmcv65UlSifCB0D/exec";
+    const NTFY_TOPIC = 'unieuro_reggio_calabria_reparti_live';
+    const LISTA_OPERATORI = ["PEPPE M.", "DAGO", "DANIELE", "GIORGIO", "PAOLO", "MIMMO", "OUSMANE", "TONINO"];
+
+    let tutteLePratiche = [];
+
+    function determinaStazioneWA(p) {
+      if (p.waDestinatario) return String(p.waDestinatario).replace(/\D/g, '');
+      const rep = String(p.reparto || '').toUpperCase();
+      const tipo = String(p.tipoRichiesta || '');
+      if (tipo.includes('0965340336')) return '0965340336';
+      if (tipo.includes('0965598722')) return '0965598722';
+      if (rep.includes('ELETTRODOMESTICI') || rep.includes('RAEE') || rep.includes('GRANDI') || rep.includes('PICCOLI')) {
+        return '0965340336';
+      }
+      return '0965598722';
+    }
+
+    function formattaPerWhatsAppWeb(rawPhone) {
+      if (!rawPhone) return "";
+      let digits = String(rawPhone).replace(/\D/g, '');
+      if (digits.startsWith('0039')) digits = digits.slice(4);
+      else if (digits.startsWith('39') && digits.length > 10) digits = digits.slice(2);
+      if (digits.startsWith('03')) digits = digits.slice(1);
+      return '39' + digits;
+    }
+
+    function preparaNumero7Collab(rawPhone) {
+      if (!rawPhone) return "";
+      let clean = String(rawPhone).replace(/[\s\-\.\(\)']+/g, '').replace(/^(\+39|0039)/, '');
+      if (!clean) return "";
+      if (!clean.startsWith('0')) clean = '0' + clean;
+      return clean;
+    }
+
+    async function caricaDatiAdmin() {
+      try {
+        const res = await fetch(`${SCRIPT_URL}?action=get`, { redirect: 'follow' });
+        const json = await res.json();
+        const rawList = Array.isArray(json) ? json : (json.data || []);
+
+        tutteLePratiche = rawList.map(row => ({
+          id: String(row.id || row['ID Pratica'] || ''),
+          timestamp: row.timestamp || row['Data e Ora'] || '',
+          tipoRichiesta: String(row.tipoRichiesta || row['Tipo Richiesta'] || 'Richiesta Cliente'),
+          reparto: String(row.reparto || row['Reparto'] || ''),
+          nomeCliente: String(row.nomeCliente || row['Nome Cliente'] || 'Cliente'),
+          telefono: String(row.telefono || row['Telefono'] || '').replace(/^'/, ''),
+          emailCliente: String(row.emailCliente || row['Email Cliente'] || ''),
+          noteCliente: String(row.noteCliente || row['Dettagli / Note Cliente'] || ''),
+          stato: String(row.stato || row['Stato'] || 'Aperta'),
+          noteRepartista: String(row.noteRepartista || row['Note Repartista'] || ''),
+          operatore: String(row.operatore || row['Operatore'] || ''),
+          image: row.image || row['Immagine / Offerta (Base64)'] || ''
+        })).filter(p => p.id);
+
+        aggiornaKPIeOperatori();
+        applicaFiltri();
+      } catch (e) {}
+    }
+
+    function aggiornaKPIeOperatori() {
+      const tot = tutteLePratiche.length;
+      const aperte = tutteLePratiche.filter(p => p.stato !== 'Gestita').length;
+      const gestite = tutteLePratiche.filter(p => p.stato === 'Gestita').length;
+      const saltaFila = tutteLePratiche.filter(p => p.tipoRichiesta.toUpperCase().includes('SALTA FILA')).length;
+      const interno = tutteLePratiche.filter(p => p.id.startsWith('INT-') || p.tipoRichiesta.toUpperCase().includes('INTERNO')).length;
+
+      document.getElementById('kpiTotale').textContent = tot;
+      document.getElementById('kpiAperte').textContent = aperte;
+      document.getElementById('kpiGestite').textContent = gestite;
+      document.getElementById('kpiSaltaFila').textContent = saltaFila;
+      document.getElementById('kpiInterno').textContent = interno;
+
+      const opSelezionato = document.getElementById('fOperatore').value;
+      const bar = document.getElementById('operatoriStatsBar');
+
+      let htmlChips = `<strong style="font-size:0.82rem; color:var(--unieuro-blue); margin-right:4px;">👤 Pratiche per Operatore:</strong>`;
+      htmlChips += `<span class="op-chip ${opSelezionato === 'TUTTI' ? 'active' : ''}" onclick="filtraPerOperatoreRapido('TUTTI')">Tutti (${tot})</span>`;
+
+      LISTA_OPERATORI.forEach(op => {
+        const count = tutteLePratiche.filter(p => p.operatore.toUpperCase() === op).length;
+        htmlChips += `
+          <span class="op-chip ${opSelezionato === op ? 'active' : ''}" onclick="filtraPerOperatoreRapido('${op}')">
+            ${op}: ${count}
+          </span>
+        `;
+      });
+
+      bar.innerHTML = htmlChips;
+    }
+
+    window.filtraPerOperatoreRapido = function(op) {
+      document.getElementById('fOperatore').value = op;
+      aggiornaKPIeOperatori();
+      applicaFiltri();
+    };
+
+    window.applicaFiltri = function() {
+      const q = document.getElementById('fSearch').value.trim().toLowerCase();
+      const fStazione = document.getElementById('fStazione').value;
+      const fReparto = document.getElementById('fReparto').value;
+      const fOperatore = document.getElementById('fOperatore').value;
+      const fStato = document.getElementById('fStato').value;
+
+      const filtrate = tutteLePratiche.filter(p => {
+        if (fStazione !== 'TUTTE' && determinaStazioneWA(p) !== fStazione) return false;
+
+        if (fReparto !== 'TUTTI') {
+          const repUpper = p.reparto.toUpperCase();
+          if (fReparto === 'ELETTRODOMESTICI') {
+            if (!repUpper.includes('ELETTRODOMESTICI')) return false;
+          } else if (!repUpper.includes(fReparto)) {
+            return false;
+          }
+        }
+
+        if (fOperatore !== 'TUTTI' && p.operatore.toUpperCase() !== fOperatore) return false;
+        if (fStato !== 'TUTTI') {
+          if (fStato === 'Gestita' && p.stato !== 'Gestita') return false;
+          if (fStato === 'Aperta' && p.stato === 'Gestita') return false;
+        }
+
+        if (q) {
+          const testoCompleto = `${p.id} ${p.nomeCliente} ${p.telefono} ${p.noteCliente} ${p.reparto} ${p.operatore}`.toLowerCase();
+          if (!testoCompleto.includes(q)) return false;
+        }
+
+        return true;
+      });
+
+      renderGrigliaAdmin(filtrate);
+    };
+
+    function renderGrigliaAdmin(lista) {
+      const grid = document.getElementById('adminPraticheGrid');
+      if (lista.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; background:white; border-radius:16px; padding:32px; text-align:center; color:#64748B; font-weight:700;">
+            Nessuna pratica trovata con i filtri selezionati.
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = lista.map(p => {
+        const stWa = determinaStazioneWA(p);
+        const labelWa = stWa === '0965340336' ? 'WA 0965 340336' : 'WA 0965 598722';
+        const isSaltaFila = p.tipoRichiesta.toUpperCase().includes('SALTA FILA');
+        const isInterno = p.id.startsWith('INT-') || p.tipoRichiesta.toUpperCase().includes('INTERNO');
+
+        const cardClass = p.stato === 'Gestita'
+          ? 'pratica-card gestita'
+          : isSaltaFila ? 'pratica-card salta-fila' : isInterno ? 'pratica-card da-interno' : 'pratica-card';
+
+        const telWaWeb = formattaPerWhatsAppWeb(p.telefono);
+        const tel7Collab = preparaNumero7Collab(p.telefono);
+        const testoWA = encodeURIComponent(
+          `Gentile ${p.nomeCliente}, ti scriviamo dal reparto ${p.reparto} di Unieuro Reggio Calabria in merito alla tua richiesta: "${p.noteCliente}". `
+        );
+        const linkWhatsAppWeb = `https://web.whatsapp.com/send?phone=${telWaWeb}&text=${testoWA}`;
+
+        const haImmagine = p.image && String(p.image).startsWith('data:image');
+        const opCorrente = p.operatore || (p.reparto.toUpperCase().includes('RAEE') ? 'TONINO' : '');
+
+        return `
+          <div class="${cardClass}">
+            <div>
+              <div class="badge-row">
+                <span class="badge badge-reparto">📍 ${p.reparto}</span>
+                <span class="badge badge-wa">📲 ${labelWa}</span>
+                <span class="badge ${p.stato === 'Gestita' ? 'badge-gestita' : 'badge-aperta'}">
+                  ${p.stato === 'Gestita' ? '✅ Gestita' : '⏳ Da Gestire'}
+                </span>
+              </div>
+
+              <div class="cliente-nome">👤 ${p.nomeCliente}</div>
+              <div style="font-size:0.76rem; color:#64748B; margin-bottom:8px;">
+                🕒 ${p.timestamp} • ID: <strong>${p.id}</strong><br>
+                🔖 ${p.tipoRichiesta}
+              </div>
+
+              <div class="note-box">
+                <strong>📝 Dettagli Richiesta:</strong><br>${p.noteCliente || '-'}
+                ${p.emailCliente ? `<br><small>✉️ Email: <strong>${p.emailCliente}</strong></small>` : ''}
+              </div>
+
+              ${haImmagine ? `
+                <div class="ritaglio-preview">
+                  <small style="font-weight:800; color:#C2410C; display:block; margin-bottom:4px;">📎 Offerta Ritagliata (Clicca per ingrandire):</small>
+                  <img src="${p.image}" alt="Ritaglio" onclick="apriRitaglioAdmin('${p.id}')">
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="admin-edit-box">
+              <div class="edit-row">
+                ${telWaWeb ? `
+                  <a href="${linkWhatsAppWeb}" target="_blank" rel="noopener" class="btn btn-green">
+                    💬 WhatsApp Web
+                  </a>
+                ` : ''}
+                ${tel7Collab ? `
+                  <a href="tel:${tel7Collab}" class="btn btn-call">
+                    📞 ${tel7Collab}
+                  </a>
+                ` : ''}
+              </div>
+
+              <div class="edit-row">
+                <select id="adm_op_${p.id}">
+                  <option value="">-- Assegna Operatore --</option>
+                  ${LISTA_OPERATORI.map(op => `
+                    <option value="${op}" ${opCorrente === op ? 'selected' : ''}>${op}</option>
+                  `).join('')}
+                </select>
+
+                <select id="adm_stato_${p.id}">
+                  <option value="Aperta" ${p.stato !== 'Gestita' ? 'selected' : ''}>⏳ Aperta</option>
+                  <option value="Gestita" ${p.stato === 'Gestita' ? 'selected' : ''}>✅ Gestita</option>
+                </select>
+              </div>
+
+              <input type="text" id="adm_note_${p.id}" value="${(p.noteRepartista || '').replace(/"/g, '&quot;')}" placeholder="Note intervento reparto / esito...">
+
+              <div class="edit-row">
+                <button type="button" class="btn btn-blue" onclick="salvaModificaAdmin('${p.id}')">💾 Salva / Aggiorna</button>
+                <button type="button" class="btn btn-red" onclick="eliminaPraticaAdmin('${p.id}')">🗑️ Elimina</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.apriRitaglioAdmin = function(id) {
+      const p = tutteLePratiche.find(item => item.id === id);
+      if (!p || !p.image) return;
+      const w = window.open();
+      w.document.write(`<body style="margin:0; background:#0f172a; display:flex; align-items:center; justify-content:center; min-height:100vh;"><img src="${p.image}" style="max-width:95%; max-height:95vh; border-radius:8px;"></body>`);
+    };
+
+    window.salvaModificaAdmin = async function(id) {
+      const op = document.getElementById(`adm_op_${id}`).value;
+      const stato = document.getElementById(`adm_stato_${id}`).value;
+      const note = document.getElementById(`adm_note_${id}`).value.trim();
+
+      const payload = {
+        action: "update",
+        id: id,
+        stato: stato,
+        operatore: op,
+        noteRepartista: note
+      };
+
+      const idx = tutteLePratiche.findIndex(item => item.id === id);
+      if (idx !== -1) {
+        tutteLePratiche[idx].stato = stato;
+        tutteLePratiche[idx].operatore = op;
+        tutteLePratiche[idx].noteRepartista = note;
+        aggiornaKPIeOperatori();
+        applicaFiltri();
+      }
+
+      fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {}
+    };
+
+    window.eliminaPraticaAdmin = async function(id) {
+      if (!confirm("Vuoi eliminare definitivamente questa pratica dal foglio Google?")) return;
+
+      tutteLePratiche = tutteLePratiche.filter(item => item.id !== id);
+      aggiornaKPIeOperatori();
+      applicaFiltri();
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: "delete", id: id })
+        });
+      } catch (e) {}
+    };
+
+    function avviaLiveAdmin() {
+      try {
+        const es = new EventSource(`https://ntfy.sh/${NTFY_TOPIC}/sse`);
+        es.onmessage = () => {
+          setTimeout(caricaDatiAdmin, 1200);
+        };
+      } catch (e) {}
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      caricaDatiAdmin();
+      avviaLiveAdmin();
+      setInterval(caricaDatiAdmin, 25000);
+    });
+  </script>
+</body>
+</html>
