@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Richieste Interne - Unieuro RC</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icona.png">
@@ -14,7 +14,7 @@
       --unieuro-orange: #FF6700;
       --internal-purple: #7C3AED;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #EEF2F7; padding: 16px; color: #1E293B; }
     .container { max-width: 620px; margin: 0 auto; }
     header {
@@ -87,9 +87,10 @@
     <header>
       <div>
         <h2 style="font-size:1.15rem;">📞 Nuova Richiesta Telefonica / Interna</h2>
-        <small style="color:#E9D5FF;">App Installabile • Staff Unieuro RC</small>
+        <small style="color:#E9D5FF;">Smistamento automatico alle 2 Postazioni WhatsApp Web</small>
       </div>
       <div style="display:flex; gap:8px;">
+        <a href="reparto.html" class="btn" style="background:rgba(255,255,255,0.2); padding:8px 12px; font-size:0.82rem;">🖥️ Postazione WA</a>
         <a href="admin.html" class="btn" style="background:rgba(255,255,255,0.2); padding:8px 12px; font-size:0.82rem;">📊 Admin</a>
       </div>
     </header>
@@ -99,15 +100,13 @@
         <div class="grid-2">
           <div class="form-group">
             <label for="reparto">Reparto Destinatario *</label>
-            <select id="reparto" required onchange="suggerisciOperatoreReparto()">
+            <select id="reparto" required onchange="gestisciCambioRepartoInterno()">
               <option value="">-- Scegli Reparto --</option>
-              <option value="GRANDI ELETTRODOMESTICI">🧺 GRANDI ELETTRODOMESTICI</option>
-              <option value="PICCOLI ELETTRODOMESTICI">☕ PICCOLI ELETTRODOMESTICI</option>
-              <option value="TELEFONIA">📱 TELEFONIA</option>
-              <option value="TV">📺 TV</option>
-              <option value="INFORMATICA">💻 INFORMATICA</option>
+              <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (WA 0965 340336)</option>
+              <option value="TELEFONIA">📱 TELEFONIA (WA 0965 598722)</option>
+              <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV (WA 0965 598722)</option>
               <option value="ASSISTENZA">🛠️ ASSISTENZA</option>
-              <option value="RITIRO RAEE">♻️ RITIRO RAEE</option>
+              <option value="RITIRO RAEE">♻️ RITIRO RAEE (WA 0965 340336)</option>
             </select>
           </div>
 
@@ -127,6 +126,15 @@
           </div>
         </div>
 
+        <div class="form-group" id="boxSottoRepartoInt" style="display:none; background:#F5F3FF; padding:10px; border-radius:10px; border:1.5px solid #C4B5FD;">
+          <label for="sottoRepartoInt" style="color:#5B21B6;">🛠️ Specifica il Reparto per l'Assistenza *</label>
+          <select id="sottoRepartoInt">
+            <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (WA 0965 340336)</option>
+            <option value="TELEFONIA">📱 TELEFONIA (WA 0965 598722)</option>
+            <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV (WA 0965 598722)</option>
+          </select>
+        </div>
+
         <div class="grid-2">
           <div class="form-group">
             <label for="nomeCliente">Nome e Cognome Cliente *</label>
@@ -134,7 +142,7 @@
           </div>
 
           <div class="form-group">
-            <label for="telefonoCliente">Telefono Cliente (7Collab) *</label>
+            <label for="telefonoCliente">Telefono Cliente *</label>
             <input type="tel" id="telefonoCliente" placeholder="Es. 3331234567" required>
           </div>
         </div>
@@ -150,12 +158,12 @@
         </div>
 
         <button type="submit" id="btnSubmitInt" class="btn" style="width:100%; background: var(--internal-purple);">
-          📨 Invia Richiesta Interna (Mail + Admin)
+          📨 Invia alla Postazione Reparto
         </button>
       </form>
 
       <div id="toastOk" class="toast">
-        ✅ Richiesta Interna registrata! Email inviata e pratica smistata con successo.
+        ✅ Richiesta Interna inviata! La postazione WhatsApp Web del reparto ha ricevuto l'avviso.
       </div>
     </div>
   </div>
@@ -165,12 +173,21 @@
     const NTFY_TOPIC = 'unieuro_reggio_calabria_reparti_live';
     const REQ_KEY = 'unieuro_requests_db';
 
-    function suggerisciOperatoreReparto() {
+    function gestisciCambioRepartoInterno() {
       const rep = document.getElementById('reparto').value;
       const opSelect = document.getElementById('operatoreDest');
+      const boxAss = document.getElementById('boxSottoRepartoInt');
+
       if (rep === 'RITIRO RAEE') {
         opSelect.value = 'TONINO';
       }
+      boxAss.style.display = (rep === 'ASSISTENZA') ? 'block' : 'none';
+    }
+
+    function getWaDestInterno(repBase, sottoRep) {
+      const target = (repBase === 'ASSISTENZA' ? sottoRep : repBase).toUpperCase();
+      if (target.includes('ELETTRODOMESTICI') || target.includes('RAEE')) return '0965340336';
+      return '0965598722';
     }
 
     function formattaNumero7Collaboration(rawPhone) {
@@ -187,7 +204,11 @@
       btn.disabled = true;
       btn.textContent = '⏳ Invio in corso...';
 
-      const reparto = document.getElementById('reparto').value;
+      const repartoBase = document.getElementById('reparto').value;
+      const sottoRep = document.getElementById('sottoRepartoInt').value;
+      const waDest = getWaDestInterno(repartoBase, sottoRep);
+      const repartoFinale = repartoBase === 'ASSISTENZA' ? `ASSISTENZA (${sottoRep})` : repartoBase;
+
       const operatore = document.getElementById('operatoreDest').value;
       const cliente = document.getElementById('nomeCliente').value.trim();
       const tel = formattaNumero7Collaboration(document.getElementById('telefonoCliente').value.trim());
@@ -196,18 +217,19 @@
 
       const idPratica = "INT-" + Date.now();
       const timestamp = new Date().toLocaleString("it-IT");
-      const tipoLabel = `📞 RICHIESTA DA INTERNO (Per: ${operatore})`;
+      const tipoLabel = `📞 DA INTERNO (Per: ${operatore} - WA ${waDest})`;
 
       const payload = {
         action: "create",
         id: idPratica,
         timestamp: timestamp,
-        reparto: reparto,
+        reparto: repartoFinale,
+        waDestinatario: waDest,
         tipoRichiesta: tipoLabel,
         nomeCliente: cliente,
         telefono: tel,
         emailCliente: email,
-        preferenzaContatto: "Telefono (Da Interno)",
+        preferenzaContatto: "Telefono / WhatsApp",
         noteCliente: `[📞 DA INTERNO - Per: ${operatore}] ${note}`,
         operatore: operatore === 'TUTTO IL REPARTO' ? '' : operatore,
         stato: "Aperta",
@@ -220,31 +242,25 @@
         localStorage.setItem(REQ_KEY, JSON.stringify(lista.slice(0, 80)));
       } catch (err) {}
 
-      fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
-        method: 'POST',
-        body: JSON.stringify(payload)
-      }).catch(() => {});
+      fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
+      fetch(`https://ntfy.sh/unieuro_rc_wa_${waDest}`, { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
 
       try {
         await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
+          method: 'POST', mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload)
         });
       } catch (err) {}
 
       btn.disabled = false;
-      btn.textContent = '📨 Invia Richiesta Interna (Mail + Admin)';
+      btn.textContent = '📨 Invia alla Postazione Reparto';
       document.getElementById('internalForm').reset();
+      gestisciCambioRepartoInterno();
 
       const toast = document.getElementById('toastOk');
       toast.style.display = 'block';
       setTimeout(() => { toast.style.display = 'none'; }, 4000);
-    }
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
     }
   </script>
 </body>
