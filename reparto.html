@@ -3,323 +3,590 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pannello Interventi Reparto - Unieuro RC</title>
+  <title>Postazione Reparti & WhatsApp Web - Unieuro RC</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icona.png">
+  <meta name="theme-color" content="#002D62">
+
   <style>
     :root {
       --unieuro-blue: #002D62;
+      --unieuro-dark: #001838;
       --unieuro-orange: #FF6700;
+      --wa-green: #16A34A;
+      --bg-color: #EEF2F7;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #EEF2F7; padding: 16px; color: #1E293B; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: #1E293B;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
     header {
-      background: linear-gradient(135deg, #001838, var(--unieuro-blue));
+      background: linear-gradient(135deg, var(--unieuro-dark), var(--unieuro-blue));
       color: white;
-      padding: 16px 20px;
-      border-radius: 12px;
+      padding: 18px 22px;
+      border-radius: 16px;
+      border-bottom: 4px solid var(--unieuro-orange);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
       flex-wrap: wrap;
-      gap: 10px;
-    }
-    .toolbar {
-      background: white;
-      padding: 14px;
-      border-radius: 12px;
+      gap: 14px;
       margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(0, 24, 56, 0.2);
+    }
+
+    .brand-box {
       display: flex;
-      gap: 10px;
       align-items: center;
-      flex-wrap: wrap;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      gap: 12px;
     }
-    select, input, textarea {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1.5px solid #CBD5E1;
-      font-size: 0.95rem;
-      width: 100%;
-    }
-    /* Singolo pannellino intervento */
-    .intervento-card {
+
+    .brand-box img {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       background: white;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      border-top: 5px solid var(--unieuro-orange);
-      border-left: 5px solid var(--unieuro-blue);
+      padding: 3px;
+      object-fit: contain;
     }
-    .badge-reparto {
-      background: var(--unieuro-blue);
-      color: white;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 800;
+
+    .brand-box h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
       text-transform: uppercase;
     }
-    .badge-interno {
-      background: #7C3AED;
-      color: white;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      display: inline-block;
-      margin-left: 6px;
+
+    .station-bar {
+      background: white;
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-left: 6px solid var(--wa-green);
     }
-    .btn {
+
+    .station-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .station-btn {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 2px solid #CBD5E1;
+      background: #F8FAFC;
+      color: #334155;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .station-btn.active {
       background: var(--unieuro-blue);
       color: white;
+      border-color: var(--unieuro-blue);
+    }
+
+    .btn {
       border: none;
-      padding: 11px 16px;
       border-radius: 10px;
+      padding: 10px 15px;
+      font-size: 0.86rem;
       font-weight: 800;
       cursor: pointer;
-      font-size: 0.92rem;
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-    }
-    .btn-green { background: #16A34A; width: 100%; margin-top: 10px; }
-    .btn-call {
-      background: #0284C7;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
       text-decoration: none;
-      font-weight: 800;
-      display: inline-block;
     }
-    .crop-img {
-      max-width: 220px;
-      border-radius: 8px;
-      border: 2px solid var(--unieuro-orange);
-      margin-top: 10px;
-      display: block;
+
+    .btn-wa { background: linear-gradient(135deg, #16A34A, #15803D); color: white; }
+    .btn-call { background: #0284C7; color: white; }
+    .btn-orange { background: var(--unieuro-orange); color: white; }
+    .btn-blue { background: var(--unieuro-blue); color: white; }
+    .btn-outline { background: white; color: var(--unieuro-blue); border: 1.5px solid var(--unieuro-blue); }
+
+    .grid-pratiche {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+
+    .pratica-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      border-top: 5px solid var(--unieuro-orange);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pratica-card.salta-fila { border-top-color: #7C3AED; }
+    .pratica-card.da-interno { border-top-color: #0284C7; }
+    .pratica-card.gestita { border-top-color: #16A34A; opacity: 0.82; }
+
+    .badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .badge-reparto { background: #E0F2FE; color: #0369A1; }
+    .badge-wa { background: #DCFCE7; color: #15803D; }
+    .badge-aperta { background: #FEF3C7; color: #B45309; }
+    .badge-gestita { background: #DCFCE7; color: #166534; }
+
+    .cliente-nome {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--unieuro-blue);
+      margin-top: 4px;
+    }
+
+    .note-box {
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #1E293B;
+    }
+
+    .ritaglio-preview {
+      text-align: center;
+      background: #FFF7ED;
+      border: 1.5px dashed var(--unieuro-orange);
+      border-radius: 10px;
+      padding: 8px;
+    }
+
+    .ritaglio-preview img {
+      max-width: 100%;
+      max-height: 170px;
+      border-radius: 6px;
       cursor: pointer;
+    }
+
+    .actions-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #E2E8F0;
+    }
+
+    .close-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      padding: 9px 10px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      background: #F8FAFC;
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #22C55E;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.25); }
+      100% { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div>
-      <h2>🛠️ Pannellini Intervento Reparto</h2>
-      <small style="color:#CBD5E1;">Gestione rapida singole richieste aperte</small>
-    </div>
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <a href="interno.html" class="btn" style="background:#7C3AED; padding:9px 14px; font-size:0.85rem;">📞 + Richiesta Interna</a>
-      <button class="btn" style="background:var(--unieuro-orange); padding:9px 14px; font-size:0.85rem;" onclick="caricaDatiReparto()">🔄 Aggiorna</button>
-    </div>
-  </header>
+  <div class="container">
+    <header>
+      <div class="brand-box">
+        <img src="icona.png" alt="Unieuro" onerror="this.style.display='none'">
+        <div>
+          <h1>🖥️ Postazione Reparti & WhatsApp Web</h1>
+          <small style="color:#CBD5E1; display:flex; align-items:center; gap:6px; margin-top:3px;">
+            <span class="live-dot"></span> Ricezione richieste in tempo reale con avviso sonoro sul PC
+          </small>
+        </div>
+      </div>
 
-  <div class="toolbar">
-    <select id="filtroReparto" onchange="renderizzaPannellini()" style="flex:1; min-width:220px;">
-      <option value="TUTTI">📋 Tutti i Reparti (Richieste Aperte)</option>
-      <option value="GRANDI ELETTRODOMESTICI">🧺 GRANDI ELETTRODOMESTICI</option>
-      <option value="PICCOLI ELETTRODOMESTICI">☕ PICCOLI ELETTRODOMESTICI</option>
-      <option value="TELEFONIA">📱 TELEFONIA</option>
-      <option value="TV">📺 TV</option>
-      <option value="INFORMATICA">💻 INFORMATICA</option>
-      <option value="ASSISTENZA">🛠️ ASSISTENZA</option>
-      <option value="RITIRO RAEE">♻️ RITIRO RAEE</option>
-    </select>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button type="button" class="btn btn-orange" onclick="attivaNotificheESuonoPC()">🔔 Attiva Suono e Notifiche PC</button>
+        <button type="button" class="btn btn-outline" style="background:rgba(255,255,255,0.15); color:white; border-color:white;" onclick="caricaPratiche()">🔄 Aggiorna</button>
+        <a href="interno.html" class="btn btn-outline" style="background:rgba(255,255,255,0.15); color:white; border-color:white;">📞 Nuova Interna</a>
+      </div>
+    </header>
+
+    <!-- BARRA SELEZIONE POSTAZIONE WHATSAPP WEB -->
+    <div class="station-bar">
+      <div>
+        <strong style="font-size:0.95rem; color:var(--unieuro-blue); display:block;">📲 Seleziona la Postazione WhatsApp Web di questo PC:</strong>
+        <small style="color:#64748B;">Il PC suonerà solo per le richieste dei reparti abbinati al numero selezionato</small>
+      </div>
+
+      <div class="station-tabs">
+        <button type="button" id="btnStazione340336" class="station-btn" onclick="impostaStazione('0965340336')">
+          🧺☕♻️ WA 0965 340336 (Elettrodom. / RAEE)
+        </button>
+        <button type="button" id="btnStazione598722" class="station-btn" onclick="impostaStazione('0965598722')">
+          📱💻📺 WA 0965 598722 (Telefonia / PC / TV)
+        </button>
+        <button type="button" id="btnStazioneTutte" class="station-btn active" onclick="impostaStazione('TUTTE')">
+          📋 Tutte le Postazioni
+        </button>
+      </div>
+    </div>
+
+    <!-- FILTRO STATO APERTE / GESTITE -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+      <div style="display:flex; gap:8px;">
+        <button type="button" id="tabAperte" class="btn btn-blue" onclick="cambiaFiltroStato('Aperta')">⏳ Da Gestire (<span id="countAperte">0</span>)</button>
+        <button type="button" id="tabGestite" class="btn btn-outline" onclick="cambiaFiltroStato('Gestita')">✅ Gestite (<span id="countGestite">0</span>)</button>
+      </div>
+      <div id="statusNotificheLabel" style="font-size:0.82rem; font-weight:700; color:#475569;"></div>
+    </div>
+
+    <div id="listaPraticheContainer" class="grid-pratiche"></div>
   </div>
-
-  <div id="containerPannellini">Caricamento richieste in corso...</div>
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCQYZvPF9TKwLqozpHQMDvM2_i1MG-J9UHKsVxdDTmLnukWua_5tmcv65UlSifCB0D/exec";
     const NTFY_TOPIC = 'unieuro_reggio_calabria_reparti_live';
-    const REQ_KEY = 'unieuro_requests_db';
-    const OPERATORI_STAFF = ["PEPPE M.", "DAGO", "DANIELE", "GIORGIO", "PAOLO", "MIMMO", "OUSMANE"];
+    const STATION_STORAGE_KEY = 'unieuro_pc_wa_station';
 
-    let mappaRichieste = new Map();
+    let stazioneAttiva = localStorage.getItem(STATION_STORAGE_KEY) || 'TUTTE';
+    let filtroStato = 'Aperta';
+    let praticheGlobali = [];
+    let idGiaNotificati = new Set();
+    let primoCaricamentoCompletato = false;
 
-    function preparaNumero7Collaboration(num) {
-      if (!num) return "";
-      let clean = String(num).replace(/[\s\-\.\(\)']+/g, '').replace(/^(\+39|0039)/, '');
+    // Suono di notifica sintetizzato (non richiede file MP3 esterni)
+    function riproduciSuonoNotifica() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(587.33, now); // D5
+        osc1.frequency.setValueAtTime(880, now + 0.18); // A5
+        gain1.gain.setValueAtTime(0.35, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.65);
+      } catch (e) {}
+    }
+
+    function attivaNotificheESuonoPC() {
+      riproduciSuonoNotifica();
+      if ("Notification" in window) {
+        Notification.requestPermission().then(perm => {
+          aggiornaLabelPermessi();
+          if (perm === "granted") {
+            new Notification("✅ Notifiche PC Attive - Unieuro RC", {
+              body: "Riceverai un avviso sonoro e visivo appena arriva una nuova richiesta cliente.",
+              icon: "icona.png"
+            });
+          }
+        });
+      }
+    }
+
+    function aggiornaLabelPermessi() {
+      const lbl = document.getElementById('statusNotificheLabel');
+      if (!("Notification" in window)) {
+        lbl.textContent = "🔊 Avviso sonoro attivo";
+        return;
+      }
+      if (Notification.permission === "granted") {
+        lbl.innerHTML = "🟢 <strong>Notifiche Desktop Windows + Suono ATTIVI</strong>";
+      } else {
+        lbl.innerHTML = "🟠 Clicca su <strong>«🔔 Attiva Suono e Notifiche PC»</strong> in alto per abilitare gli avvisi di Windows";
+      }
+    }
+
+    function determinaStazionePratica(p) {
+      if (p.waDestinatario) return String(p.waDestinatario).replace(/\D/g, '');
+      const rep = String(p.reparto || p['Reparto'] || '').toUpperCase();
+      const tipo = String(p.tipoRichiesta || p['Tipo Richiesta'] || '');
+      if (tipo.includes('0965340336')) return '0965340336';
+      if (tipo.includes('0965598722')) return '0965598722';
+      if (rep.includes('ELETTRODOMESTICI') || rep.includes('RAEE') || rep.includes('GRANDI') || rep.includes('PICCOLI')) {
+        return '0965340336';
+      }
+      return '0965598722';
+    }
+
+    function impostaStazione(codice) {
+      stazioneAttiva = codice;
+      localStorage.setItem(STATION_STORAGE_KEY, codice);
+
+      document.getElementById('btnStazione340336').classList.toggle('active', codice === '0965340336');
+      document.getElementById('btnStazione598722').classList.toggle('active', codice === '0965598722');
+      document.getElementById('btnStazioneTutte').classList.toggle('active', codice === 'TUTTE');
+
+      renderPratiche();
+    }
+
+    function cambiaFiltroStato(nuovoStato) {
+      filtroStato = nuovoStato;
+      document.getElementById('tabAperte').className = nuovoStato === 'Aperta' ? 'btn btn-blue' : 'btn btn-outline';
+      document.getElementById('tabGestite').className = nuovoStato === 'Gestita' ? 'btn btn-blue' : 'btn btn-outline';
+      renderPratiche();
+    }
+
+    function formattaPerWhatsAppWeb(rawPhone) {
+      if (!rawPhone) return "";
+      let digits = String(rawPhone).replace(/\D/g, '');
+      if (digits.startsWith('0039')) digits = digits.slice(4);
+      else if (digits.startsWith('39') && digits.length > 10) digits = digits.slice(2);
+      // Rimuove lo zero iniziale aggiunto per 7Collaboration sui cellulari (es. 0333... -> 333...)
+      if (digits.startsWith('03')) digits = digits.slice(1);
+      return '39' + digits;
+    }
+
+    function preparaNumero7Collab(rawPhone) {
+      if (!rawPhone) return "";
+      let clean = String(rawPhone).replace(/[\s\-\.\(\)']+/g, '').replace(/^(\+39|0039)/, '');
       if (!clean) return "";
       if (!clean.startsWith('0')) clean = '0' + clean;
       return clean;
     }
 
-    function normalizza(p) {
-      if (!p) return null;
-      const id = String(p.id || p['ID Pratica'] || '').trim();
-      if (!id) return null;
-      return {
-        id: id,
-        timestamp: p.timestamp || p['Data e Ora'] || '',
-        reparto: String(p.reparto || p['Reparto'] || '').toUpperCase().trim(),
-        tipoRichiesta: p.tipoRichiesta || p['Tipo Richiesta'] || '',
-        nomeCliente: p.nomeCliente || p['Nome Cliente'] || '',
-        telefono: p.telefono || p['Telefono'] || '',
-        emailCliente: p.emailCliente || p['Email Cliente'] || '',
-        preferenzaContatto: p.preferenzaContatto || p['Preferenza Contatto'] || '',
-        noteCliente: p.noteCliente || p['Dettagli / Note Cliente'] || '',
-        stato: p.stato || p['Stato'] || 'Aperta',
-        noteRepartista: p.noteRepartista || p['Note Repartista'] || '',
-        operatore: p.operatore || p['Operatore'] || '',
-        image: p.image || p['Immagine / Offerta (Base64)'] || ''
-      };
-    }
-
-    function unisciRecord(raw) {
-      if (!raw) return;
-      if (raw.action === 'update' && raw.id) {
-        const rec = mappaRichieste.get(String(raw.id));
-        if (rec) {
-          if (raw.stato) rec.stato = raw.stato;
-          if (raw.operatore !== undefined) rec.operatore = raw.operatore;
-          if (raw.noteRepartista !== undefined) rec.noteRepartista = raw.noteRepartista;
-          mappaRichieste.set(String(raw.id), rec);
-        }
-        return;
-      }
-      const norm = normalizza(raw);
-      if (!norm) return;
-      mappaRichieste.set(norm.id, norm);
-    }
-
-    function leggiParametroUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const rep = params.get('reparto');
-      if (rep) {
-        const sel = document.getElementById('filtroReparto');
-        const repClean = rep.toUpperCase().trim();
-        for (let opt of sel.options) {
-          if (opt.value.toUpperCase().includes(repClean) || repClean.includes(opt.value.toUpperCase())) {
-            sel.value = opt.value;
-            break;
-          }
-        }
-      }
-    }
-
-    async function caricaDatiReparto() {
+    async function caricaPratiche() {
       try {
         const res = await fetch(`${SCRIPT_URL}?action=get`, { redirect: 'follow' });
-        const json = await res.json();
-        const daSheet = Array.isArray(json) ? json : (json.data || []);
-        daSheet.forEach(item => unisciRecord(item));
-      } catch (e) {}
+        const data = await res.json();
+        const lista = Array.isArray(data) ? data : (data.data || []);
 
-      try {
-        const resNtfy = await fetch(`https://ntfy.sh/${NTFY_TOPIC}/json?poll=1&since=48h`);
-        const txt = await resNtfy.text();
-        txt.trim().split('\n').forEach(line => {
-          if (!line) return;
-          try {
-            const ev = JSON.parse(line);
-            if (ev.event === 'message' && ev.message) {
-              unisciRecord(JSON.parse(ev.message));
+        praticheGlobali = lista.map(row => ({
+          id: row.id || row['ID Pratica'] || '',
+          timestamp: row.timestamp || row['Data e Ora'] || '',
+          tipoRichiesta: row.tipoRichiesta || row['Tipo Richiesta'] || 'Richiesta Cliente',
+          reparto: row.reparto || row['Reparto'] || '',
+          nomeCliente: row.nomeCliente || row['Nome Cliente'] || 'Cliente',
+          telefono: String(row.telefono || row['Telefono'] || '').replace(/^'/, ''),
+          emailCliente: row.emailCliente || row['Email Cliente'] || '',
+          noteCliente: row.noteCliente || row['Dettagli / Note Cliente'] || '',
+          stato: row.stato || row['Stato'] || 'Aperta',
+          noteRepartista: row.noteRepartista || row['Note Repartista'] || '',
+          operatore: row.operatore || row['Operatore'] || '',
+          image: row.image || row['Immagine / Offerta (Base64)'] || ''
+        })).filter(p => p.id);
+
+        if (!primoCaricamentoCompletato) {
+          praticheGlobali.forEach(p => idGiaNotificati.add(p.id));
+          primoCaricamentoCompletato = true;
+        } else {
+          praticheGlobali.forEach(p => {
+            if (!idGiaNotificati.has(p.id) && p.stato !== 'Gestita') {
+              idGiaNotificati.add(p.id);
+              notificaNuovaPraticaSePertinente(p);
             }
-          } catch (e) {}
-        });
-      } catch (e) {}
+          });
+        }
 
-      try {
-        const cache = JSON.parse(localStorage.getItem(REQ_KEY) || '[]');
-        cache.forEach(p => unisciRecord(p));
+        renderPratiche();
       } catch (e) {}
-
-      renderizzaPannellini();
     }
 
-    function renderizzaPannellini() {
-      const filtroRep = document.getElementById('filtroReparto').value.toUpperCase().trim();
-      const container = document.getElementById('containerPannellini');
-      
-      // Mostra solo le richieste ancora APERTE per i reparti
-      const aperte = Array.from(mappaRichieste.values())
-        .filter(x => x.stato === 'Aperta')
-        .reverse();
+    function notificaNuovaPraticaSePertinente(p) {
+      const stPratica = determinaStazionePratica(p);
+      if (stazioneAttiva !== 'TUTTE' && stPratica !== stazioneAttiva) return;
 
-      const lista = filtroRep === 'TUTTI'
-        ? aperte
-        : aperte.filter(x => x.reparto.includes(filtroRep) || filtroRep.includes(x.reparto));
+      riproduciSuonoNotifica();
 
-      if (lista.length === 0) {
-        container.innerHTML = '<div style="background:white; padding:30px; border-radius:12px; text-align:center; font-weight:700; color:#64748B;">🎉 Ottimo lavoro! Nessuna richiesta aperta al momento.</div>';
+      if ("Notification" in window && Notification.permission === "granted") {
+        const n = new Notification(`🚨 Nuova Richiesta: ${p.reparto}`, {
+          body: `Cliente: ${p.nomeCliente}\n${p.noteCliente}`,
+          icon: "icona.png"
+        });
+        n.onclick = () => { window.focus(); n.close(); };
+      }
+    }
+
+    function renderPratiche() {
+      const container = document.getElementById('listaPraticheContainer');
+      const filtrateStazione = praticheGlobali.filter(p => {
+        if (stazioneAttiva === 'TUTTE') return true;
+        return determinaStazionePratica(p) === stazioneAttiva;
+      });
+
+      const aperteCount = filtrateStazione.filter(p => p.stato !== 'Gestita').length;
+      const gestiteCount = filtrateStazione.filter(p => p.stato === 'Gestita').length;
+      document.getElementById('countAperte').textContent = aperteCount;
+      document.getElementById('countGestite').textContent = gestiteCount;
+
+      const daMostrare = filtrateStazione.filter(p =>
+        filtroStato === 'Gestita' ? p.stato === 'Gestita' : p.stato !== 'Gestita'
+      );
+
+      if (daMostrare.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; background:white; border-radius:16px; padding:34px; text-align:center; color:#64748B; font-weight:700;">
+            ✨ Nessuna pratica ${filtroStato === 'Gestita' ? 'gestita' : 'in attesa'} per questa postazione.
+          </div>
+        `;
         return;
       }
 
-      container.innerHTML = lista.map(p => {
-        const tel7Collab = preparaNumero7Collaboration(p.telefono);
-        const isInterno = p.id.startsWith('INT-') || p.tipoRichiesta.includes('INTERNO');
+      container.innerHTML = daMostrare.map(p => {
+        const stWa = determinaStazionePratica(p);
+        const labelWa = stWa === '0965340336' ? 'WA 0965 340336' : 'WA 0965 598722';
+        const isSaltaFila = p.tipoRichiesta.toUpperCase().includes('SALTA FILA');
+        const isInterno = p.id.startsWith('INT-') || p.tipoRichiesta.toUpperCase().includes('INTERNO');
 
-        const opzioniOperatore = [
-          `<option value="">-- Seleziona il tuo nome --</option>`,
-          ...OPERATORI_STAFF.map(op => `<option value="${op}" ${p.operatore === op ? 'selected' : ''}>${op}</option>`)
-        ].join('');
+        const cardClass = p.stato === 'Gestita'
+          ? 'pratica-card gestita'
+          : isSaltaFila ? 'pratica-card salta-fila' : isInterno ? 'pratica-card da-interno' : 'pratica-card';
+
+        const telWaWeb = formattaPerWhatsAppWeb(p.telefono);
+        const tel7Collab = preparaNumero7Collab(p.telefono);
+        const testoPrecompilato = encodeURIComponent(
+          `Gentile ${p.nomeCliente}, ti scriviamo dal reparto ${p.reparto} di Unieuro Reggio Calabria in merito alla tua richiesta: "${p.noteCliente}". `
+        );
+        const linkWhatsAppWeb = `https://web.whatsapp.com/send?phone=${telWaWeb}&text=${testoPrecompilato}`;
+
+        const haImmagine = p.image && String(p.image).startsWith('data:image');
+        const opDefault = p.reparto.toUpperCase().includes('RAEE') ? 'TONINO' : (p.operatore || '');
 
         return `
-          <div class="intervento-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
-              <div>
-                <span class="badge-reparto">${p.reparto}</span>
-                ${isInterno ? `<span class="badge-interno">📞 DA INTERNO</span>` : ''}
+          <div class="${cardClass}">
+            <div>
+              <div class="badge-row">
+                <span class="badge badge-reparto">📍 ${p.reparto}</span>
+                <span class="badge badge-wa">📲 ${labelWa}</span>
+                <span class="badge ${p.stato === 'Gestita' ? 'badge-gestita' : 'badge-aperta'}">
+                  ${p.stato === 'Gestita' ? '✅ Gestita' : '⏳ Da Gestire'}
+                </span>
               </div>
-              <small style="color:#64748B; font-weight:700;">ID: ${p.id} • 🕒 ${p.timestamp}</small>
+
+              <div class="cliente-nome">👤 ${p.nomeCliente}</div>
+              <div style="font-size:0.78rem; color:#64748B; margin-bottom:8px;">
+                🕒 ${p.timestamp} • <strong>${p.tipoRichiesta}</strong>
+              </div>
+
+              <div class="note-box">
+                <strong>📝 Richiesta:</strong><br>${p.noteCliente || '-'}
+                ${p.emailCliente ? `<br><small>✉️ Email: <strong>${p.emailCliente}</strong></small>` : ''}
+              </div>
+
+              ${haImmagine ? `
+                <div class="ritaglio-preview" style="margin-top:10px;">
+                  <small style="font-weight:800; color:#C2410C; display:block; margin-bottom:4px;">📎 Offerta Ritagliata (Clicca per ingrandire):</small>
+                  <img src="${p.image}" alt="Ritaglio" onclick="apriImmagine NuovaScheda('${p.id}')">
+                </div>
+              ` : ''}
             </div>
 
-            <div style="background:#F8FAFC; padding:12px; border-radius:10px; margin-bottom:12px;">
-              <div style="font-size:1rem; font-weight:800; color:var(--unieuro-blue); margin-bottom:4px;">
-                👤 ${p.nomeCliente}
-              </div>
-              <div style="font-size:0.9rem; color:#334155; margin-bottom:8px;">
-                📝 <strong>Richiesta:</strong> ${p.noteCliente}
-              </div>
-              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-                <span>📌 Ricontatto: <strong>${p.preferenzaContatto}</strong></span>
-                ${tel7Collab ? `<a href="tel:${tel7Collab}" class="btn-call">📞 Chiama ${tel7Collab} (7Collab)</a>` : ''}
-                ${p.emailCliente ? `<a href="mailto:${p.emailCliente}" style="color:var(--unieuro-blue); font-weight:700;">✉️ ${p.emailCliente}</a>` : ''}
-              </div>
-            </div>
+            <div class="actions-box">
+              ${telWaWeb ? `
+                <a href="${linkWhatsAppWeb}" target="_blank" rel="noopener" class="btn btn-wa">
+                  💬 Rispondi su WhatsApp Web (${tel7Collab})
+                </a>
+              ` : ''}
 
-            ${p.image && p.image.startsWith('data:image') ? `<img src="${p.image}" class="crop-img" onclick="window.open(this.src)">` : ''}
+              ${tel7Collab ? `
+                <a href="tel:${tel7Collab}" class="btn btn-call">
+                  📞 Chiama con 7Collaboration (${tel7Collab})
+                </a>
+              ` : ''}
 
-            <!-- Pannellino singolo di compilazione intervento -->
-            <div style="margin-top:12px; border-top:2px dashed #E2E8F0; padding-top:12px;">
-              <div class="grid-2" style="display:grid; grid-template-columns: 1fr 2fr; gap:10px; margin-bottom:10px;">
-                <div>
-                  <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">Operatore *</label>
-                  <select id="operatore_${p.id}" style="font-weight:700;">
-                    ${opzioniOperatore}
+              ${p.stato !== 'Gestita' ? `
+                <div class="close-form-row">
+                  <select id="op_${p.id}">
+                    <option value="">-- Operatore --</option>
+                    <option value="PEPPE M." ${opDefault === 'PEPPE M.' ? 'selected' : ''}>PEPPE M.</option>
+                    <option value="DAGO" ${opDefault === 'DAGO' ? 'selected' : ''}>DAGO</option>
+                    <option value="DANIELE" ${opDefault === 'DANIELE' ? 'selected' : ''}>DANIELE</option>
+                    <option value="GIORGIO" ${opDefault === 'GIORGIO' ? 'selected' : ''}>GIORGIO</option>
+                    <option value="PAOLO" ${opDefault === 'PAOLO' ? 'selected' : ''}>PAOLO</option>
+                    <option value="MIMMO" ${opDefault === 'MIMMO' ? 'selected' : ''}>MIMMO</option>
+                    <option value="OUSMANE" ${opDefault === 'OUSMANE' ? 'selected' : ''}>OUSMANE</option>
+                    <option value="TONINO" ${opDefault === 'TONINO' ? 'selected' : ''}>TONINO (RAEE)</option>
                   </select>
+                  <input type="text" id="note_${p.id}" placeholder="Esito / Note chiusura...">
                 </div>
-                <div>
-                  <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">Intervento Svolto / Note *</label>
-                  <input type="text" id="noteRep_${p.id}" value="${p.noteRepartista}" placeholder="Es. Contattato cliente, prodotto ordinato...">
+                <button type="button" class="btn btn-orange" onclick="chiudiPraticaDaPostazione('${p.id}')">
+                  ✔ Segna come Gestita
+                </button>
+              ` : `
+                <div style="font-size:0.82rem; color:#166534; background:#DCFCE7; padding:8px 10px; border-radius:8px; font-weight:700;">
+                  ✔ Gestita da: <strong>${p.operatore || '-'}</strong><br>
+                  Note: ${p.noteRepartista || '-'}
                 </div>
-              </div>
-              <button class="btn btn-green" onclick="inviaIntervento('${p.id}')">
-                ✔ Registra Intervento e Chiudi Pratica
-              </button>
+              `}
             </div>
           </div>
         `;
       }).join('');
     }
 
-    function inviaIntervento(id) {
-      const operatoreEl = document.getElementById(`operatore_${id}`);
-      const noteEl = document.getElementById(`noteRep_${id}`);
+    window.apriImmagineNuovaScheda = function(id) {
+      const p = praticheGlobali.find(item => item.id === id);
+      if (!p || !p.image) return;
+      const w = window.open();
+      w.document.write(`<body style="margin:0; background:#0f172a; display:flex; align-items:center; justify-content:center; min-height:100vh;"><img src="${p.image}" style="max-width:95%; max-height:95vh; border-radius:8px;"></body>`);
+    };
 
-      if (!operatoreEl.value) {
-        alert("Seleziona il nome dell'operatore prima di inviare.");
-        operatoreEl.focus();
-        return;
-      }
-      if (!noteEl.value.trim()) {
-        alert("Inserisci i dettagli dell'intervento svolto.");
-        noteEl.focus();
+    window.chiudiPraticaDaPostazione = async function(id) {
+      const op = document.getElementById(`op_${id}`).value;
+      const note = document.getElementById(`note_${id}`).value.trim() || "Gestita su WhatsApp Web / Telefono";
+
+      if (!op) {
+        alert("Seleziona il tuo nome (Operatore) prima di chiudere la pratica.");
         return;
       }
 
@@ -327,47 +594,57 @@
         action: "update",
         id: id,
         stato: "Gestita",
-        operatore: operatoreEl.value.trim(),
-        noteRepartista: noteEl.value.trim()
+        operatore: op,
+        noteRepartista: note
       };
 
-      // Rimuove subito la scheda dalla vista corrente del reparto
-      mappaRichieste.delete(id);
+      const idx = praticheGlobali.findIndex(item => item.id === id);
+      if (idx !== -1) {
+        praticheGlobali[idx].stato = "Gestita";
+        praticheGlobali[idx].operatore = op;
+        praticheGlobali[idx].noteRepartista = note;
+        renderPratiche();
+      }
+
+      fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify(updatePayload) }).catch(() => {});
+
       try {
-        localStorage.setItem(REQ_KEY, JSON.stringify(Array.from(mappaRichieste.values()).slice(0, 80)));
+        await fetch(SCRIPT_URL, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(updatePayload)
+        });
       } catch (e) {}
-      renderizzaPannellini();
+    };
 
-      // Propaga la chiusura in tempo reale su admin e cloud
-      fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
-        method: 'POST',
-        body: JSON.stringify(updatePayload)
-      }).catch(() => {});
-
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(updatePayload)
-      }).catch(() => {});
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      leggiParametroUrl();
-      caricaDatiReparto();
-
+    // Ascolto istantaneo via ntfy.sh per far suonare subito il PC
+    function avviaAscoltoLiveNtfy() {
       try {
-        const sse = new EventSource(`https://ntfy.sh/${NTFY_TOPIC}/sse`);
-        sse.onmessage = (e) => {
+        const es = new EventSource(`https://ntfy.sh/${NTFY_TOPIC}/sse`);
+        es.onmessage = (event) => {
           try {
-            const msg = JSON.parse(e.data);
+            const msg = JSON.parse(event.data);
             if (msg.message) {
-              unisciRecord(JSON.parse(msg.message));
-              renderizzaPannellini();
+              const payload = JSON.parse(msg.message);
+              if (payload.action === "create" && payload.id && !idGiaNotificati.has(payload.id)) {
+                idGiaNotificati.add(payload.id);
+                notificaNuovaPraticaSePertinente(payload);
+                setTimeout(caricaPratiche, 1200);
+              } else if (payload.action === "update") {
+                setTimeout(caricaPratiche, 1200);
+              }
             }
           } catch (err) {}
         };
       } catch (e) {}
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      impostaStazione(stazioneAttiva);
+      aggiornaLabelPermessi();
+      caricaPratiche();
+      avviaAscoltoLiveNtfy();
+      setInterval(caricaPratiche, 20000);
     });
   </script>
 </body>
