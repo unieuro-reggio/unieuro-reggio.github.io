@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Postazione Reparti & WhatsApp Web - Unieuro RC</title>
+  <title>Pannello Reparto - Unieuro RC</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icona.png">
   <meta name="theme-color" content="#002D62">
@@ -31,7 +31,7 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1140px;
       margin: 0 auto;
     }
 
@@ -66,13 +66,15 @@
     }
 
     .brand-box h1 {
-      font-size: 1.25rem;
+      font-size: 1.22rem;
       font-weight: 900;
       text-transform: uppercase;
     }
 
-    .station-bar {
-      background: white;
+    /* BOX STATO PERMESSI E ATTIVAZIONE */
+    .setup-banner {
+      background: #FFF7ED;
+      border: 2px solid var(--unieuro-orange);
       border-radius: 14px;
       padding: 14px 18px;
       margin-bottom: 16px;
@@ -81,18 +83,32 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
+    }
+
+    .setup-banner.ok {
+      background: #F0FDF4;
+      border-color: #16A34A;
+    }
+
+    /* SELETTORE SINGOLO REPARTO */
+    .station-bar {
+      background: white;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border-left: 6px solid var(--wa-green);
+      border-left: 6px solid var(--unieuro-blue);
     }
 
     .station-tabs {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+      margin-top: 10px;
     }
 
     .station-btn {
-      padding: 10px 16px;
+      padding: 11px 16px;
       border-radius: 10px;
       border: 2px solid #CBD5E1;
       background: #F8FAFC;
@@ -107,6 +123,7 @@
       background: var(--unieuro-blue);
       color: white;
       border-color: var(--unieuro-blue);
+      box-shadow: 0 4px 10px rgba(0, 45, 98, 0.25);
     }
 
     .btn {
@@ -127,6 +144,7 @@
     .btn-call { background: #0284C7; color: white; }
     .btn-orange { background: var(--unieuro-orange); color: white; }
     .btn-blue { background: var(--unieuro-blue); color: white; }
+    .btn-purple { background: #7C3AED; color: white; }
     .btn-outline { background: white; color: var(--unieuro-blue); border: 1.5px solid var(--unieuro-blue); }
 
     .grid-pratiche {
@@ -167,7 +185,6 @@
     }
 
     .badge-reparto { background: #E0F2FE; color: #0369A1; }
-    .badge-wa { background: #DCFCE7; color: #15803D; }
     .badge-aperta { background: #FEF3C7; color: #B45309; }
     .badge-gestita { background: #DCFCE7; color: #166534; }
 
@@ -241,45 +258,107 @@
       50% { opacity: 0.4; transform: scale(1.25); }
       100% { opacity: 1; transform: scale(1); }
     }
+
+    /* POPUP GIGANTE DI ALLARME NUOVA RICHIESTA */
+    .alarm-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(220, 38, 38, 0.9);
+      z-index: 99999;
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .alarm-modal-card {
+      background: white;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 22px;
+      padding: 26px;
+      text-align: center;
+      border-top: 10px solid var(--unieuro-orange);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
   </style>
 </head>
 <body>
+
+  <!-- POPUP ALLARME INTERNO ALLA PAGINA -->
+  <div id="alarmModal" class="alarm-modal-overlay">
+    <div class="alarm-modal-card">
+      <div style="font-size:3.2rem; margin-bottom:8px;">🚨</div>
+      <h2 style="color:#DC2626; font-size:1.5rem; font-weight:900; margin-bottom:8px;">NUOVA RICHIESTA REPARTO!</h2>
+      <div id="alarmDetailsBox" style="background:#FFF7ED; border:2px solid var(--unieuro-orange); border-radius:14px; padding:16px; text-align:left; font-size:1rem; line-height:1.5; margin-bottom:18px; color:#1E293B;"></div>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <a href="#" id="alarmBtnWhatsAppApp" class="btn btn-wa" style="padding:15px; font-size:1.05rem;" onclick="fermaAllarmeNuovaRichiesta()">
+          💬 Rispondi Subito su WhatsApp PC
+        </a>
+        <button type="button" class="btn btn-blue" style="padding:14px; font-size:1rem;" onclick="fermaAllarmeNuovaRichiesta()">
+          ✅ Ho preso in carico l'avviso (Ferma Sirena)
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <header>
       <div class="brand-box">
         <img src="icona.png" alt="Unieuro" onerror="this.style.display='none'">
         <div>
-          <h1>🖥️ Postazione Reparti & WhatsApp Web</h1>
+          <h1 id="headerTitoloReparto">🖥️ Pannello Reparto - Unieuro RC</h1>
           <small style="color:#CBD5E1; display:flex; align-items:center; gap:6px; margin-top:3px;">
-            <span class="live-dot"></span> Ricezione richieste in tempo reale con avviso sonoro sul PC
+            <span class="live-dot"></span> Sincronizzazione istantanea attiva • Tieni questa scheda sempre aperta
           </small>
         </div>
       </div>
 
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button type="button" class="btn btn-orange" onclick="attivaNotificheESuonoPC()">🔔 Attiva Suono e Notifiche PC</button>
+        <button type="button" class="btn btn-purple" onclick="testaNotificaSovrapposta()">🧪 Prova Avviso (tra 4 sec)</button>
         <button type="button" class="btn btn-outline" style="background:rgba(255,255,255,0.15); color:white; border-color:white;" onclick="caricaPratiche()">🔄 Aggiorna</button>
         <a href="interno.html" class="btn btn-outline" style="background:rgba(255,255,255,0.15); color:white; border-color:white;">📞 Nuova Interna</a>
       </div>
     </header>
 
-    <!-- BARRA SELEZIONE POSTAZIONE WHATSAPP WEB -->
+    <!-- BARRA ATTIVAZIONE SUONO E SOVRAPPOSIZIONE SCHEDE CHROME -->
+    <div id="setupBanner" class="setup-banner">
+      <div style="font-size:0.88rem; line-height:1.45;">
+        <strong id="setupStatusTitle" style="font-size:0.96rem; color:#C2410C; display:block;">
+          🔊 Clicca sul pulsante qui a destra appena apri il PC per attivare la Sirena e il Pop-up sopra le altre schede!
+        </strong>
+        <span id="setupStatusSub">
+          Per far saltare fuori la finestra sopra qualsiasi altra scheda di Chrome, consenti <strong>Notifiche</strong> e <strong>Pop-up</strong> dal lucchetto in alto a sinistra.
+        </span>
+      </div>
+      <button type="button" id="btnAttivaAudio" class="btn btn-orange" style="padding:12px 18px; font-size:0.95rem;" onclick="attivaSistemaAllarmePC()">
+        🔔 ATTIVA SIRENA E POP-UP SUL PC
+      </button>
+    </div>
+
+    <!-- BARRA SELEZIONE SINGOLO REPARTO PER QUESTO PC -->
     <div class="station-bar">
       <div>
-        <strong style="font-size:0.95rem; color:var(--unieuro-blue); display:block;">📲 Seleziona la Postazione WhatsApp Web di questo PC:</strong>
-        <small style="color:#64748B;">Il PC suonerà solo per le richieste dei reparti abbinati al numero selezionato</small>
+        <strong style="font-size:0.95rem; color:var(--unieuro-blue); display:block;">📍 Imposta il Reparto di questo PC (resta salvato in automatico):</strong>
+        <small style="color:#64748B;">Questo computer suonerà e aprirà il pop-up in primo piano solo quando arriva una richiesta per il reparto scelto</small>
       </div>
 
       <div class="station-tabs">
-        <button type="button" id="btnStazione340336" class="station-btn" onclick="impostaStazione('0965340336')">
-          🧺☕♻️ WA 0965 340336 (Elettrodom. / RAEE)
+        <button type="button" id="btnRep_ELETTRODOMESTICI" class="station-btn" onclick="impostaRepartoPC('ELETTRODOMESTICI')">
+          🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)
         </button>
-        <button type="button" id="btnStazione598722" class="station-btn" onclick="impostaStazione('0965598722')">
-          📱💻📺 WA 0965 598722 (Telefonia / PC / TV)
+        <button type="button" id="btnRep_TELEFONIA" class="station-btn" onclick="impostaRepartoPC('TELEFONIA')">
+          📱 TELEFONIA
         </button>
-        <button type="button" id="btnStazioneTutte" class="station-btn active" onclick="impostaStazione('TUTTE')">
-          📋 Tutte le Postazioni
+        <button type="button" id="btnRep_INFORMATICA_TV" class="station-btn" onclick="impostaRepartoPC('INFORMATICA / TV')">
+          💻📺 INFORMATICA / TV
+        </button>
+        <button type="button" id="btnRep_RITIRO_RAEE" class="station-btn" onclick="impostaRepartoPC('RITIRO RAEE')">
+          ♻️ RITIRO RAEE (Tonino)
+        </button>
+        <button type="button" id="btnRep_TUTTI" class="station-btn active" onclick="impostaRepartoPC('TUTTI')">
+          📋 Tutti i Reparti
         </button>
       </div>
     </div>
@@ -290,7 +369,6 @@
         <button type="button" id="tabAperte" class="btn btn-blue" onclick="cambiaFiltroStato('Aperta')">⏳ Da Gestire (<span id="countAperte">0</span>)</button>
         <button type="button" id="tabGestite" class="btn btn-outline" onclick="cambiaFiltroStato('Gestita')">✅ Gestite (<span id="countGestite">0</span>)</button>
       </div>
-      <div id="statusNotificheLabel" style="font-size:0.82rem; font-weight:700; color:#475569;"></div>
     </div>
 
     <div id="listaPraticheContainer" class="grid-pratiche"></div>
@@ -299,100 +377,148 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCQYZvPF9TKwLqozpHQMDvM2_i1MG-J9UHKsVxdDTmLnukWua_5tmcv65UlSifCB0D/exec";
     const NTFY_TOPIC = 'unieuro_reggio_calabria_reparti_live';
-    const STATION_STORAGE_KEY = 'unieuro_pc_wa_station';
+    const REPARTO_PC_KEY = 'unieuro_pc_reparto_scelto';
 
-    let stazioneAttiva = localStorage.getItem(STATION_STORAGE_KEY) || 'TUTTE';
+    let repartoAttivoPC = localStorage.getItem(REPARTO_PC_KEY) || 'TUTTI';
     let filtroStato = 'Aperta';
     let praticheGlobali = [];
     let idGiaNotificati = new Set();
     let primoCaricamentoCompletato = false;
+    let intervalloSuonoAllarme = null;
+    let intervalloTitoloLampeggiante = null;
+    let audioContextGlobal = null;
+    let finestraPopupEsterna = null;
 
-    // Suono di notifica sintetizzato (non richiede file MP3 esterni)
-    function riproduciSuonoNotifica() {
+    // Inizializza AudioContext e permessi Notifiche
+    function attivaSistemaAllarmePC() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        const ctx = new AudioCtx();
-        const now = ctx.currentTime;
+        if (!audioContextGlobal) audioContextGlobal = new AudioCtx();
+        if (audioContextGlobal.state === 'suspended') audioContextGlobal.resume();
+      } catch (e) {}
 
-        const osc1 = ctx.createOscillator();
-        const gain1 = ctx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(587.33, now); // D5
-        osc1.frequency.setValueAtTime(880, now + 0.18); // A5
-        gain1.gain.setValueAtTime(0.35, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+      riproduciSirena();
 
-        osc1.connect(gain1);
-        gain1.connect(ctx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.65);
+      if ("Notification" in window) {
+        Notification.requestPermission().then(() => {
+          aggiornaStatoSetupBanner(true);
+        });
+      } else {
+        aggiornaStatoSetupBanner(true);
+      }
+    }
+
+    function aggiornaStatoSetupBanner(audioSbloccato) {
+      const banner = document.getElementById('setupBanner');
+      const title = document.getElementById('setupStatusTitle');
+      const sub = document.getElementById('setupStatusSub');
+      const btn = document.getElementById('btnAttivaAudio');
+
+      const notifOk = ("Notification" in window && Notification.permission === "granted");
+
+      if (audioSbloccato && notifOk) {
+        banner.className = "setup-banner ok";
+        title.style.color = "#15803D";
+        title.innerHTML = "✅ Sistema di Allarme e Pop-up in Primo Piano ATTIVO su questo PC!";
+        sub.innerHTML = "Puoi lavorare tranquillamente in altre schede di Chrome: appena arriva una richiesta si aprirà una finestra sopra lo schermo e suonerà la sirena.";
+        btn.textContent = "🔊 Sirena Attiva";
+        btn.className = "btn btn-wa";
+      } else if (audioSbloccato && !notifOk) {
+        title.innerHTML = "⚠️ Sirena Attiva, ma le Notifiche di Chrome sono bloccate!";
+        sub.innerHTML = "Clicca sull'icona del <strong>Lucchetto / Impostazioni</strong> a sinistra dell'indirizzo web in alto e metti <strong>Notifiche: Consenti</strong> e <strong>Pop-up: Consenti</strong>.";
+      }
+    }
+
+    function riproduciSirena() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!audioContextGlobal) audioContextGlobal = new AudioCtx();
+        if (audioContextGlobal.state === 'suspended') audioContextGlobal.resume();
+
+        const now = audioContextGlobal.currentTime;
+        const osc = audioContextGlobal.createOscillator();
+        const gain = audioContextGlobal.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(587.33, now);       // D5
+        osc.frequency.setValueAtTime(880.00, now + 0.18); // A5
+        osc.frequency.setValueAtTime(587.33, now + 0.36);
+        osc.frequency.setValueAtTime(880.00, now + 0.54);
+
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+
+        osc.connect(gain);
+        gain.connect(audioContextGlobal.destination);
+        osc.start(now);
+        osc.stop(now + 0.9);
       } catch (e) {}
     }
 
-    function attivaNotificheESuonoPC() {
-      riproduciSuonoNotifica();
-      if ("Notification" in window) {
-        Notification.requestPermission().then(perm => {
-          aggiornaLabelPermessi();
-          if (perm === "granted") {
-            new Notification("✅ Notifiche PC Attive - Unieuro RC", {
-              body: "Riceverai un avviso sonoro e visivo appena arriva una nuova richiesta cliente.",
-              icon: "icona.png"
-            });
-          }
+    // Pulsante per fare subito la prova cambiando scheda su Chrome
+    window.testaNotificaSovrapposta = function() {
+      attivaSistemaAllarmePC();
+      alert("Tra 4 secondi partirà una richiesta di prova!\n\n👉 Clicca OK e VAI SUBITO IN UN'ALTRA SCHEDA DI CHROME per verificare che il pop-up e il suono si sovrappongano!");
+      setTimeout(() => {
+        scattaAllarmeCompleto({
+          id: "TEST-" + Date.now(),
+          reparto: repartoAttivoPC === 'TUTTI' ? 'ELETTRODOMESTICI' : repartoAttivoPC,
+          nomeCliente: "Mario Rossi (PROVA)",
+          telefono: "03331234567",
+          noteCliente: "Richiesta di prova per verificare la sovrapposizione su Chrome.",
+          tipoRichiesta: "Test Avviso Reparto"
         });
+      }, 4000);
+    };
+
+    // Verifica se una pratica appartiene al reparto selezionato su questo PC
+    function praticaAppartieneAlRepartoPC(p) {
+      if (repartoAttivoPC === 'TUTTI') return true;
+      const repPratica = String(p.reparto || p['Reparto'] || '').toUpperCase();
+
+      if (repartoAttivoPC === 'ELETTRODOMESTICI') {
+        return repPratica.includes('ELETTRODOMESTICI') || repPratica.includes('GRANDI') || repPratica.includes('PICCOLI');
       }
+      if (repartoAttivoPC === 'TELEFONIA') {
+        return repPratica.includes('TELEFONIA');
+      }
+      if (repartoAttivoPC === 'INFORMATICA / TV') {
+        return repPratica.includes('INFORMATICA') || repPratica.includes('TV');
+      }
+      if (repartoAttivoPC === 'RITIRO RAEE') {
+        return repPratica.includes('RAEE');
+      }
+      return true;
     }
 
-    function aggiornaLabelPermessi() {
-      const lbl = document.getElementById('statusNotificheLabel');
-      if (!("Notification" in window)) {
-        lbl.textContent = "🔊 Avviso sonoro attivo";
-        return;
-      }
-      if (Notification.permission === "granted") {
-        lbl.innerHTML = "🟢 <strong>Notifiche Desktop Windows + Suono ATTIVI</strong>";
-      } else {
-        lbl.innerHTML = "🟠 Clicca su <strong>«🔔 Attiva Suono e Notifiche PC»</strong> in alto per abilitare gli avvisi di Windows";
-      }
-    }
+    window.impostaRepartoPC = function(rep) {
+      repartoAttivoPC = rep;
+      localStorage.setItem(REPARTO_PC_KEY, rep);
 
-    function determinaStazionePratica(p) {
-      if (p.waDestinatario) return String(p.waDestinatario).replace(/\D/g, '');
-      const rep = String(p.reparto || p['Reparto'] || '').toUpperCase();
-      const tipo = String(p.tipoRichiesta || p['Tipo Richiesta'] || '');
-      if (tipo.includes('0965340336')) return '0965340336';
-      if (tipo.includes('0965598722')) return '0965598722';
-      if (rep.includes('ELETTRODOMESTICI') || rep.includes('RAEE') || rep.includes('GRANDI') || rep.includes('PICCOLI')) {
-        return '0965340336';
-      }
-      return '0965598722';
-    }
+      document.getElementById('btnRep_ELETTRODOMESTICI').classList.toggle('active', rep === 'ELETTRODOMESTICI');
+      document.getElementById('btnRep_TELEFONIA').classList.toggle('active', rep === 'TELEFONIA');
+      document.getElementById('btnRep_INFORMATICA_TV').classList.toggle('active', rep === 'INFORMATICA / TV');
+      document.getElementById('btnRep_RITIRO_RAEE').classList.toggle('active', rep === 'RITIRO RAEE');
+      document.getElementById('btnRep_TUTTI').classList.toggle('active', rep === 'TUTTI');
 
-    function impostaStazione(codice) {
-      stazioneAttiva = codice;
-      localStorage.setItem(STATION_STORAGE_KEY, codice);
-
-      document.getElementById('btnStazione340336').classList.toggle('active', codice === '0965340336');
-      document.getElementById('btnStazione598722').classList.toggle('active', codice === '0965598722');
-      document.getElementById('btnStazioneTutte').classList.toggle('active', codice === 'TUTTE');
+      document.getElementById('headerTitoloReparto').textContent =
+        rep === 'TUTTI' ? '🖥️ Pannello Tutti i Reparti' : `🖥️ Pannello Reparto: ${rep}`;
 
       renderPratiche();
-    }
+    };
 
-    function cambiaFiltroStato(nuovoStato) {
+    window.cambiaFiltroStato = function(nuovoStato) {
       filtroStato = nuovoStato;
       document.getElementById('tabAperte').className = nuovoStato === 'Aperta' ? 'btn btn-blue' : 'btn btn-outline';
       document.getElementById('tabGestite').className = nuovoStato === 'Gestita' ? 'btn btn-blue' : 'btn btn-outline';
       renderPratiche();
-    }
+    };
 
-    function formattaPerWhatsAppWeb(rawPhone) {
+    function formattaPerWhatsApp(rawPhone) {
       if (!rawPhone) return "";
       let digits = String(rawPhone).replace(/\D/g, '');
       if (digits.startsWith('0039')) digits = digits.slice(4);
       else if (digits.startsWith('39') && digits.length > 10) digits = digits.slice(2);
-      // Rimuove lo zero iniziale aggiunto per 7Collaboration sui cellulari (es. 0333... -> 333...)
       if (digits.startsWith('03')) digits = digits.slice(1);
       return '39' + digits;
     }
@@ -405,24 +531,154 @@
       return clean;
     }
 
+    // Lancia: 1) Finestra Pop-up flottante sopra le altre schede Chrome, 2) Notifica Windows, 3) Sirena continua
+    function scattaAllarmeCompleto(p) {
+      if (!praticaAppartieneAlRepartoPC(p)) return;
+
+      // 1. Modale e Sirena continua ogni 3.5 secondi
+      mostraAllarmeSchermoIntero(p);
+
+      // 2. Notifica Nativa di Sistema Windows (si sovrappone a tutte le app)
+      if ("Notification" in window && Notification.permission === "granted") {
+        try {
+          const n = new Notification(`🚨 NUOVA RICHIESTA: ${p.reparto}`, {
+            body: `Cliente: ${p.nomeCliente} (${p.telefono})\n${p.noteCliente}\n\n👉 Clicca qui per aprire subito il pannello!`,
+            icon: "icona.png",
+            tag: "req_" + p.id,
+            requireInteraction: true
+          });
+          n.onclick = () => {
+            window.focus();
+            n.close();
+          };
+        } catch (e) {}
+      }
+
+      // 3. FINESTRA POP-UP FLOTTANTE DI CHROME (Salta in primo piano sopra le altre schede di Chrome!)
+      try {
+        const width = 480;
+        const height = 460;
+        const left = Math.round((window.screen.width - width) / 2);
+        const top = Math.round((window.screen.height - height) / 2);
+
+        if (finestraPopupEsterna && !finestraPopupEsterna.closed) {
+          finestraPopupEsterna.close();
+        }
+
+        finestraPopupEsterna = window.open(
+          "",
+          "AllarmeUnieuroReparto",
+          `popup=yes,width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=no`
+        );
+
+        if (finestraPopupEsterna) {
+          const telWa = formattaPerWhatsApp(p.telefono);
+          const testoWa = encodeURIComponent(
+            `Gentile ${p.nomeCliente}, ti scriviamo dal reparto ${p.reparto} di Unieuro Reggio Calabria in merito alla tua richiesta: "${p.noteCliente}". `
+          );
+          const linkWa = `whatsapp://send?phone=${telWa}&text=${testoWa}`;
+
+          finestraPopupEsterna.document.write(`
+            <!DOCTYPE html>
+            <html lang="it">
+            <head>
+              <meta charset="UTF-8">
+              <title>🚨 NUOVA RICHIESTA - ${p.reparto}</title>
+              <style>
+                body { font-family: 'Segoe UI', sans-serif; background: #DC2626; color: white; margin: 0; padding: 18px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 90vh; }
+                .box { background: white; color: #1E293B; border-radius: 18px; padding: 20px; width: 100%; box-shadow: 0 12px 30px rgba(0,0,0,0.4); border-top: 8px solid #FF6700; }
+                h2 { color: #DC2626; margin: 0 0 10px; font-size: 1.35rem; }
+                .info { background: #FFF7ED; border: 2px solid #FF6700; border-radius: 12px; padding: 12px; text-align: left; font-size: 0.95rem; line-height: 1.45; margin-bottom: 14px; }
+                .btn { display: block; width: 100%; padding: 13px; border-radius: 10px; font-weight: 900; font-size: 0.95rem; text-decoration: none; border: none; cursor: pointer; margin-bottom: 8px; box-sizing: border-box; }
+                .btn-wa { background: #16A34A; color: white; }
+                .btn-open { background: #002D62; color: white; }
+              </style>
+            </head>
+            <body>
+              <div class="box">
+                <h2>🚨 NUOVA RICHIESTA ${p.reparto}!</h2>
+                <div class="info">
+                  <strong>👤 Cliente:</strong> ${p.nomeCliente}<br>
+                  <strong>📞 Tel:</strong> ${p.telefono || '-'}<br>
+                  <strong>🔖 Tipo:</strong> ${p.tipoRichiesta || 'Richiesta Cliente'}<br>
+                  <strong>📝 Note:</strong> ${p.noteCliente || '-'}
+                </div>
+                ${telWa ? `<a href="${linkWa}" class="btn btn-wa" onclick="window.opener.fermaAllarmeNuovaRichiesta(); window.close();">💬 Rispondi Subito su WhatsApp PC</a>` : ''}
+                <button class="btn btn-open" onclick="window.opener.focus(); window.opener.fermaAllarmeNuovaRichiesta(); window.close();">
+                  🖥️ Vai al Pannello Reparto e Ferma Sirena
+                </button>
+              </div>
+            </body>
+            </html>
+          `);
+          finestraPopupEsterna.focus();
+        }
+      } catch (errPopup) {}
+    }
+
+    function mostraAllarmeSchermoIntero(p) {
+      riproduciSirena();
+      clearInterval(intervalloSuonoAllarme);
+      intervalloSuonoAllarme = setInterval(riproduciSirena, 3500);
+
+      clearInterval(intervalloTitoloLampeggiante);
+      let flash = false;
+      intervalloTitoloLampeggiante = setInterval(() => {
+        document.title = flash ? "🚨 NUOVA RICHIESTA! 🚨" : `👤 ${p.nomeCliente} - ${p.reparto}`;
+        flash = !flash;
+      }, 700);
+
+      const telWa = formattaPerWhatsApp(p.telefono);
+      const testoPrecompilato = encodeURIComponent(
+        `Gentile ${p.nomeCliente}, ti scriviamo dal reparto ${p.reparto} di Unieuro Reggio Calabria in merito alla tua richiesta: "${p.noteCliente}". `
+      );
+
+      document.getElementById('alarmDetailsBox').innerHTML = `
+        <strong>📍 Reparto:</strong> ${p.reparto}<br>
+        <strong>👤 Cliente:</strong> ${p.nomeCliente}<br>
+        <strong>📞 Telefono:</strong> ${p.telefono || '-'}<br>
+        <strong>📝 Note:</strong> ${p.noteCliente || '-'}
+      `;
+
+      const btnWa = document.getElementById('alarmBtnWhatsAppApp');
+      if (telWa) {
+        btnWa.href = `whatsapp://send?phone=${telWa}&text=${testoPrecompilato}`;
+        btnWa.style.display = 'inline-flex';
+      } else {
+        btnWa.style.display = 'none';
+      }
+
+      document.getElementById('alarmModal').style.display = 'flex';
+    }
+
+    window.fermaAllarmeNuovaRichiesta = function() {
+      clearInterval(intervalloSuonoAllarme);
+      clearInterval(intervalloTitoloLampeggiante);
+      document.title = repartoAttivoPC === 'TUTTI' ? "Pannello Reparti - Unieuro RC" : `Pannello ${repartoAttivoPC} - Unieuro RC`;
+      document.getElementById('alarmModal').style.display = 'none';
+      if (finestraPopupEsterna && !finestraPopupEsterna.closed) {
+        finestraPopupEsterna.close();
+      }
+    };
+
     async function caricaPratiche() {
       try {
-        const res = await fetch(`${SCRIPT_URL}?action=get`, { redirect: 'follow' });
+        const res = await fetch(`${SCRIPT_URL}?action=get&_t=${Date.now()}`, { redirect: 'follow' });
         const data = await res.json();
         const lista = Array.isArray(data) ? data : (data.data || []);
 
         praticheGlobali = lista.map(row => ({
-          id: row.id || row['ID Pratica'] || '',
+          id: String(row.id || row['ID Pratica'] || ''),
           timestamp: row.timestamp || row['Data e Ora'] || '',
-          tipoRichiesta: row.tipoRichiesta || row['Tipo Richiesta'] || 'Richiesta Cliente',
-          reparto: row.reparto || row['Reparto'] || '',
-          nomeCliente: row.nomeCliente || row['Nome Cliente'] || 'Cliente',
+          tipoRichiesta: String(row.tipoRichiesta || row['Tipo Richiesta'] || 'Richiesta Cliente'),
+          reparto: String(row.reparto || row['Reparto'] || ''),
+          nomeCliente: String(row.nomeCliente || row['Nome Cliente'] || 'Cliente'),
           telefono: String(row.telefono || row['Telefono'] || '').replace(/^'/, ''),
-          emailCliente: row.emailCliente || row['Email Cliente'] || '',
-          noteCliente: row.noteCliente || row['Dettagli / Note Cliente'] || '',
-          stato: row.stato || row['Stato'] || 'Aperta',
-          noteRepartista: row.noteRepartista || row['Note Repartista'] || '',
-          operatore: row.operatore || row['Operatore'] || '',
+          emailCliente: String(row.emailCliente || row['Email Cliente'] || ''),
+          noteCliente: String(row.noteCliente || row['Dettagli / Note Cliente'] || ''),
+          stato: String(row.stato || row['Stato'] || 'Aperta'),
+          noteRepartista: String(row.noteRepartista || row['Note Repartista'] || ''),
+          operatore: String(row.operatore || row['Operatore'] || ''),
           image: row.image || row['Immagine / Offerta (Base64)'] || ''
         })).filter(p => p.id);
 
@@ -433,7 +689,7 @@
           praticheGlobali.forEach(p => {
             if (!idGiaNotificati.has(p.id) && p.stato !== 'Gestita') {
               idGiaNotificati.add(p.id);
-              notificaNuovaPraticaSePertinente(p);
+              scattaAllarmeCompleto(p);
             }
           });
         }
@@ -442,49 +698,29 @@
       } catch (e) {}
     }
 
-    function notificaNuovaPraticaSePertinente(p) {
-      const stPratica = determinaStazionePratica(p);
-      if (stazioneAttiva !== 'TUTTE' && stPratica !== stazioneAttiva) return;
-
-      riproduciSuonoNotifica();
-
-      if ("Notification" in window && Notification.permission === "granted") {
-        const n = new Notification(`🚨 Nuova Richiesta: ${p.reparto}`, {
-          body: `Cliente: ${p.nomeCliente}\n${p.noteCliente}`,
-          icon: "icona.png"
-        });
-        n.onclick = () => { window.focus(); n.close(); };
-      }
-    }
-
     function renderPratiche() {
       const container = document.getElementById('listaPraticheContainer');
-      const filtrateStazione = praticheGlobali.filter(p => {
-        if (stazioneAttiva === 'TUTTE') return true;
-        return determinaStazionePratica(p) === stazioneAttiva;
-      });
+      const filtrateReparto = praticheGlobali.filter(p => praticaAppartieneAlRepartoPC(p));
 
-      const aperteCount = filtrateStazione.filter(p => p.stato !== 'Gestita').length;
-      const gestiteCount = filtrateStazione.filter(p => p.stato === 'Gestita').length;
+      const aperteCount = filtrateReparto.filter(p => p.stato !== 'Gestita').length;
+      const gestiteCount = filtrateReparto.filter(p => p.stato === 'Gestita').length;
       document.getElementById('countAperte').textContent = aperteCount;
       document.getElementById('countGestite').textContent = gestiteCount;
 
-      const daMostrare = filtrateStazione.filter(p =>
+      const daMostrare = filtrateReparto.filter(p =>
         filtroStato === 'Gestita' ? p.stato === 'Gestita' : p.stato !== 'Gestita'
       );
 
       if (daMostrare.length === 0) {
         container.innerHTML = `
           <div style="grid-column: 1 / -1; background:white; border-radius:16px; padding:34px; text-align:center; color:#64748B; font-weight:700;">
-            ✨ Nessuna pratica ${filtroStato === 'Gestita' ? 'gestita' : 'in attesa'} per questa postazione.
+            ✨ Nessuna pratica ${filtroStato === 'Gestita' ? 'gestita' : 'in attesa'} per il reparto <strong>${repartoAttivoPC}</strong>.
           </div>
         `;
         return;
       }
 
       container.innerHTML = daMostrare.map(p => {
-        const stWa = determinaStazionePratica(p);
-        const labelWa = stWa === '0965340336' ? 'WA 0965 340336' : 'WA 0965 598722';
         const isSaltaFila = p.tipoRichiesta.toUpperCase().includes('SALTA FILA');
         const isInterno = p.id.startsWith('INT-') || p.tipoRichiesta.toUpperCase().includes('INTERNO');
 
@@ -492,12 +728,12 @@
           ? 'pratica-card gestita'
           : isSaltaFila ? 'pratica-card salta-fila' : isInterno ? 'pratica-card da-interno' : 'pratica-card';
 
-        const telWaWeb = formattaPerWhatsAppWeb(p.telefono);
+        const telWa = formattaPerWhatsApp(p.telefono);
         const tel7Collab = preparaNumero7Collab(p.telefono);
         const testoPrecompilato = encodeURIComponent(
           `Gentile ${p.nomeCliente}, ti scriviamo dal reparto ${p.reparto} di Unieuro Reggio Calabria in merito alla tua richiesta: "${p.noteCliente}". `
         );
-        const linkWhatsAppWeb = `https://web.whatsapp.com/send?phone=${telWaWeb}&text=${testoPrecompilato}`;
+        const linkWhatsAppApp = `whatsapp://send?phone=${telWa}&text=${testoPrecompilato}`;
 
         const haImmagine = p.image && String(p.image).startsWith('data:image');
         const opDefault = p.reparto.toUpperCase().includes('RAEE') ? 'TONINO' : (p.operatore || '');
@@ -507,7 +743,6 @@
             <div>
               <div class="badge-row">
                 <span class="badge badge-reparto">📍 ${p.reparto}</span>
-                <span class="badge badge-wa">📲 ${labelWa}</span>
                 <span class="badge ${p.stato === 'Gestita' ? 'badge-gestita' : 'badge-aperta'}">
                   ${p.stato === 'Gestita' ? '✅ Gestita' : '⏳ Da Gestire'}
                 </span>
@@ -526,15 +761,15 @@
               ${haImmagine ? `
                 <div class="ritaglio-preview" style="margin-top:10px;">
                   <small style="font-weight:800; color:#C2410C; display:block; margin-bottom:4px;">📎 Offerta Ritagliata (Clicca per ingrandire):</small>
-                  <img src="${p.image}" alt="Ritaglio" onclick="apriImmagine NuovaScheda('${p.id}')">
+                  <img src="${p.image}" alt="Ritaglio" onclick="apriImmagineNuovaScheda('${p.id}')">
                 </div>
               ` : ''}
             </div>
 
             <div class="actions-box">
-              ${telWaWeb ? `
-                <a href="${linkWhatsAppWeb}" target="_blank" rel="noopener" class="btn btn-wa">
-                  💬 Rispondi su WhatsApp Web (${tel7Collab})
+              ${telWa ? `
+                <a href="${linkWhatsAppApp}" class="btn btn-wa">
+                  💬 Apri Chat su WhatsApp PC (${tel7Collab})
                 </a>
               ` : ''}
 
@@ -583,7 +818,7 @@
 
     window.chiudiPraticaDaPostazione = async function(id) {
       const op = document.getElementById(`op_${id}`).value;
-      const note = document.getElementById(`note_${id}`).value.trim() || "Gestita su WhatsApp Web / Telefono";
+      const note = document.getElementById(`note_${id}`).value.trim() || "Gestita dal reparto";
 
       if (!op) {
         alert("Seleziona il tuo nome (Operatore) prima di chiudere la pratica.");
@@ -617,8 +852,8 @@
       } catch (e) {}
     };
 
-    // Ascolto istantaneo via ntfy.sh per far suonare subito il PC
-    function avviaAscoltoLiveNtfy() {
+    // Ascolto istantaneo via ntfy + controllo automatico ogni 7 secondi
+    function avviaAscoltoLive() {
       try {
         const es = new EventSource(`https://ntfy.sh/${NTFY_TOPIC}/sse`);
         es.onmessage = (event) => {
@@ -628,10 +863,10 @@
               const payload = JSON.parse(msg.message);
               if (payload.action === "create" && payload.id && !idGiaNotificati.has(payload.id)) {
                 idGiaNotificati.add(payload.id);
-                notificaNuovaPraticaSePertinente(payload);
-                setTimeout(caricaPratiche, 1200);
+                scattaAllarmeCompleto(payload);
+                setTimeout(caricaPratiche, 1000);
               } else if (payload.action === "update") {
-                setTimeout(caricaPratiche, 1200);
+                setTimeout(caricaPratiche, 1000);
               }
             }
           } catch (err) {}
@@ -640,11 +875,10 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      impostaStazione(stazioneAttiva);
-      aggiornaLabelPermessi();
+      impostaRepartoPC(repartoAttivoPC);
       caricaPratiche();
-      avviaAscoltoLiveNtfy();
-      setInterval(caricaPratiche, 20000);
+      avviaAscoltoLive();
+      setInterval(caricaPratiche, 7000);
     });
   </script>
 </body>
