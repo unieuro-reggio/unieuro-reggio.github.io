@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pannello Reparto - Unieuro RC</title>
+  <title>Pannello Unico Reparti - Unieuro RC</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icona.png">
   <meta name="theme-color" content="#002D62">
@@ -13,6 +13,7 @@
       --unieuro-blue: #002D62;
       --unieuro-dark: #001838;
       --unieuro-orange: #FF6700;
+      --internal-purple: #6D28D9;
       --wa-green: #16A34A;
       --bg-color: #EEF2F7;
     }
@@ -31,7 +32,7 @@
     }
 
     .container {
-      max-width: 1140px;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
@@ -71,12 +72,50 @@
       text-transform: uppercase;
     }
 
-    /* BOX STATO PERMESSI E ATTIVAZIONE */
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: transform 0.1s, opacity 0.15s;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn-wa { background: linear-gradient(135deg, #16A34A, #15803D); color: white; }
+    .btn-call { background: #0284C7; color: white; }
+    .btn-orange { background: var(--unieuro-orange); color: white; }
+    .btn-blue { background: var(--unieuro-blue); color: white; }
+    .btn-purple { background: var(--internal-purple); color: white; }
+    .btn-print { background: #475569; color: white; }
+    .btn-outline { background: white; color: var(--unieuro-blue); border: 1.5px solid var(--unieuro-blue); }
+
+    .vol-select {
+      width: auto;
+      padding: 9px 10px;
+      font-weight: 800;
+      font-size: 0.82rem;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.18);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.45);
+      cursor: pointer;
+    }
+
+    .vol-select option { color: #1E293B; background: white; }
+
+    /* BANNER ATTIVAZIONE AVVISI */
     .setup-banner {
       background: #FFF7ED;
       border: 2px solid var(--unieuro-orange);
       border-radius: 14px;
-      padding: 14px 18px;
+      padding: 13px 18px;
       margin-bottom: 16px;
       display: flex;
       align-items: center;
@@ -90,11 +129,121 @@
       border-color: #16A34A;
     }
 
-    /* SELETTORE SINGOLO REPARTO */
+    /* MODULO INTEGRATO NUOVA RICHIESTA INTERNA */
+    #boxNuovaInterna {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(109, 40, 217, 0.18);
+      border-top: 6px solid var(--internal-purple);
+    }
+
+    .internal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px dashed #E2E8F0;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-group { margin-bottom: 12px; }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 5px;
+    }
+
+    select, input[type="text"], input[type="tel"], input[type="email"], input[type="search"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 9px;
+      font-size: 0.9rem;
+      background: #F8FAFC;
+      color: #1E293B;
+      outline: none;
+    }
+
+    .toast-internal {
+      display: none;
+      background: #DCFCE7;
+      color: #166534;
+      border: 1.5px solid #86EFAC;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    /* 1. BARRA DIVISIONE IN PRINCIPIO: ESTERNE VS INTERNE */
+    .origine-bar {
+      background: white;
+      border-radius: 14px;
+      padding: 15px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-left: 6px solid var(--unieuro-orange);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .origine-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .origine-btn {
+      padding: 12px 18px;
+      border-radius: 11px;
+      border: 2px solid #CBD5E1;
+      background: #F8FAFC;
+      color: #334155;
+      font-weight: 900;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .origine-btn.active-all {
+      background: var(--unieuro-blue);
+      color: white;
+      border-color: var(--unieuro-blue);
+    }
+
+    .origine-btn.active-est {
+      background: var(--unieuro-orange);
+      color: white;
+      border-color: var(--unieuro-orange);
+    }
+
+    .origine-btn.active-int {
+      background: var(--internal-purple);
+      color: white;
+      border-color: var(--internal-purple);
+    }
+
+    /* 2. BARRA SELEZIONE REPARTO DEL PC */
     .station-bar {
       background: white;
       border-radius: 14px;
-      padding: 16px 18px;
+      padding: 15px 18px;
       margin-bottom: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       border-left: 6px solid var(--unieuro-blue);
@@ -108,13 +257,13 @@
     }
 
     .station-btn {
-      padding: 11px 16px;
+      padding: 10px 15px;
       border-radius: 10px;
       border: 2px solid #CBD5E1;
       background: #F8FAFC;
       color: #334155;
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       cursor: pointer;
       transition: all 0.15s;
     }
@@ -123,33 +272,23 @@
       background: var(--unieuro-blue);
       color: white;
       border-color: var(--unieuro-blue);
-      box-shadow: 0 4px 10px rgba(0, 45, 98, 0.25);
+      box-shadow: 0 4px 10px rgba(0, 45, 98, 0.22);
     }
 
-    .btn {
-      border: none;
-      border-radius: 10px;
-      padding: 10px 15px;
-      font-size: 0.86rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
+    /* BARRA FILTRI STATO + RICERCA */
+    .toolbar-row {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-decoration: none;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .btn-wa { background: linear-gradient(135deg, #16A34A, #15803D); color: white; }
-    .btn-call { background: #0284C7; color: white; }
-    .btn-orange { background: var(--unieuro-orange); color: white; }
-    .btn-blue { background: var(--unieuro-blue); color: white; }
-    .btn-purple { background: #7C3AED; color: white; }
-    .btn-outline { background: white; color: var(--unieuro-blue); border: 1.5px solid var(--unieuro-blue); }
-
+    /* GRIGLIA PRATICHE */
     .grid-pratiche {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(345px, 1fr));
       gap: 16px;
     }
 
@@ -165,28 +304,30 @@
       gap: 12px;
     }
 
-    .pratica-card.salta-fila { border-top-color: #7C3AED; }
-    .pratica-card.da-interno { border-top-color: #0284C7; }
-    .pratica-card.gestita { border-top-color: #16A34A; opacity: 0.82; }
+    .pratica-card.salta-fila { border-top-color: #9333EA; }
+    .pratica-card.da-interno { border-top-color: var(--internal-purple); background: #FDFBFF; }
+    .pratica-card.gestita { border-top-color: #16A34A; opacity: 0.86; }
 
     .badge-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
     .badge {
       padding: 4px 10px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 800;
     }
 
     .badge-reparto { background: #E0F2FE; color: #0369A1; }
     .badge-aperta { background: #FEF3C7; color: #B45309; }
     .badge-gestita { background: #DCFCE7; color: #166534; }
+    .badge-int { background: #EDE9FE; color: #5B21B6; border: 1px solid #C4B5FD; }
+    .badge-est { background: #FFEDD5; color: #C2410C; border: 1px solid #FDBA74; }
 
     .cliente-nome {
       font-size: 1.1rem;
@@ -235,15 +376,6 @@
       margin-top: 4px;
     }
 
-    select, input[type="text"] {
-      width: 100%;
-      padding: 9px 10px;
-      border: 1.5px solid #CBD5E1;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      background: #F8FAFC;
-    }
-
     .live-dot {
       display: inline-block;
       width: 10px;
@@ -259,7 +391,6 @@
       100% { opacity: 1; transform: scale(1); }
     }
 
-    /* POPUP GIGANTE DI ALLARME NUOVA RICHIESTA */
     .alarm-modal-overlay {
       display: none;
       position: fixed;
@@ -281,15 +412,26 @@
       border-top: 10px solid var(--unieuro-orange);
       box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
+
+    @media (max-width: 640px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: white; padding: 0; }
+      header, .setup-banner, #boxNuovaInterna, .origine-bar, .station-bar, .no-print, .actions-box { display: none !important; }
+      .grid-pratiche { display: block; }
+      .pratica-card { break-inside: avoid; border: 1px solid #94A3B8; margin-bottom: 14px; box-shadow: none; }
+    }
   </style>
 </head>
 <body>
 
   <!-- POPUP ALLARME INTERNO ALLA PAGINA -->
-  <div id="alarmModal" class="alarm-modal-overlay">
+  <div id="alarmModal" class="alarm-modal-overlay no-print">
     <div class="alarm-modal-card">
-      <div style="font-size:3.2rem; margin-bottom:8px;">🚨</div>
-      <h2 style="color:#DC2626; font-size:1.5rem; font-weight:900; margin-bottom:8px;">NUOVA RICHIESTA REPARTO!</h2>
+      <div style="font-size:3rem; margin-bottom:6px;">🚨</div>
+      <h2 id="alarmModalTitle" style="color:#DC2626; font-size:1.45rem; font-weight:900; margin-bottom:8px;">NUOVA RICHIESTA IN ARRIVO!</h2>
       <div id="alarmDetailsBox" style="background:#FFF7ED; border:2px solid var(--unieuro-orange); border-radius:14px; padding:16px; text-align:left; font-size:1rem; line-height:1.5; margin-bottom:18px; color:#1E293B;"></div>
 
       <div style="display:flex; flex-direction:column; gap:10px;">
@@ -297,7 +439,7 @@
           💬 Rispondi Subito su WhatsApp PC
         </a>
         <button type="button" class="btn btn-blue" style="padding:14px; font-size:1rem;" onclick="fermaAllarmeNuovaRichiesta()">
-          ✅ Ho preso in carico l'avviso (Ferma Sirena)
+          ✅ Ho visto l'avviso (Ferma Suono)
         </button>
       </div>
     </div>
@@ -308,40 +450,153 @@
       <div class="brand-box">
         <img src="icona.png" alt="Unieuro" onerror="this.style.display='none'">
         <div>
-          <h1 id="headerTitoloReparto">🖥️ Pannello Reparto - Unieuro RC</h1>
+          <h1 id="headerTitoloReparto">🖥️ Pannello Unico Reparti - Unieuro RC</h1>
           <small style="color:#CBD5E1; display:flex; align-items:center; gap:6px; margin-top:3px;">
-            <span class="live-dot"></span> Sincronizzazione istantanea attiva • Tieni questa scheda sempre aperta
+            <span class="live-dot"></span> Ricezione e inserimento richieste Esterne (App) ed Interne (Negozio)
           </small>
         </div>
       </div>
 
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button type="button" class="btn btn-purple" onclick="testaNotificaSovrapposta()">🧪 Prova Avviso (tra 4 sec)</button>
+      <!-- PULSANTI OPERATIVI (ZERO LINK AD ADMIN) -->
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+        <button type="button" class="btn btn-orange" style="padding:11px 16px; font-size:0.92rem; box-shadow: 0 4px 12px rgba(255,103,0,0.4);" onclick="toggleModuloInterna()">
+          📞 ➕ Nuova Richiesta Interna
+        </button>
+
+        <select id="volumeSelect" class="vol-select" onchange="cambiaVolumeNotifica(this.value)" title="Regola volume avviso">
+          <option value="0.015">🔉 Vol: Molto Basso</option>
+          <option value="0.035" selected>🔉 Vol: Basso (Consigliato)</option>
+          <option value="0.08">🔊 Vol: Medio</option>
+        </select>
+
+        <button type="button" class="btn btn-purple" onclick="testaNotificaSovrapposta()">🧪 Prova Avviso (4s)</button>
+        <button type="button" class="btn btn-print" onclick="window.print()">🖨️ Stampa Elenco</button>
         <button type="button" class="btn btn-outline" style="background:rgba(255,255,255,0.15); color:white; border-color:white;" onclick="caricaPratiche()">🔄 Aggiorna</button>
-        <a href="interno.html" class="btn btn-outline" style="background:rgba(255,255,255,0.15); color:white; border-color:white;">📞 Nuova Interna</a>
       </div>
     </header>
 
-    <!-- BARRA ATTIVAZIONE SUONO E SOVRAPPOSIZIONE SCHEDE CHROME -->
+    <!-- BANNER ATTIVAZIONE SUONO E POPUP -->
     <div id="setupBanner" class="setup-banner">
       <div style="font-size:0.88rem; line-height:1.45;">
-        <strong id="setupStatusTitle" style="font-size:0.96rem; color:#C2410C; display:block;">
-          🔊 Clicca sul pulsante qui a destra appena apri il PC per attivare la Sirena e il Pop-up sopra le altre schede!
+        <strong id="setupStatusTitle" style="font-size:0.95rem; color:#C2410C; display:block;">
+          🔊 Clicca sul pulsante qui a destra appena apri il PC per attivare l'avviso sonoro a basso volume e il Pop-up sopra le altre schede!
         </strong>
         <span id="setupStatusSub">
-          Per far saltare fuori la finestra sopra qualsiasi altra scheda di Chrome, consenti <strong>Notifiche</strong> e <strong>Pop-up</strong> dal lucchetto in alto a sinistra.
+          Dal lucchetto a sinistra dell'indirizzo web su Chrome, verifica che <strong>Notifiche</strong> e <strong>Pop-up</strong> siano su <strong>Consenti</strong>.
         </span>
       </div>
-      <button type="button" id="btnAttivaAudio" class="btn btn-orange" style="padding:12px 18px; font-size:0.95rem;" onclick="attivaSistemaAllarmePC()">
-        🔔 ATTIVA SIRENA E POP-UP SUL PC
+      <button type="button" id="btnAttivaAudio" class="btn btn-orange" style="padding:11px 16px;" onclick="attivaSistemaAllarmePC()">
+        🔔 ATTIVA AVVISI E POP-UP SUL PC
       </button>
     </div>
 
-    <!-- BARRA SELEZIONE SINGOLO REPARTO PER QUESTO PC -->
+    <!-- MESSAGGIO CONFERMA INVIO RICHIESTA INTERNA -->
+    <div id="toastInternalOk" class="toast-internal">
+      ✅ Richiesta Interna registrata e inviata in tempo reale al reparto destinatario!
+    </div>
+
+    <!-- MODULO A SCOMPARSA: INSERISCI NUOVA RICHIESTA INTERNA DIRETTAMENTE QUI -->
+    <div id="boxNuovaInterna" class="no-print">
+      <div class="internal-header">
+        <div>
+          <h2 style="color:var(--internal-purple); font-size:1.15rem; font-weight:900;">📞 Inserisci Nuova Richiesta Telefonica / Interna</h2>
+          <small style="color:#64748B;">Compila e invia: comparirà subito nel pannello e farà suonare il PC del reparto scelto</small>
+        </div>
+        <button type="button" class="btn btn-outline" onclick="toggleModuloInterna()">✖ Chiudi</button>
+      </div>
+
+      <form id="internalForm" onsubmit="inviaRichiestaInternaUnificata(event)" autocomplete="off">
+        <div class="form-grid-2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="intReparto">Reparto Destinatario *</label>
+            <select id="intReparto" required onchange="gestisciCambioRepartoInterno()">
+              <option value="">-- Scegli Reparto --</option>
+              <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
+              <option value="TELEFONIA">📱 TELEFONIA</option>
+              <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
+              <option value="ASSISTENZA">🛠️ ASSISTENZA</option>
+              <option value="RITIRO RAEE">♻️ RITIRO RAEE</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="intOperatore">Assegna all'Operatore *</label>
+            <select id="intOperatore" required>
+              <option value="TUTTO IL REPARTO">-- Tutto il Reparto --</option>
+              <option value="PEPPE M.">PEPPE M.</option>
+              <option value="DAGO">DAGO</option>
+              <option value="DANIELE">DANIELE</option>
+              <option value="GIORGIO">GIORGIO</option>
+              <option value="PAOLO">PAOLO</option>
+              <option value="MIMMO">MIMMO</option>
+              <option value="OUSMANE">OUSMANE</option>
+              <option value="TONINO">TONINO (RAEE)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="intBoxSottoReparto" style="display:none; background:#F5F3FF; padding:10px; border-radius:10px; border:1.5px solid #C4B5FD;">
+          <label for="intSottoReparto" style="color:#5B21B6;">🛠️ Specifica il Reparto per l'Assistenza *</label>
+          <select id="intSottoReparto">
+            <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI</option>
+            <option value="TELEFONIA">📱 TELEFONIA</option>
+            <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
+          </select>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="intNomeCliente">Nome e Cognome Cliente *</label>
+            <input type="text" id="intNomeCliente" placeholder="Es. Mario Rossi" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="intTelefono">Telefono Cliente *</label>
+            <input type="tel" id="intTelefono" placeholder="Es. 3331234567" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="intEmail">Email Cliente (opzionale)</label>
+          <input type="email" id="intEmail" placeholder="esempio@email.it">
+        </div>
+
+        <div class="form-group">
+          <label for="intNote">Dettagli Richiesta Telefonica / Prodotto *</label>
+          <textarea id="intNote" rows="3" placeholder="Scrivi cosa ha chiesto il cliente al telefono o i dettagli della pratica..." required></textarea>
+        </div>
+
+        <button type="submit" id="btnSubmitInt" class="btn btn-purple" style="width:100%; padding:13px; font-size:0.98rem;">
+          📨 Registra e Invia al Reparto
+        </button>
+      </form>
+    </div>
+
+    <!-- 1. SUDDIVISIONE IN PRINCIPIO TRA ESTERNE (APP) ED INTERNE (NEGOZIO) -->
+    <div class="origine-bar">
+      <div>
+        <strong style="font-size:0.95rem; color:var(--unieuro-blue); display:block;">📂 1. Filtra per Origine Richiesta (Esterne vs Interne):</strong>
+        <small style="color:#64748B;">Suddivisione immediata tra le richieste inviate dal cliente sull'App e quelle inserite in negozio</small>
+      </div>
+
+      <div class="origine-tabs">
+        <button type="button" id="btnOrig_TUTTE" class="origine-btn active-all" onclick="impostaFiltroOrigine('TUTTE')">
+          📋 Tutte (<span id="countOrigTutte">0</span>)
+        </button>
+        <button type="button" id="btnOrig_ESTERNE" class="origine-btn" onclick="impostaFiltroOrigine('ESTERNE')">
+          📱 Richieste Esterne • App (<span id="countOrigEsterne">0</span>)
+        </button>
+        <button type="button" id="btnOrig_INTERNE" class="origine-btn" onclick="impostaFiltroOrigine('INTERNE')">
+          📞 Richieste Interne • Negozio (<span id="countOrigInterne">0</span>)
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. SELEZIONE REPARTO DI QUESTO PC -->
     <div class="station-bar">
       <div>
-        <strong style="font-size:0.95rem; color:var(--unieuro-blue); display:block;">📍 Imposta il Reparto di questo PC (resta salvato in automatico):</strong>
-        <small style="color:#64748B;">Questo computer suonerà e aprirà il pop-up in primo piano solo quando arriva una richiesta per il reparto scelto</small>
+        <strong style="font-size:0.95rem; color:var(--unieuro-blue); display:block;">📍 2. Reparto di questo PC (resta memorizzato):</strong>
+        <small style="color:#64748B;">Il PC suona e apre il pop-up in primo piano solo per le richieste (esterne o interne) del reparto selezionato</small>
       </div>
 
       <div class="station-tabs">
@@ -363,14 +618,19 @@
       </div>
     </div>
 
-    <!-- FILTRO STATO APERTE / GESTITE -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
-      <div style="display:flex; gap:8px;">
+    <!-- 3. FILTRO STATO APERTE / GESTITE + RICERCA -->
+    <div class="toolbar-row no-print">
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <button type="button" id="tabAperte" class="btn btn-blue" onclick="cambiaFiltroStato('Aperta')">⏳ Da Gestire (<span id="countAperte">0</span>)</button>
         <button type="button" id="tabGestite" class="btn btn-outline" onclick="cambiaFiltroStato('Gestita')">✅ Gestite (<span id="countGestite">0</span>)</button>
       </div>
+
+      <div style="min-width:260px; flex:1; max-width:380px;">
+        <input type="search" id="searchInputReparto" placeholder="🔍 Cerca cliente, telefono, prodotto o operatore..." oninput="renderPratiche()">
+      </div>
     </div>
 
+    <!-- GRIGLIA SCHEDE PRATICHE -->
     <div id="listaPraticheContainer" class="grid-pratiche"></div>
   </div>
 
@@ -378,9 +638,13 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCQYZvPF9TKwLqozpHQMDvM2_i1MG-J9UHKsVxdDTmLnukWua_5tmcv65UlSifCB0D/exec";
     const NTFY_TOPIC = 'unieuro_reggio_calabria_reparti_live';
     const REPARTO_PC_KEY = 'unieuro_pc_reparto_scelto';
+    const VOLUME_PC_KEY = 'unieuro_pc_volume_avviso';
 
     let repartoAttivoPC = localStorage.getItem(REPARTO_PC_KEY) || 'TUTTI';
+    let filtroOrigine = 'TUTTE'; // 'TUTTE' | 'ESTERNE' | 'INTERNE'
     let filtroStato = 'Aperta';
+    let volumeNotifica = parseFloat(localStorage.getItem(VOLUME_PC_KEY) || '0.035');
+
     let praticheGlobali = [];
     let idGiaNotificati = new Set();
     let primoCaricamentoCompletato = false;
@@ -389,8 +653,129 @@
     let audioContextGlobal = null;
     let finestraPopupEsterna = null;
 
-    // Inizializza AudioContext e permessi Notifiche
-    function attivaSistemaAllarmePC() {
+    // Distingue tra Richiesta Interna (da negozio) ed Esterna (da App cliente)
+    function isPraticaInterna(p) {
+      const idStr = String(p.id || '').toUpperCase();
+      const tipoStr = String(p.tipoRichiesta || '').toUpperCase();
+      const noteStr = String(p.noteCliente || '').toUpperCase();
+      return idStr.startsWith('INT-') || tipoStr.includes('INTERNO') || noteStr.includes('DA INTERNO');
+    }
+
+    // Apertura/Chiusura modulo Nuova Richiesta Interna
+    window.toggleModuloInterna = function() {
+      const box = document.getElementById('boxNuovaInterna');
+      const isHidden = box.style.display === 'none' || box.style.display === '';
+      box.style.display = isHidden ? 'block' : 'none';
+      if (isHidden) {
+        if (repartoAttivoPC !== 'TUTTI') {
+          document.getElementById('intReparto').value = repartoAttivoPC;
+          gestisciCambioRepartoInterno();
+        }
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    window.gestisciCambioRepartoInterno = function() {
+      const rep = document.getElementById('intReparto').value;
+      const opSelect = document.getElementById('intOperatore');
+      const boxAss = document.getElementById('intBoxSottoReparto');
+
+      if (rep === 'RITIRO RAEE') {
+        opSelect.value = 'TONINO';
+      }
+      boxAss.style.display = (rep === 'ASSISTENZA') ? 'block' : 'none';
+    };
+
+    function getWaDestInterno(repBase, sottoRep) {
+      const target = (repBase === 'ASSISTENZA' ? sottoRep : repBase).toUpperCase();
+      if (target.includes('ELETTRODOMESTICI') || target.includes('RAEE')) return '0965340336';
+      return '0965598722';
+    }
+
+    function formattaNumero7Collaboration(rawPhone) {
+      if (!rawPhone) return "";
+      let clean = String(rawPhone).replace(/[\s\-\.\(\)]/g, '').replace(/^(\+39|0039)/, '');
+      if (!clean) return "";
+      if (!clean.startsWith('0')) clean = '0' + clean;
+      return clean;
+    }
+
+    // Invio Nuova Richiesta Interna direttamente dal pannello
+    window.inviaRichiestaInternaUnificata = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitInt');
+      btn.disabled = true;
+      btn.textContent = '⏳ Registrazione in corso...';
+
+      const repartoBase = document.getElementById('intReparto').value;
+      const sottoRep = document.getElementById('intSottoReparto').value;
+      const waDest = getWaDestInterno(repartoBase, sottoRep);
+      const repartoFinale = repartoBase === 'ASSISTENZA' ? `ASSISTENZA (${sottoRep})` : repartoBase;
+
+      const operatore = document.getElementById('intOperatore').value;
+      const cliente = document.getElementById('intNomeCliente').value.trim();
+      const tel = formattaNumero7Collaboration(document.getElementById('intTelefono').value.trim());
+      const email = document.getElementById('intEmail').value.trim();
+      const note = document.getElementById('intNote').value.trim();
+
+      const idPratica = "INT-" + Date.now();
+      const timestamp = new Date().toLocaleString("it-IT");
+      const tipoLabel = `📞 DA INTERNO (Per: ${operatore})`;
+
+      const payload = {
+        action: "create",
+        id: idPratica,
+        timestamp: timestamp,
+        reparto: repartoFinale,
+        waDestinatario: waDest,
+        tipoRichiesta: tipoLabel,
+        nomeCliente: cliente,
+        telefono: tel,
+        emailCliente: email,
+        preferenzaContatto: "Telefono / WhatsApp",
+        noteCliente: `[📞 DA INTERNO - Per: ${operatore}] ${note}`,
+        operatore: operatore === 'TUTTO IL REPARTO' ? '' : operatore,
+        stato: "Aperta",
+        origine: "INTERNO",
+        image: ""
+      };
+
+      // Evita che il PC da cui la stai creando suoni a se stesso, ma la mostra subito in lista
+      idGiaNotificati.add(idPratica);
+      praticheGlobali.unshift(payload);
+      renderPratiche();
+
+      // Invia segnale live ntfy per far suonare il PC del reparto destinatario
+      fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {}
+
+      btn.disabled = false;
+      btn.textContent = '📨 Registra e Invia al Reparto';
+      document.getElementById('internalForm').reset();
+      gestisciCambioRepartoInterno();
+      document.getElementById('boxNuovaInterna').style.display = 'none';
+
+      const toast = document.getElementById('toastInternalOk');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    };
+
+    // Gestione Audio a basso volume e Pop-up
+    window.cambiaVolumeNotifica = function(val) {
+      volumeNotifica = parseFloat(val);
+      localStorage.setItem(VOLUME_PC_KEY, String(volumeNotifica));
+      riproduciSirena();
+    };
+
+    window.attivaSistemaAllarmePC = function() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!audioContextGlobal) audioContextGlobal = new AudioCtx();
@@ -406,7 +791,7 @@
       } else {
         aggiornaStatoSetupBanner(true);
       }
-    }
+    };
 
     function aggiornaStatoSetupBanner(audioSbloccato) {
       const banner = document.getElementById('setupBanner');
@@ -419,12 +804,12 @@
       if (audioSbloccato && notifOk) {
         banner.className = "setup-banner ok";
         title.style.color = "#15803D";
-        title.innerHTML = "✅ Sistema di Allarme e Pop-up in Primo Piano ATTIVO su questo PC!";
-        sub.innerHTML = "Puoi lavorare tranquillamente in altre schede di Chrome: appena arriva una richiesta si aprirà una finestra sopra lo schermo e suonerà la sirena.";
-        btn.textContent = "🔊 Sirena Attiva";
+        title.innerHTML = "✅ Avviso Sonoro Morbido e Pop-up in Primo Piano ATTIVI su questo PC!";
+        sub.innerHTML = "Puoi lavorare in altre schede di Chrome: appena arriva una richiesta (Esterna o Interna) comparirà la finestra di avviso.";
+        btn.textContent = "🔉 Avviso Attivo";
         btn.className = "btn btn-wa";
       } else if (audioSbloccato && !notifOk) {
-        title.innerHTML = "⚠️ Sirena Attiva, ma le Notifiche di Chrome sono bloccate!";
+        title.innerHTML = "⚠️ Suono attivo, ma le Notifiche di Chrome sono bloccate!";
         sub.innerHTML = "Clicca sull'icona del <strong>Lucchetto / Impostazioni</strong> a sinistra dell'indirizzo web in alto e metti <strong>Notifiche: Consenti</strong> e <strong>Pop-up: Consenti</strong>.";
       }
     }
@@ -439,39 +824,36 @@
         const osc = audioContextGlobal.createOscillator();
         const gain = audioContextGlobal.createGain();
 
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(587.33, now);       // D5
-        osc.frequency.setValueAtTime(880.00, now + 0.18); // A5
-        osc.frequency.setValueAtTime(587.33, now + 0.36);
-        osc.frequency.setValueAtTime(880.00, now + 0.54);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, now);       // C5 morbido
+        osc.frequency.setValueAtTime(659.25, now + 0.22); // E5 morbido
 
-        gain.gain.setValueAtTime(0.35, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(volumeNotifica, now + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.65);
 
         osc.connect(gain);
         gain.connect(audioContextGlobal.destination);
         osc.start(now);
-        osc.stop(now + 0.9);
+        osc.stop(now + 0.65);
       } catch (e) {}
     }
 
-    // Pulsante per fare subito la prova cambiando scheda su Chrome
     window.testaNotificaSovrapposta = function() {
       attivaSistemaAllarmePC();
-      alert("Tra 4 secondi partirà una richiesta di prova!\n\n👉 Clicca OK e VAI SUBITO IN UN'ALTRA SCHEDA DI CHROME per verificare che il pop-up e il suono si sovrappongano!");
+      alert("Tra 4 secondi partirà una richiesta di prova!\n\n👉 Clicca OK e VAI SUBITO IN UN'ALTRA SCHEDA DI CHROME per verificare che il pop-up si sovrapponga con il volume morbido.");
       setTimeout(() => {
         scattaAllarmeCompleto({
           id: "TEST-" + Date.now(),
           reparto: repartoAttivoPC === 'TUTTI' ? 'ELETTRODOMESTICI' : repartoAttivoPC,
           nomeCliente: "Mario Rossi (PROVA)",
           telefono: "03331234567",
-          noteCliente: "Richiesta di prova per verificare la sovrapposizione su Chrome.",
+          noteCliente: "Richiesta di prova per verificare il pannello unificato e la sovrapposizione su Chrome.",
           tipoRichiesta: "Test Avviso Reparto"
         });
       }, 4000);
     };
 
-    // Verifica se una pratica appartiene al reparto selezionato su questo PC
     function praticaAppartieneAlRepartoPC(p) {
       if (repartoAttivoPC === 'TUTTI') return true;
       const repPratica = String(p.reparto || p['Reparto'] || '').toUpperCase();
@@ -491,6 +873,15 @@
       return true;
     }
 
+    // Filtro Principale: TUTTE | ESTERNE | INTERNE
+    window.impostaFiltroOrigine = function(orig) {
+      filtroOrigine = orig;
+      document.getElementById('btnOrig_TUTTE').className = orig === 'TUTTE' ? 'origine-btn active-all' : 'origine-btn';
+      document.getElementById('btnOrig_ESTERNE').className = orig === 'ESTERNE' ? 'origine-btn active-est' : 'origine-btn';
+      document.getElementById('btnOrig_INTERNE').className = orig === 'INTERNE' ? 'origine-btn active-int' : 'origine-btn';
+      renderPratiche();
+    };
+
     window.impostaRepartoPC = function(rep) {
       repartoAttivoPC = rep;
       localStorage.setItem(REPARTO_PC_KEY, rep);
@@ -502,7 +893,7 @@
       document.getElementById('btnRep_TUTTI').classList.toggle('active', rep === 'TUTTI');
 
       document.getElementById('headerTitoloReparto').textContent =
-        rep === 'TUTTI' ? '🖥️ Pannello Tutti i Reparti' : `🖥️ Pannello Reparto: ${rep}`;
+        rep === 'TUTTI' ? '🖥️ Pannello Unico: Tutti i Reparti' : `🖥️ Pannello Unico: ${rep}`;
 
       renderPratiche();
     };
@@ -531,18 +922,18 @@
       return clean;
     }
 
-    // Lancia: 1) Finestra Pop-up flottante sopra le altre schede Chrome, 2) Notifica Windows, 3) Sirena continua
     function scattaAllarmeCompleto(p) {
       if (!praticaAppartieneAlRepartoPC(p)) return;
 
-      // 1. Modale e Sirena continua ogni 3.5 secondi
-      mostraAllarmeSchermoIntero(p);
+      const isInt = isPraticaInterna(p);
+      const etichettaOrigine = isInt ? "📞 RICHIESTA INTERNA" : "📱 RICHIESTA ESTERNA (APP)";
 
-      // 2. Notifica Nativa di Sistema Windows (si sovrappone a tutte le app)
+      mostraAllarmeSchermoIntero(p, etichettaOrigine);
+
       if ("Notification" in window && Notification.permission === "granted") {
         try {
-          const n = new Notification(`🚨 NUOVA RICHIESTA: ${p.reparto}`, {
-            body: `Cliente: ${p.nomeCliente} (${p.telefono})\n${p.noteCliente}\n\n👉 Clicca qui per aprire subito il pannello!`,
+          const n = new Notification(`🚨 ${etichettaOrigine}: ${p.reparto}`, {
+            body: `Cliente: ${p.nomeCliente} (${p.telefono})\n${p.noteCliente}\n\n👉 Clicca qui per aprire il pannello!`,
             icon: "icona.png",
             tag: "req_" + p.id,
             requireInteraction: true
@@ -554,10 +945,9 @@
         } catch (e) {}
       }
 
-      // 3. FINESTRA POP-UP FLOTTANTE DI CHROME (Salta in primo piano sopra le altre schede di Chrome!)
       try {
-        const width = 480;
-        const height = 460;
+        const width = 490;
+        const height = 470;
         const left = Math.round((window.screen.width - width) / 2);
         const top = Math.round((window.screen.height - height) / 2);
 
@@ -583,11 +973,11 @@
             <html lang="it">
             <head>
               <meta charset="UTF-8">
-              <title>🚨 NUOVA RICHIESTA - ${p.reparto}</title>
+              <title>🚨 ${etichettaOrigine} - ${p.reparto}</title>
               <style>
-                body { font-family: 'Segoe UI', sans-serif; background: #DC2626; color: white; margin: 0; padding: 18px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 90vh; }
+                body { font-family: 'Segoe UI', sans-serif; background: ${isInt ? '#5B21B6' : '#DC2626'}; color: white; margin: 0; padding: 18px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 90vh; }
                 .box { background: white; color: #1E293B; border-radius: 18px; padding: 20px; width: 100%; box-shadow: 0 12px 30px rgba(0,0,0,0.4); border-top: 8px solid #FF6700; }
-                h2 { color: #DC2626; margin: 0 0 10px; font-size: 1.35rem; }
+                h2 { color: ${isInt ? '#5B21B6' : '#DC2626'}; margin: 0 0 10px; font-size: 1.25rem; }
                 .info { background: #FFF7ED; border: 2px solid #FF6700; border-radius: 12px; padding: 12px; text-align: left; font-size: 0.95rem; line-height: 1.45; margin-bottom: 14px; }
                 .btn { display: block; width: 100%; padding: 13px; border-radius: 10px; font-weight: 900; font-size: 0.95rem; text-decoration: none; border: none; cursor: pointer; margin-bottom: 8px; box-sizing: border-box; }
                 .btn-wa { background: #16A34A; color: white; }
@@ -596,16 +986,16 @@
             </head>
             <body>
               <div class="box">
-                <h2>🚨 NUOVA RICHIESTA ${p.reparto}!</h2>
+                <h2>🚨 ${etichettaOrigine}<br>📍 ${p.reparto}</h2>
                 <div class="info">
                   <strong>👤 Cliente:</strong> ${p.nomeCliente}<br>
                   <strong>📞 Tel:</strong> ${p.telefono || '-'}<br>
-                  <strong>🔖 Tipo:</strong> ${p.tipoRichiesta || 'Richiesta Cliente'}<br>
+                  <strong>🔖 Tipo:</strong> ${p.tipoRichiesta || 'Richiesta'}<br>
                   <strong>📝 Note:</strong> ${p.noteCliente || '-'}
                 </div>
                 ${telWa ? `<a href="${linkWa}" class="btn btn-wa" onclick="window.opener.fermaAllarmeNuovaRichiesta(); window.close();">💬 Rispondi Subito su WhatsApp PC</a>` : ''}
                 <button class="btn btn-open" onclick="window.opener.focus(); window.opener.fermaAllarmeNuovaRichiesta(); window.close();">
-                  🖥️ Vai al Pannello Reparto e Ferma Sirena
+                  🖥️ Vai al Pannello e Ferma Suono
                 </button>
               </div>
             </body>
@@ -616,15 +1006,15 @@
       } catch (errPopup) {}
     }
 
-    function mostraAllarmeSchermoIntero(p) {
+    function mostraAllarmeSchermoIntero(p, etichettaOrigine) {
       riproduciSirena();
       clearInterval(intervalloSuonoAllarme);
-      intervalloSuonoAllarme = setInterval(riproduciSirena, 3500);
+      intervalloSuonoAllarme = setInterval(riproduciSirena, 4500);
 
       clearInterval(intervalloTitoloLampeggiante);
       let flash = false;
       intervalloTitoloLampeggiante = setInterval(() => {
-        document.title = flash ? "🚨 NUOVA RICHIESTA! 🚨" : `👤 ${p.nomeCliente} - ${p.reparto}`;
+        document.title = flash ? `🚨 ${etichettaOrigine}!` : `👤 ${p.nomeCliente} - ${p.reparto}`;
         flash = !flash;
       }, 700);
 
@@ -633,6 +1023,7 @@
         `Gentile ${p.nomeCliente}, ti scriviamo dal reparto ${p.reparto} di Unieuro Reggio Calabria in merito alla tua richiesta: "${p.noteCliente}". `
       );
 
+      document.getElementById('alarmModalTitle').textContent = `🚨 ${etichettaOrigine}!`;
       document.getElementById('alarmDetailsBox').innerHTML = `
         <strong>📍 Reparto:</strong> ${p.reparto}<br>
         <strong>👤 Cliente:</strong> ${p.nomeCliente}<br>
@@ -654,11 +1045,78 @@
     window.fermaAllarmeNuovaRichiesta = function() {
       clearInterval(intervalloSuonoAllarme);
       clearInterval(intervalloTitoloLampeggiante);
-      document.title = repartoAttivoPC === 'TUTTI' ? "Pannello Reparti - Unieuro RC" : `Pannello ${repartoAttivoPC} - Unieuro RC`;
+      document.title = repartoAttivoPC === 'TUTTI' ? "Pannello Unico Reparti - Unieuro RC" : `Pannello ${repartoAttivoPC} - Unieuro RC`;
       document.getElementById('alarmModal').style.display = 'none';
       if (finestraPopupEsterna && !finestraPopupEsterna.closed) {
         finestraPopupEsterna.close();
       }
+    };
+
+    // Stampa singola scheda pratica
+    window.stampaSingolaPratica = function(id) {
+      const p = praticheGlobali.find(item => item.id === id);
+      if (!p) return;
+      const haImg = p.image && String(p.image).startsWith('data:image');
+      const isInt = isPraticaInterna(p);
+
+      const w = window.open('', '_blank', 'width=750,height=800');
+      w.document.write(`
+        <!DOCTYPE html>
+        <html lang="it">
+        <head>
+          <meta charset="UTF-8">
+          <title>Stampa Pratica ${p.id}</title>
+          <style>
+            body { font-family: 'Segoe UI', Arial, sans-serif; padding: 28px; color: #1E293B; }
+            .head { border-bottom: 3px solid #002D62; padding-bottom: 12px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+            h1 { color: #002D62; font-size: 1.35rem; margin: 0; }
+            .box { border: 1.5px solid #94A3B8; border-radius: 10px; padding: 16px; margin-bottom: 16px; line-height: 1.6; font-size: 1rem; }
+            .notes { background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 1rem; }
+            img { max-width: 100%; max-height: 360px; border: 1px solid #CBD5E1; border-radius: 8px; margin-top: 8px; }
+          </style>
+        </head>
+        <body onload="window.print();">
+          <div class="head">
+            <div>
+              <h1>UNIEURO REGGIO CALABRIA - SCHEDA RICHIESTA</h1>
+              <small>ID Pratica: <strong>${p.id}</strong> • Data: <strong>${p.timestamp}</strong></small>
+            </div>
+            <div style="font-weight:bold; font-size:0.95rem;">
+              ${isInt ? '📞 RICHIESTA INTERNA (NEGOZIO)' : '📱 RICHIESTA ESTERNA (APP)'}
+            </div>
+          </div>
+          <div class="box">
+            <strong>📍 Reparto:</strong> ${p.reparto}<br>
+            <strong>🔖 Tipo:</strong> ${p.tipoRichiesta}<br>
+            <strong>👤 Cliente:</strong> ${p.nomeCliente}<br>
+            <strong>📞 Telefono:</strong> ${p.telefono || '-'}<br>
+            ${p.emailCliente ? `<strong>✉️ Email:</strong> ${p.emailCliente}<br>` : ''}
+            <strong>📌 Stato:</strong> ${p.stato} ${p.operatore ? `(Operatore: ${p.operatore})` : ''}
+          </div>
+          <div class="notes">
+            <strong>📝 Dettagli Richiesta / Note Cliente:</strong><br>
+            ${p.noteCliente || '-'}
+          </div>
+          ${p.noteRepartista ? `
+            <div class="notes">
+              <strong>🛠️ Note Repartista / Esito:</strong><br>
+              ${p.noteRepartista}
+            </div>
+          ` : `
+            <div class="notes" style="height:90px;">
+              <strong>✍️ Appunti Repartista:</strong>
+            </div>
+          `}
+          ${haImg ? `
+            <div style="text-align:center;">
+              <strong>📎 Offerta Ritagliata Allegata:</strong><br>
+              <img src="${p.image}">
+            </div>
+          ` : ''}
+        </body>
+        </html>
+      `);
+      w.document.close();
     };
 
     async function caricaPratiche() {
@@ -700,21 +1158,50 @@
 
     function renderPratiche() {
       const container = document.getElementById('listaPraticheContainer');
-      const filtrateReparto = praticheGlobali.filter(p => praticaAppartieneAlRepartoPC(p));
+      const query = (document.getElementById('searchInputReparto')?.value || '').trim().toLowerCase();
 
-      const aperteCount = filtrateReparto.filter(p => p.stato !== 'Gestita').length;
-      const gestiteCount = filtrateReparto.filter(p => p.stato === 'Gestita').length;
+      // 1. Filtra prima per il reparto selezionato su questo PC
+      const delRepartoPC = praticheGlobali.filter(p => praticaAppartieneAlRepartoPC(p));
+
+      // Contatori Esterne / Interne (sulle pratiche del reparto selezionato e stato corrente)
+      const delRepartoStato = delRepartoPC.filter(p =>
+        filtroStato === 'Gestita' ? p.stato === 'Gestita' : p.stato !== 'Gestita'
+      );
+      const countInt = delRepartoStato.filter(p => isPraticaInterna(p)).length;
+      const countEst = delRepartoStato.length - countInt;
+
+      document.getElementById('countOrigTutte').textContent = delRepartoStato.length;
+      document.getElementById('countOrigEsterne').textContent = countEst;
+      document.getElementById('countOrigInterne').textContent = countInt;
+
+      // 2. Filtra per Origine (Esterne / Interne / Tutte)
+      const filtrateOrigine = delRepartoPC.filter(p => {
+        const isInt = isPraticaInterna(p);
+        if (filtroOrigine === 'ESTERNE' && isInt) return false;
+        if (filtroOrigine === 'INTERNE' && !isInt) return false;
+        return true;
+      });
+
+      const aperteCount = filtrateOrigine.filter(p => p.stato !== 'Gestita').length;
+      const gestiteCount = filtrateOrigine.filter(p => p.stato === 'Gestita').length;
       document.getElementById('countAperte').textContent = aperteCount;
       document.getElementById('countGestite').textContent = gestiteCount;
 
-      const daMostrare = filtrateReparto.filter(p =>
-        filtroStato === 'Gestita' ? p.stato === 'Gestita' : p.stato !== 'Gestita'
-      );
+      // 3. Filtra per Stato (Aperta / Gestita) e Ricerca testuale
+      const daMostrare = filtrateOrigine.filter(p => {
+        const matchStato = filtroStato === 'Gestita' ? p.stato === 'Gestita' : p.stato !== 'Gestita';
+        if (!matchStato) return false;
+        if (query) {
+          const text = `${p.id} ${p.nomeCliente} ${p.telefono} ${p.noteCliente} ${p.reparto} ${p.operatore}`.toLowerCase();
+          if (!text.includes(query)) return false;
+        }
+        return true;
+      });
 
       if (daMostrare.length === 0) {
         container.innerHTML = `
           <div style="grid-column: 1 / -1; background:white; border-radius:16px; padding:34px; text-align:center; color:#64748B; font-weight:700;">
-            ✨ Nessuna pratica ${filtroStato === 'Gestita' ? 'gestita' : 'in attesa'} per il reparto <strong>${repartoAttivoPC}</strong>.
+            ✨ Nessuna pratica ${filtroStato === 'Gestita' ? 'gestita' : 'in attesa'} trovata con i filtri attuali.
           </div>
         `;
         return;
@@ -722,7 +1209,7 @@
 
       container.innerHTML = daMostrare.map(p => {
         const isSaltaFila = p.tipoRichiesta.toUpperCase().includes('SALTA FILA');
-        const isInterno = p.id.startsWith('INT-') || p.tipoRichiesta.toUpperCase().includes('INTERNO');
+        const isInterno = isPraticaInterna(p);
 
         const cardClass = p.stato === 'Gestita'
           ? 'pratica-card gestita'
@@ -743,6 +1230,9 @@
             <div>
               <div class="badge-row">
                 <span class="badge badge-reparto">📍 ${p.reparto}</span>
+                <span class="badge ${isInterno ? 'badge-int' : 'badge-est'}">
+                  ${isInterno ? '📞 INTERNA (Negozio)' : '📱 ESTERNA (App)'}
+                </span>
                 <span class="badge ${p.stato === 'Gestita' ? 'badge-gestita' : 'badge-aperta'}">
                   ${p.stato === 'Gestita' ? '✅ Gestita' : '⏳ Da Gestire'}
                 </span>
@@ -754,7 +1244,7 @@
               </div>
 
               <div class="note-box">
-                <strong>📝 Richiesta:</strong><br>${p.noteCliente || '-'}
+                <strong>📝 Dettagli Richiesta:</strong><br>${p.noteCliente || '-'}
                 ${p.emailCliente ? `<br><small>✉️ Email: <strong>${p.emailCliente}</strong></small>` : ''}
               </div>
 
@@ -767,17 +1257,23 @@
             </div>
 
             <div class="actions-box">
-              ${telWa ? `
-                <a href="${linkWhatsAppApp}" class="btn btn-wa">
-                  💬 Apri Chat su WhatsApp PC (${tel7Collab})
-                </a>
-              ` : ''}
+              <div class="close-form-row">
+                ${telWa ? `
+                  <a href="${linkWhatsAppApp}" class="btn btn-wa">
+                    💬 WhatsApp PC
+                  </a>
+                ` : ''}
 
-              ${tel7Collab ? `
-                <a href="tel:${tel7Collab}" class="btn btn-call">
-                  📞 Chiama con 7Collaboration (${tel7Collab})
-                </a>
-              ` : ''}
+                ${tel7Collab ? `
+                  <a href="tel:${tel7Collab}" class="btn btn-call">
+                    📞 ${tel7Collab}
+                  </a>
+                ` : ''}
+              </div>
+
+              <button type="button" class="btn btn-print" onclick="stampaSingolaPratica('${p.id}')">
+                🖨️ Stampa Scheda Pratica
+              </button>
 
               ${p.stato !== 'Gestita' ? `
                 <div class="close-form-row">
@@ -845,14 +1341,14 @@
 
       try {
         await fetch(SCRIPT_URL, {
-          method: 'POST', mode: 'no-cors',
+          method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(updatePayload)
         });
       } catch (e) {}
     };
 
-    // Ascolto istantaneo via ntfy + controllo automatico ogni 7 secondi
     function avviaAscoltoLive() {
       try {
         const es = new EventSource(`https://ntfy.sh/${NTFY_TOPIC}/sse`);
@@ -875,6 +1371,8 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      const volSel = document.getElementById('volumeSelect');
+      if (volSel) volSel.value = String(volumeNotifica);
       impostaRepartoPC(repartoAttivoPC);
       caricaPratiche();
       avviaAscoltoLive();
