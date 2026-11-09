@@ -13,6 +13,7 @@
       --unieuro-blue: #002D62;
       --unieuro-dark: #001838;
       --unieuro-orange: #FF6700;
+      --internal-purple: #6D28D9;
       --bg-color: #EEF2F7;
       --card-bg: #FFFFFF;
       --text-main: #1E293B;
@@ -100,12 +101,13 @@
     .btn-green { background: #16A34A; color: white; }
     .btn-call { background: #0284C7; color: white; }
     .btn-red { background: #DC2626; color: white; }
+    .btn-print { background: #475569; color: white; }
     .btn-outline-light { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.4); }
 
     /* STATISTICHE RAPIDE */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
       gap: 12px;
       margin-bottom: 16px;
     }
@@ -116,7 +118,10 @@
       padding: 14px 16px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.05);
       border-left: 5px solid var(--unieuro-blue);
+      cursor: pointer;
+      transition: transform 0.1s;
     }
+    .kpi-card:hover { transform: translateY(-2px); }
 
     .kpi-card.orange { border-left-color: var(--unieuro-orange); }
     .kpi-card.green { border-left-color: #16A34A; }
@@ -124,18 +129,55 @@
     .kpi-card.cyan { border-left-color: #0284C7; }
 
     .kpi-title {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
     }
 
     .kpi-value {
-      font-size: 1.65rem;
+      font-size: 1.6rem;
       font-weight: 900;
       color: var(--unieuro-blue);
       margin-top: 4px;
     }
+
+    /* SUDDIVISIONE PRINCIPALE RICHIESTE ESTERNE VS INTERNE */
+    .origine-switch-bar {
+      background: white;
+      border-radius: 14px;
+      padding: 15px 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      border-left: 6px solid var(--unieuro-orange);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .origine-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .origine-btn {
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 2px solid #CBD5E1;
+      background: #F8FAFC;
+      color: #334155;
+      font-weight: 900;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .origine-btn.active-all { background: var(--unieuro-blue); color: white; border-color: var(--unieuro-blue); }
+    .origine-btn.active-est { background: var(--unieuro-orange); color: white; border-color: var(--unieuro-orange); }
+    .origine-btn.active-int { background: var(--internal-purple); color: white; border-color: var(--internal-purple); }
 
     /* RIEPILOGO OPERATORI */
     .operatori-bar {
@@ -218,7 +260,7 @@
     }
 
     .pratica-card.salta-fila { border-top-color: #7C3AED; }
-    .pratica-card.da-interno { border-top-color: #0284C7; }
+    .pratica-card.da-interno { border-top-color: var(--internal-purple); background: #FDFBFF; }
     .pratica-card.gestita { border-top-color: #16A34A; }
 
     .badge-row {
@@ -237,7 +279,8 @@
     }
 
     .badge-reparto { background: #E0F2FE; color: #0369A1; }
-    .badge-wa { background: #DCFCE7; color: #15803D; }
+    .badge-est { background: #FFEDD5; color: #C2410C; border: 1px solid #FDBA74; }
+    .badge-int { background: #EDE9FE; color: #5B21B6; border: 1px solid #C4B5FD; }
     .badge-aperta { background: #FEF3C7; color: #B45309; }
     .badge-gestita { background: #DCFCE7; color: #166534; }
 
@@ -286,6 +329,13 @@
       grid-template-columns: 1fr 1fr;
       gap: 8px;
     }
+
+    @media print {
+      body { background: white; padding: 0; }
+      header, .origine-switch-bar, .operatori-bar, .filters-card, .admin-edit-box { display: none !important; }
+      .pratiche-grid { display: block; }
+      .pratica-card { break-inside: avoid; border: 1px solid #94A3B8; margin-bottom: 14px; box-shadow: none; }
+    }
   </style>
 </head>
 <body>
@@ -296,23 +346,35 @@
         <img src="icona.png" alt="Unieuro" onerror="this.style.display='none'">
         <div>
           <h1>📊 Dashboard Admin - Unieuro RC</h1>
-          <small style="color:#CBD5E1;">Controllo globale Reparti, Postazioni WhatsApp Web, Salta Fila e Statistiche Operatori</small>
+          <small style="color:#CBD5E1;">Controllo globale Richieste Esterne (App) ed Interne (Negozio), Salta Fila e Operatori</small>
         </div>
       </div>
 
       <div class="header-actions">
         <button type="button" class="btn btn-orange" onclick="caricaDatiAdmin()">🔄 Aggiorna Dati</button>
-        <a href="reparto.html" class="btn btn-outline-light">🖥️ Postazioni WA</a>
-        <a href="interno.html" class="btn btn-outline-light">📞 Nuova Interna</a>
+        <button type="button" class="btn btn-print" onclick="window.print()">🖨️ Stampa Elenco</button>
+        <a href="reparto.html" class="btn btn-outline-light">🖥️ Pannello Reparti</a>
         <a href="index.html" class="btn btn-outline-light">📱 App Cliente</a>
       </div>
     </header>
 
     <!-- STATISTICHE -->
     <div class="kpi-grid">
-      <div class="kpi-card">
+      <div class="kpi-card" onclick="impostaFiltroOrigine('TUTTE')">
         <div class="kpi-title">Totale Pratiche</div>
         <div class="kpi-value" id="kpiTotale">0</div>
+      </div>
+      <div class="kpi-card orange" onclick="impostaFiltroOrigine('ESTERNE')">
+        <div class="kpi-title">📱 Esterne (Da App)</div>
+        <div class="kpi-value" id="kpiEsterne" style="color:#EA580C;">0</div>
+      </div>
+      <div class="kpi-card cyan" onclick="impostaFiltroOrigine('INTERNE')">
+        <div class="kpi-title">📞 Interne (Negozio)</div>
+        <div class="kpi-value" id="kpiInterno" style="color:#0284C7;">0</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-title">🎟️ Salta Fila</div>
+        <div class="kpi-value" id="kpiSaltaFila" style="color:#7C3AED;">0</div>
       </div>
       <div class="kpi-card orange">
         <div class="kpi-title">⏳ Da Gestire</div>
@@ -322,17 +384,28 @@
         <div class="kpi-title">✅ Gestite</div>
         <div class="kpi-value" id="kpiGestite" style="color:#16A34A;">0</div>
       </div>
-      <div class="kpi-card purple">
-        <div class="kpi-title">🎟️ Salta Fila</div>
-        <div class="kpi-value" id="kpiSaltaFila" style="color:#7C3AED;">0</div>
+    </div>
+
+    <!-- BARRA SUDDIVISIONE ORIGINE (ESTERNE VS INTERNE) -->
+    <div class="origine-switch-bar">
+      <div>
+        <strong style="font-size:0.95rem; color:var(--unieuro-blue); display:block;">📂 Suddivisione Richieste Esterne / Interne:</strong>
+        <small style="color:#64748B;">Filtra istantaneamente tra le richieste inviate dai clienti sull'App e quelle inserite in negozio</small>
       </div>
-      <div class="kpi-card cyan">
-        <div class="kpi-title">📞 Da Interno</div>
-        <div class="kpi-value" id="kpiInterno" style="color:#0284C7;">0</div>
+      <div class="origine-tabs">
+        <button type="button" id="btnOrig_TUTTE" class="origine-btn active-all" onclick="impostaFiltroOrigine('TUTTE')">
+          📋 Tutte (<span id="lblCountTutte">0</span>)
+        </button>
+        <button type="button" id="btnOrig_ESTERNE" class="origine-btn" onclick="impostaFiltroOrigine('ESTERNE')">
+          📱 Richieste Esterne • App (<span id="lblCountEsterne">0</span>)
+        </button>
+        <button type="button" id="btnOrig_INTERNE" class="origine-btn" onclick="impostaFiltroOrigine('INTERNE')">
+          📞 Richieste Interne • Negozio (<span id="lblCountInterne">0</span>)
+        </button>
       </div>
     </div>
 
-    <!-- BARRA STATISTICHE E FILTRO RAPIDO OPERATORI (INCLUSO TONINO) -->
+    <!-- BARRA OPERATORI -->
     <div class="operatori-bar" id="operatoriStatsBar"></div>
 
     <!-- FILTRI -->
@@ -340,15 +413,6 @@
       <div class="filter-group">
         <label for="fSearch">🔍 Cerca Cliente / Tel / Note</label>
         <input type="text" id="fSearch" placeholder="Es. Rossi, Lavatrice, 333..." oninput="applicaFiltri()">
-      </div>
-
-      <div class="filter-group">
-        <label for="fStazione">📲 Postazione WhatsApp</label>
-        <select id="fStazione" onchange="applicaFiltri()">
-          <option value="TUTTE">Tutte le Postazioni WA</option>
-          <option value="0965340336">WA 0965 340336 (Elettrodom. / RAEE)</option>
-          <option value="0965598722">WA 0965 598722 (Telefonia / PC / TV)</option>
-        </select>
       </div>
 
       <div class="filter-group">
@@ -398,20 +462,24 @@
     const LISTA_OPERATORI = ["PEPPE M.", "DAGO", "DANIELE", "GIORGIO", "PAOLO", "MIMMO", "OUSMANE", "TONINO"];
 
     let tutteLePratiche = [];
+    let filtroOrigineAttivo = 'TUTTE'; // 'TUTTE' | 'ESTERNE' | 'INTERNE'
 
-    function determinaStazioneWA(p) {
-      if (p.waDestinatario) return String(p.waDestinatario).replace(/\D/g, '');
-      const rep = String(p.reparto || '').toUpperCase();
-      const tipo = String(p.tipoRichiesta || '');
-      if (tipo.includes('0965340336')) return '0965340336';
-      if (tipo.includes('0965598722')) return '0965598722';
-      if (rep.includes('ELETTRODOMESTICI') || rep.includes('RAEE') || rep.includes('GRANDI') || rep.includes('PICCOLI')) {
-        return '0965340336';
-      }
-      return '0965598722';
+    function isPraticaInterna(p) {
+      const idStr = String(p.id || '').toUpperCase();
+      const tipoStr = String(p.tipoRichiesta || '').toUpperCase();
+      const noteStr = String(p.noteCliente || '').toUpperCase();
+      return idStr.startsWith('INT-') || tipoStr.includes('INTERNO') || noteStr.includes('DA INTERNO');
     }
 
-    function formattaPerWhatsAppWeb(rawPhone) {
+    window.impostaFiltroOrigine = function(orig) {
+      filtroOrigineAttivo = orig;
+      document.getElementById('btnOrig_TUTTE').className = orig === 'TUTTE' ? 'origine-btn active-all' : 'origine-btn';
+      document.getElementById('btnOrig_ESTERNE').className = orig === 'ESTERNE' ? 'origine-btn active-est' : 'origine-btn';
+      document.getElementById('btnOrig_INTERNE').className = orig === 'INTERNE' ? 'origine-btn active-int' : 'origine-btn';
+      applicaFiltri();
+    };
+
+    function formattaPerWhatsApp(rawPhone) {
       if (!rawPhone) return "";
       let digits = String(rawPhone).replace(/\D/g, '');
       if (digits.startsWith('0039')) digits = digits.slice(4);
@@ -428,9 +496,75 @@
       return clean;
     }
 
+    window.stampaSingolaPraticaAdmin = function(id) {
+      const p = tutteLePratiche.find(item => item.id === id);
+      if (!p) return;
+      const haImg = p.image && String(p.image).startsWith('data:image');
+      const isInt = isPraticaInterna(p);
+
+      const w = window.open('', '_blank', 'width=750,height=800');
+      w.document.write(`
+        <!DOCTYPE html>
+        <html lang="it">
+        <head>
+          <meta charset="UTF-8">
+          <title>Stampa Pratica ${p.id}</title>
+          <style>
+            body { font-family: 'Segoe UI', Arial, sans-serif; padding: 28px; color: #1E293B; }
+            .head { border-bottom: 3px solid #002D62; padding-bottom: 12px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+            h1 { color: #002D62; font-size: 1.35rem; margin: 0; }
+            .box { border: 1.5px solid #94A3B8; border-radius: 10px; padding: 16px; margin-bottom: 16px; line-height: 1.6; font-size: 1rem; }
+            .notes { background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 1rem; }
+            img { max-width: 100%; max-height: 360px; border: 1px solid #CBD5E1; border-radius: 8px; margin-top: 8px; }
+          </style>
+        </head>
+        <body onload="window.print();">
+          <div class="head">
+            <div>
+              <h1>UNIEURO REGGIO CALABRIA - SCHEDA RICHIESTA</h1>
+              <small>ID Pratica: <strong>${p.id}</strong> • Data: <strong>${p.timestamp}</strong></small>
+            </div>
+            <div style="font-weight:bold; font-size:0.95rem;">
+              ${isInt ? '📞 RICHIESTA INTERNA (NEGOZIO)' : '📱 RICHIESTA ESTERNA (APP)'}
+            </div>
+          </div>
+          <div class="box">
+            <strong>📍 Reparto:</strong> ${p.reparto}<br>
+            <strong>🔖 Tipo:</strong> ${p.tipoRichiesta}<br>
+            <strong>👤 Cliente:</strong> ${p.nomeCliente}<br>
+            <strong>📞 Telefono:</strong> ${p.telefono || '-'}<br>
+            ${p.emailCliente ? `<strong>✉️ Email:</strong> ${p.emailCliente}<br>` : ''}
+            <strong>📌 Stato:</strong> ${p.stato} ${p.operatore ? `(Operatore: ${p.operatore})` : ''}
+          </div>
+          <div class="notes">
+            <strong>📝 Dettagli Richiesta / Note Cliente:</strong><br>
+            ${p.noteCliente || '-'}
+          </div>
+          ${p.noteRepartista ? `
+            <div class="notes">
+              <strong>🛠️ Note Repartista / Esito:</strong><br>
+              ${p.noteRepartista}
+            </div>
+          ` : `
+            <div class="notes" style="height:90px;">
+              <strong>✍️ Appunti Repartista:</strong>
+            </div>
+          `}
+          ${haImg ? `
+            <div style="text-align:center;">
+              <strong>📎 Offerta Ritagliata Allegata:</strong><br>
+              <img src="${p.image}">
+            </div>
+          ` : ''}
+        </body>
+        </html>
+      `);
+      w.document.close();
+    };
+
     async function caricaDatiAdmin() {
       try {
-        const res = await fetch(`${SCRIPT_URL}?action=get`, { redirect: 'follow' });
+        const res = await fetch(`${SCRIPT_URL}?action=get&_t=${Date.now()}`, { redirect: 'follow' });
         const json = await res.json();
         const rawList = Array.isArray(json) ? json : (json.data || []);
 
@@ -456,16 +590,22 @@
 
     function aggiornaKPIeOperatori() {
       const tot = tutteLePratiche.length;
+      const interne = tutteLePratiche.filter(p => isPraticaInterna(p)).length;
+      const esterne = tot - interne;
       const aperte = tutteLePratiche.filter(p => p.stato !== 'Gestita').length;
       const gestite = tutteLePratiche.filter(p => p.stato === 'Gestita').length;
       const saltaFila = tutteLePratiche.filter(p => p.tipoRichiesta.toUpperCase().includes('SALTA FILA')).length;
-      const interno = tutteLePratiche.filter(p => p.id.startsWith('INT-') || p.tipoRichiesta.toUpperCase().includes('INTERNO')).length;
 
       document.getElementById('kpiTotale').textContent = tot;
+      document.getElementById('kpiEsterne').textContent = esterne;
+      document.getElementById('kpiInterno').textContent = interne;
+      document.getElementById('kpiSaltaFila').textContent = saltaFila;
       document.getElementById('kpiAperte').textContent = aperte;
       document.getElementById('kpiGestite').textContent = gestite;
-      document.getElementById('kpiSaltaFila').textContent = saltaFila;
-      document.getElementById('kpiInterno').textContent = interno;
+
+      document.getElementById('lblCountTutte').textContent = tot;
+      document.getElementById('lblCountEsterne').textContent = esterne;
+      document.getElementById('lblCountInterne').textContent = interne;
 
       const opSelezionato = document.getElementById('fOperatore').value;
       const bar = document.getElementById('operatoriStatsBar');
@@ -493,18 +633,19 @@
 
     window.applicaFiltri = function() {
       const q = document.getElementById('fSearch').value.trim().toLowerCase();
-      const fStazione = document.getElementById('fStazione').value;
       const fReparto = document.getElementById('fReparto').value;
       const fOperatore = document.getElementById('fOperatore').value;
       const fStato = document.getElementById('fStato').value;
 
       const filtrate = tutteLePratiche.filter(p => {
-        if (fStazione !== 'TUTTE' && determinaStazioneWA(p) !== fStazione) return false;
+        const isInt = isPraticaInterna(p);
+        if (filtroOrigineAttivo === 'ESTERNE' && isInt) return false;
+        if (filtroOrigineAttivo === 'INTERNE' && !isInt) return false;
 
         if (fReparto !== 'TUTTI') {
           const repUpper = p.reparto.toUpperCase();
           if (fReparto === 'ELETTRODOMESTICI') {
-            if (!repUpper.includes('ELETTRODOMESTICI')) return false;
+            if (!repUpper.includes('ELETTRODOMESTICI') && !repUpper.includes('GRANDI') && !repUpper.includes('PICCOLI')) return false;
           } else if (!repUpper.includes(fReparto)) {
             return false;
           }
@@ -539,21 +680,19 @@
       }
 
       grid.innerHTML = lista.map(p => {
-        const stWa = determinaStazioneWA(p);
-        const labelWa = stWa === '0965340336' ? 'WA 0965 340336' : 'WA 0965 598722';
         const isSaltaFila = p.tipoRichiesta.toUpperCase().includes('SALTA FILA');
-        const isInterno = p.id.startsWith('INT-') || p.tipoRichiesta.toUpperCase().includes('INTERNO');
+        const isInterno = isPraticaInterna(p);
 
         const cardClass = p.stato === 'Gestita'
           ? 'pratica-card gestita'
           : isSaltaFila ? 'pratica-card salta-fila' : isInterno ? 'pratica-card da-interno' : 'pratica-card';
 
-        const telWaWeb = formattaPerWhatsAppWeb(p.telefono);
+        const telWa = formattaPerWhatsApp(p.telefono);
         const tel7Collab = preparaNumero7Collab(p.telefono);
         const testoWA = encodeURIComponent(
           `Gentile ${p.nomeCliente}, ti scriviamo dal reparto ${p.reparto} di Unieuro Reggio Calabria in merito alla tua richiesta: "${p.noteCliente}". `
         );
-        const linkWhatsAppWeb = `https://web.whatsapp.com/send?phone=${telWaWeb}&text=${testoWA}`;
+        const linkWhatsAppApp = `whatsapp://send?phone=${telWa}&text=${testoWA}`;
 
         const haImmagine = p.image && String(p.image).startsWith('data:image');
         const opCorrente = p.operatore || (p.reparto.toUpperCase().includes('RAEE') ? 'TONINO' : '');
@@ -563,7 +702,9 @@
             <div>
               <div class="badge-row">
                 <span class="badge badge-reparto">📍 ${p.reparto}</span>
-                <span class="badge badge-wa">📲 ${labelWa}</span>
+                <span class="badge ${isInterno ? 'badge-int' : 'badge-est'}">
+                  ${isInterno ? '📞 Richiesta Interna' : '📱 Richiesta Esterna (App)'}
+                </span>
                 <span class="badge ${p.stato === 'Gestita' ? 'badge-gestita' : 'badge-aperta'}">
                   ${p.stato === 'Gestita' ? '✅ Gestita' : '⏳ Da Gestire'}
                 </span>
@@ -590,9 +731,9 @@
 
             <div class="admin-edit-box">
               <div class="edit-row">
-                ${telWaWeb ? `
-                  <a href="${linkWhatsAppWeb}" target="_blank" rel="noopener" class="btn btn-green">
-                    💬 WhatsApp Web
+                ${telWa ? `
+                  <a href="${linkWhatsAppApp}" class="btn btn-green">
+                    💬 WhatsApp PC
                   </a>
                 ` : ''}
                 ${tel7Collab ? `
@@ -601,6 +742,10 @@
                   </a>
                 ` : ''}
               </div>
+
+              <button type="button" class="btn btn-print" onclick="stampaSingolaPraticaAdmin('${p.id}')">
+                🖨️ Stampa Scheda Pratica
+              </button>
 
               <div class="edit-row">
                 <select id="adm_op_${p.id}">
@@ -696,7 +841,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       caricaDatiAdmin();
       avviaLiveAdmin();
-      setInterval(caricaDatiAdmin, 25000);
+      setInterval(caricaDatiAdmin, 20000);
     });
   </script>
 </body>
