@@ -142,7 +142,6 @@
       padding: 0 14px;
     }
 
-    /* BANNER FISSO DI INSTALLAZIONE RAPIDA */
     #topInstallBanner {
       display: none;
       background: linear-gradient(135deg, #FF6700, #E65100);
@@ -157,7 +156,6 @@
       cursor: pointer;
     }
 
-    /* POPUP AUTOMATICO ALL'APERTURA PER INSTALLARE L'APP */
     .install-modal-overlay {
       display: none;
       position: fixed;
@@ -213,7 +211,6 @@
       margin: 12px 0;
     }
 
-    /* PULSANTI MAPS E SOCIAL */
     .quick-links {
       display: grid;
       grid-template-columns: 1.2fr 1fr 1fr;
@@ -268,7 +265,6 @@
       align-items: center;
     }
 
-    /* PULSANTI REPARTI RAGGRUPPATI */
     .reparti-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -336,7 +332,6 @@
       align-items: center;
     }
 
-    /* SEZIONE SALTA FILA INTEGRATA NEL PANNELLO RICHIESTE */
     .saltafila-divider {
       margin-top: 16px;
       padding-top: 16px;
@@ -406,7 +401,6 @@
       margin-bottom: 12px;
     }
 
-    /* BOX FACILITATO WHATSAPP AUDIO */
     .wa-helper-box {
       background: #F0FDF4;
       border: 2.5px solid #16A34A;
@@ -479,7 +473,6 @@
     .wa-audio-text strong { font-size: 0.95rem; font-weight: 900; line-height: 1.25; text-transform: uppercase; }
     .wa-audio-text span { font-size: 0.82rem; font-weight: 600; color: #ECFDF5; line-height: 1.3; }
 
-    /* FINESTRA GUIDA WHATSAPP */
     .wa-modal-overlay {
       display: none;
       position: fixed;
@@ -553,7 +546,6 @@
       margin-top: 6px;
     }
 
-    /* VOLANTINO & RICERCA MULTIPLA */
     .pdf-tabs {
       display: grid;
       grid-template-columns: 1fr 1.25fr;
@@ -620,7 +612,6 @@
     #pdfCanvas, #pdfCanvasRico { max-width: 100%; height: auto; display: block; }
     .crop-toolbar { display: none; gap: 8px; margin-top: 10px; }
 
-    /* BANNER RICONDIZIONATO */
     .rico-hero-banner {
       background: linear-gradient(135deg, #059669, #047857);
       color: white;
@@ -660,7 +651,6 @@
       box-shadow: 0 4px 12px rgba(0, 45, 98, 0.25);
     }
 
-    /* TESSERA UNIEURO CLUB */
     .club-card {
       background: linear-gradient(135deg, var(--unieuro-blue), var(--unieuro-dark));
       color: white;
@@ -803,7 +793,6 @@
       margin-top: 14px;
     }
 
-    /* MOTTO FINALE */
     .motto-footer {
       background: linear-gradient(135deg, var(--unieuro-dark), var(--unieuro-blue));
       color: white;
@@ -884,7 +873,6 @@
 
   <div class="container">
 
-    <!-- Banner rapido di installazione se non ancora installata -->
     <div id="topInstallBanner" onclick="apriPopupInstallazioneManuale()">
       <div style="display:flex; align-items:center; gap:10px;">
         <span style="font-size:1.5rem;">📲</span>
@@ -928,7 +916,6 @@
         <button type="button" class="btn btn-red" style="padding:6px 10px; font-size:0.78rem;" onclick="rimuoviRitaglio()">Rimuovi</button>
       </div>
 
-      <!-- Pulsanti Reparti Raggruppati -->
       <div class="reparti-grid">
         <button type="button" class="reparto-btn" onclick="selezionaReparto('ELETTRODOMESTICI', this)">
           <span class="icon">🧺☕</span>
@@ -961,7 +948,7 @@
         </button>
       </div>
 
-      <!-- Modulo Richiesta Reparto -->
+      <!-- Modulo Richiesta Reparto (Solo Telefono obbligatorio) -->
       <div id="formContainerBox">
         <div class="selected-reparto-banner">
           <span id="repartoSceltoLabel">Reparto selezionato</span>
@@ -972,7 +959,7 @@
           <input type="hidden" id="repartoHidden" required>
 
           <div class="form-group" id="boxSottoRepartoAssistenza" style="display:none; background:#FFF7ED; padding:10px; border-radius:10px; border:1.5px solid var(--unieuro-orange);">
-            <label for="repartoAssistenzaSelect" style="color:#C2410C;">🛠️ Per quale reparto richiedi Assistenza? *</label>
+            <label for="repartoAssistenzaSelect" style="color:#C2410C;">🛠️ Per quale reparto richiedi Assistenza?</label>
             <select id="repartoAssistenzaSelect">
               <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
               <option value="TELEFONIA">📱 TELEFONIA</option>
@@ -980,38 +967,33 @@
             </select>
           </div>
 
-          <div class="grid-2">
-            <div class="form-group">
-              <label for="nomeCliente">Nome *</label>
-              <input type="text" id="nomeCliente" placeholder="Es. Mario" required>
-            </div>
-            <div class="form-group">
-              <label for="cognomeCliente">Cognome *</label>
-              <input type="text" id="cognomeCliente" placeholder="Es. Rossi" required>
-            </div>
+          <div class="form-group" style="background:#FFF7ED; padding:12px; border-radius:12px; border:2px solid var(--unieuro-orange);">
+            <label for="telefonoCliente" style="color:#C2410C; font-size:0.9rem;">📞 Numero di Telefono (Obbligatorio per ricontatto) *</label>
+            <input type="tel" id="telefonoCliente" placeholder="Inserisci qui il tuo numero di telefono..." required style="background:white; font-weight:700;">
           </div>
 
           <div class="form-group">
-            <label for="metodoRicontatto">Metodo di Ricontatto *</label>
-            <select id="metodoRicontatto" onchange="aggiornaCampiContatto()" required>
-              <option value="Telefono">📞 Telefono / WhatsApp</option>
-              <option value="Mail">✉️ Mail</option>
+            <label for="metodoRicontatto">Come preferisci essere ricontattato?</label>
+            <select id="metodoRicontatto">
+              <option value="Telefono">📞 Telefono (Chiamata)</option>
+              <option value="WhatsApp">💬 WhatsApp</option>
             </select>
           </div>
 
-          <div class="form-group" id="boxTelefono">
-            <label for="telefonoCliente">Numero di Telefono *</label>
-            <input type="tel" id="telefonoCliente" placeholder="Inserisci il tuo numero di telefono" required>
-          </div>
-
-          <div class="form-group" id="boxEmail" style="display:none;">
-            <label for="emailCliente">Indirizzo Email *</label>
-            <input type="email" id="emailCliente" placeholder="esempio@email.it">
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="nomeCliente">Nome (opzionale)</label>
+              <input type="text" id="nomeCliente" placeholder="Es. Mario">
+            </div>
+            <div class="form-group">
+              <label for="cognomeCliente">Cognome (opzionale)</label>
+              <input type="text" id="cognomeCliente" placeholder="Es. Rossi">
+            </div>
           </div>
 
           <div class="form-group">
-            <label for="noteCliente">Note Richiesta *</label>
-            <textarea id="noteCliente" rows="3" placeholder="Scrivi qui i dettagli del prodotto o della tua richiesta..." required></textarea>
+            <label for="noteCliente">Note Richiesta (opzionale)</label>
+            <textarea id="noteCliente" rows="3" placeholder="Se vuoi, scrivi qui i dettagli del prodotto o della tua richiesta..."></textarea>
           </div>
 
           <button type="submit" id="btnSubmit" class="btn btn-orange btn-block" style="padding:14px; font-size:1rem;">
@@ -1054,7 +1036,7 @@
             </div>
 
             <div class="form-group" id="sfBoxAssistenzaReparto" style="display:none; background:#F5F3FF; padding:10px; border-radius:10px; border:1.5px solid #C4B5FD;">
-              <label for="sfRepartoAssistenza" style="color:#5B21B6;">🛠️ Per quale reparto prenoti l'Assistenza? *</label>
+              <label for="sfRepartoAssistenza" style="color:#5B21B6;">🛠️ Per quale reparto prenoti l'Assistenza?</label>
               <select id="sfRepartoAssistenza">
                 <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
                 <option value="TELEFONIA">📱 TELEFONIA</option>
@@ -1102,38 +1084,33 @@
               </div>
             </div>
 
-            <div class="grid-2">
-              <div class="form-group">
-                <label for="sfNome">Nome *</label>
-                <input type="text" id="sfNome" placeholder="Es. Mario" required>
-              </div>
-              <div class="form-group">
-                <label for="sfCognome">Cognome *</label>
-                <input type="text" id="sfCognome" placeholder="Es. Rossi" required>
-              </div>
+            <div class="form-group" style="background:#F5F3FF; padding:12px; border-radius:12px; border:2px solid #8B5CF6;">
+              <label for="sfTelefono" style="color:#5B21B6; font-size:0.9rem;">📞 Numero di Telefono (Obbligatorio per ricontatto) *</label>
+              <input type="tel" id="sfTelefono" placeholder="Inserisci qui il tuo numero di telefono..." required style="background:white; font-weight:700;">
             </div>
 
             <div class="form-group">
-              <label for="sfMetodo">Metodo di Ricontatto *</label>
-              <select id="sfMetodo" onchange="aggiornaCampiContattoSF()" required>
-                <option value="Telefono">📞 Telefono / WhatsApp</option>
-                <option value="Mail">✉️ Mail</option>
+              <label for="sfMetodo">Come preferisci essere ricontattato?</label>
+              <select id="sfMetodo">
+                <option value="Telefono">📞 Telefono (Chiamata)</option>
+                <option value="WhatsApp">💬 WhatsApp</option>
               </select>
             </div>
 
-            <div class="form-group" id="sfBoxTelefono">
-              <label for="sfTelefono">Numero di Telefono *</label>
-              <input type="tel" id="sfTelefono" placeholder="Inserisci il tuo numero di telefono" required>
-            </div>
-
-            <div class="form-group" id="sfBoxEmail" style="display:none;">
-              <label for="sfEmail">Indirizzo Email *</label>
-              <input type="email" id="sfEmail" placeholder="esempio@email.it">
+            <div class="grid-2">
+              <div class="form-group">
+                <label for="sfNome">Nome (opzionale)</label>
+                <input type="text" id="sfNome" placeholder="Es. Mario">
+              </div>
+              <div class="form-group">
+                <label for="sfCognome">Cognome (opzionale)</label>
+                <input type="text" id="sfCognome" placeholder="Es. Rossi">
+              </div>
             </div>
 
             <div class="form-group">
-              <label for="sfNote">Note / Prodotto di interesse *</label>
-              <textarea id="sfNote" rows="3" placeholder="Indica per quale prodotto o esigenza prenoti il turno..." required></textarea>
+              <label for="sfNote">Note / Prodotto di interesse (opzionale)</label>
+              <textarea id="sfNote" rows="3" placeholder="Se vuoi, indica per quale prodotto o esigenza prenoti il turno..."></textarea>
             </div>
 
             <button type="submit" id="btnSubmitSF" class="btn btn-purple btn-block" style="padding:14px; font-size:1rem;">
@@ -1148,7 +1125,7 @@
       </div>
     </div>
 
-    <!-- 2. RICHIESTA FACILE CON MESSAGGIO VOCALE (SMISTATA SUI 2 NUMERI WA) -->
+    <!-- 2. RICHIESTA FACILE CON MESSAGGIO VOCALE -->
     <div class="wa-helper-box">
       <div class="wa-helper-title">
         <span>👵👴 Richiesta Facile con Messaggio Vocale</span>
@@ -1330,7 +1307,7 @@
     </div>
   </div>
 
-  <!-- Librerie esterne: PDF.js, Cropper.js, JsBarcode, Html5-QRCode -->
+  <!-- Librerie esterne -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
@@ -1483,15 +1460,6 @@
       document.getElementById('formContainerBox').style.display = 'none';
     };
 
-    window.aggiornaCampiContatto = function() {
-      const metodo = document.getElementById('metodoRicontatto').value;
-      document.getElementById('boxTelefono').style.display = metodo === 'Telefono' ? 'block' : 'none';
-      document.getElementById('boxEmail').style.display = metodo === 'Telefono' ? 'none' : 'block';
-      document.getElementById('telefonoCliente').required = (metodo === 'Telefono');
-      document.getElementById('emailCliente').required = (metodo !== 'Telefono');
-    };
-
-    // Pulisce il numero rimuovendo eventuali zeri iniziali o +39
     function pulisciNumeroSenzaZero(rawPhone) {
       if (!rawPhone) return "";
       let clean = String(rawPhone).replace(/[\s\-\.\(\)]/g, '').replace(/^(\+39|0039)/, '');
@@ -1506,9 +1474,23 @@
       const repartoBase = document.getElementById('repartoHidden').value;
       if (!repartoBase) return;
 
+      const telPulito = pulisciNumeroSenzaZero(document.getElementById('telefonoCliente').value.trim());
+      if (!telPulito) {
+        alert("Inserisci il tuo numero di telefono per essere ricontattato.");
+        return;
+      }
+
       const sottoRepartoAss = document.getElementById('repartoAssistenzaSelect').value;
       const numeroWaDest = getNumeroWhatsAppReparto(repartoBase, sottoRepartoAss);
       const repartoFinale = (repartoBase === 'ASSISTENZA') ? `ASSISTENZA (${sottoRepartoAss})` : repartoBase;
+
+      const nome = document.getElementById('nomeCliente').value.trim();
+      const cognome = document.getElementById('cognomeCliente').value.trim();
+      const nominativoFinale = `${nome} ${cognome}`.trim() || "Cliente";
+
+      const metodoScelto = document.getElementById('metodoRicontatto').value; // "Telefono" o "WhatsApp"
+      const noteInserite = document.getElementById('noteCliente').value.trim();
+      const noteFinali = noteInserite || (croppedBase64 ? "📎 Offerta ritagliata allegata" : "Richiesta di ricontatto");
 
       const btn = document.getElementById('btnSubmit');
       btn.disabled = true; btn.textContent = '⏳ Invio in corso...';
@@ -1520,11 +1502,11 @@
         reparto: repartoFinale,
         waDestinatario: numeroWaDest,
         tipoRichiesta: repartoBase === 'RITIRO RAEE' ? 'Ritiro RAEE (in negozio)' : `Richiesta Cliente (WA ${numeroWaDest})`,
-        nomeCliente: `${document.getElementById('nomeCliente').value.trim()} ${document.getElementById('cognomeCliente').value.trim()}`,
-        telefono: pulisciNumeroSenzaZero(document.getElementById('telefonoCliente').value.trim()),
-        emailCliente: document.getElementById('emailCliente').value.trim(),
-        preferenzaContatto: document.getElementById('metodoRicontatto').value,
-        noteCliente: document.getElementById('noteCliente').value.trim(),
+        nomeCliente: nominativoFinale,
+        telefono: telPulito,
+        emailCliente: "",
+        preferenzaContatto: metodoScelto,
+        noteCliente: noteFinali,
         stato: "Aperta",
         image: croppedBase64
       };
@@ -1591,14 +1573,14 @@
       document.getElementById('saltaFilaBox').style.display = 'none';
     };
 
-    window.aggiornaCampiContattoSF = function() {
-      const metodo = document.getElementById('sfMetodo').value;
-      document.getElementById('sfBoxTelefono').style.display = metodo === 'Telefono' ? 'block' : 'none';
-      document.getElementById('sfBoxEmail').style.display = metodo === 'Telefono' ? 'none' : 'block';
-    };
-
     window.inviaSaltaFila = async function(e) {
       e.preventDefault();
+      const telPulito = pulisciNumeroSenzaZero(document.getElementById('sfTelefono').value.trim());
+      if (!telPulito) {
+        alert("Inserisci il tuo numero di telefono per essere ricontattato.");
+        return;
+      }
+
       const repartoBase = document.getElementById('sfReparto').value;
       const sottoRep = document.getElementById('sfRepartoAssistenza').value;
       const numeroWaDest = getNumeroWhatsAppReparto(repartoBase, sottoRep);
@@ -1606,6 +1588,12 @@
       const dataScelta = document.getElementById('sfData').value;
       const oraScelta = document.getElementById('sfOra').value;
       const parts = dataScelta.split('-');
+
+      const nome = document.getElementById('sfNome').value.trim();
+      const cognome = document.getElementById('sfCognome').value.trim();
+      const nominativoFinale = `${nome} ${cognome}`.trim() || "Cliente";
+      const metodoScelto = document.getElementById('sfMetodo').value;
+      const noteExtra = document.getElementById('sfNote').value.trim() || "Prenotazione turno in negozio";
 
       const btn = document.getElementById('btnSubmitSF');
       btn.disabled = true; btn.textContent = '⏳ Prenotazione in corso...';
@@ -1617,11 +1605,11 @@
         reparto: repartoFinale,
         waDestinatario: numeroWaDest,
         tipoRichiesta: `🎟️ SALTA FILA (${parts[2]}/${parts[1]}/${parts[0]} ore ${oraScelta} - WA ${numeroWaDest})`,
-        nomeCliente: `${document.getElementById('sfNome').value.trim()} ${document.getElementById('sfCognome').value.trim()}`,
-        telefono: pulisciNumeroSenzaZero(document.getElementById('sfTelefono').value.trim()),
-        emailCliente: document.getElementById('sfEmail').value.trim(),
-        preferenzaContatto: document.getElementById('sfMetodo').value,
-        noteCliente: `[🎟️ SALTA FILA - ${parts[2]}/${parts[1]}/${parts[0]} ore ${oraScelta}] ${document.getElementById('sfNote').value.trim()}`,
+        nomeCliente: nominativoFinale,
+        telefono: telPulito,
+        emailCliente: "",
+        preferenzaContatto: metodoScelto,
+        noteCliente: `[🎟️ SALTA FILA - ${parts[2]}/${parts[1]}/${parts[0]} ore ${oraScelta}] ${noteExtra}`,
         stato: "Aperta",
         image: croppedBase64
       };
@@ -1854,8 +1842,6 @@
       const sfForm = document.getElementById('saltaFilaForm');
       if (sfForm) sfForm.reset();
       verificaAssistenzaSaltaFila();
-      aggiornaCampiContatto();
-      aggiornaCampiContattoSF();
       chiudiFormReparto();
       chiudiSaltaFila();
       fermaScannerFotocamera();
