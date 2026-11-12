@@ -13,6 +13,7 @@
   <meta name="application-name" content="UNIEURO RC IN TASCA">
   <meta name="theme-color" content="#002D62">
 
+  <!-- Cropper.js CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
 
   <style>
@@ -141,6 +142,7 @@
       padding: 0 14px;
     }
 
+    /* BANNER FISSO DI INSTALLAZIONE RAPIDA */
     #topInstallBanner {
       display: none;
       background: linear-gradient(135deg, #FF6700, #E65100);
@@ -155,6 +157,7 @@
       cursor: pointer;
     }
 
+    /* POPUP AUTOMATICO ALL'APERTURA PER INSTALLARE L'APP */
     .install-modal-overlay {
       display: none;
       position: fixed;
@@ -169,12 +172,32 @@
     .install-modal-card {
       background: white;
       width: 100%;
-      max-width: 440px;
+      max-width: 420px;
       border-radius: 20px;
       padding: 22px 20px;
       text-align: center;
       border-top: 8px solid var(--unieuro-orange);
       box-shadow: 0 14px 34px rgba(0,0,0,0.4);
+      animation: popIn 0.25s ease-out;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .install-modal-card img {
+      width: 72px !important;
+      height: 72px !important;
+      max-width: 72px !important;
+      max-height: 72px !important;
+      border-radius: 16px;
+      margin: 0 auto 12px;
+      display: block;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      object-fit: contain;
+      background: var(--unieuro-blue);
+      padding: 6px;
     }
 
     .ios-instructions {
@@ -190,6 +213,7 @@
       margin: 12px 0;
     }
 
+    /* PULSANTI MAPS E SOCIAL */
     .quick-links {
       display: grid;
       grid-template-columns: 1.2fr 1fr 1fr;
@@ -212,7 +236,12 @@
       text-align: center;
     }
 
-    .quick-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .quick-btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
     .btn-maps { background: #EA4335; }
     .btn-instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
     .btn-facebook { background: #1877F2; }
@@ -239,6 +268,7 @@
       align-items: center;
     }
 
+    /* PULSANTI REPARTI RAGGRUPPATI */
     .reparti-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -252,6 +282,7 @@
       padding: 14px 10px;
       text-align: center;
       cursor: pointer;
+      transition: all 0.15s;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -265,6 +296,7 @@
     .reparto-btn span.icon { font-size: 1.5rem; letter-spacing: 2px; }
     .reparto-btn small { font-size: 0.68rem; color: var(--unieuro-orange); font-weight: 700; line-height: 1.2; }
 
+    .reparto-btn:hover,
     .reparto-btn.selected {
       background: var(--unieuro-blue);
       border-color: var(--unieuro-blue);
@@ -304,6 +336,7 @@
       align-items: center;
     }
 
+    /* SEZIONE SALTA FILA INTEGRATA NEL PANNELLO RICHIESTE */
     .saltafila-divider {
       margin-top: 16px;
       padding-top: 16px;
@@ -323,7 +356,10 @@
       gap: 14px;
       text-align: left;
       box-shadow: 0 5px 14px rgba(109, 40, 217, 0.25);
+      transition: transform 0.15s;
     }
+
+    .saltafila-banner:active { transform: scale(0.98); }
 
     .saltafila-icon {
       font-size: 2rem;
@@ -336,6 +372,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
 
     .saltafila-text strong {
@@ -344,9 +381,15 @@
       font-weight: 900;
       text-transform: uppercase;
       margin-bottom: 3px;
+      line-height: 1.25;
     }
 
-    .saltafila-text span { font-size: 0.84rem; color: #EDE9FE; }
+    .saltafila-text span {
+      font-size: 0.84rem;
+      color: #EDE9FE;
+      line-height: 1.35;
+      display: block;
+    }
 
     #saltaFilaBox {
       display: none;
@@ -363,12 +406,14 @@
       margin-bottom: 12px;
     }
 
+    /* BOX FACILITATO WHATSAPP AUDIO */
     .wa-helper-box {
       background: #F0FDF4;
       border: 2.5px solid #16A34A;
       border-radius: 16px;
       padding: 15px;
       margin-bottom: 16px;
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.15);
     }
 
     .wa-helper-title {
@@ -376,6 +421,9 @@
       font-size: 1rem;
       font-weight: 900;
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .wa-pre-steps {
@@ -388,6 +436,9 @@
       line-height: 1.45;
       color: #1E293B;
     }
+
+    .wa-pre-steps div { margin-bottom: 6px; }
+    .wa-pre-steps div:last-child { margin-bottom: 0; }
 
     .wa-audio-banner {
       width: 100%;
@@ -402,8 +453,13 @@
       border-radius: 14px;
       cursor: pointer;
       text-align: left;
+      box-shadow: 0 5px 14px rgba(22, 163, 74, 0.3);
+      transition: transform 0.15s;
       margin-bottom: 8px;
     }
+
+    .wa-audio-banner:last-child { margin-bottom: 0; }
+    .wa-audio-banner:active { transform: scale(0.98); }
 
     .wa-audio-icon {
       font-size: 2rem;
@@ -416,12 +472,14 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
 
     .wa-audio-text { display: flex; flex-direction: column; gap: 2px; }
-    .wa-audio-text strong { font-size: 0.95rem; font-weight: 900; text-transform: uppercase; }
-    .wa-audio-text span { font-size: 0.82rem; color: #ECFDF5; }
+    .wa-audio-text strong { font-size: 0.95rem; font-weight: 900; line-height: 1.25; text-transform: uppercase; }
+    .wa-audio-text span { font-size: 0.82rem; font-weight: 600; color: #ECFDF5; line-height: 1.3; }
 
+    /* FINESTRA GUIDA WHATSAPP */
     .wa-modal-overlay {
       display: none;
       position: fixed;
@@ -429,6 +487,7 @@
       background: rgba(0, 24, 56, 0.82);
       z-index: 9999;
       padding: 16px;
+      overflow-y: auto;
       align-items: center;
       justify-content: center;
     }
@@ -441,6 +500,7 @@
       padding: 20px;
       border-top: 8px solid #16A34A;
       box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      margin: auto;
     }
 
     .wa-step-box {
@@ -451,7 +511,10 @@
       margin-bottom: 10px;
       font-size: 0.96rem;
       line-height: 1.45;
+      color: #1E293B;
     }
+
+    .wa-step-box strong { color: #002D62; font-size: 1rem; }
 
     .btn-voice-guide {
       width: 100%;
@@ -479,15 +542,18 @@
       background: linear-gradient(135deg, #16A34A, #15803D);
       color: white;
       text-decoration: none;
+      border: none;
       border-radius: 14px;
       padding: 16px 14px;
       font-size: 1.05rem;
       font-weight: 900;
       text-align: center;
+      cursor: pointer;
       box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
       margin-top: 6px;
     }
 
+    /* VOLANTINO & RICERCA MULTIPLA */
     .pdf-tabs {
       display: grid;
       grid-template-columns: 1fr 1.25fr;
@@ -508,10 +574,11 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      line-height: 1.25;
       font-size: 0.92rem;
     }
 
-    .tab-btn small { font-size: 0.68rem; margin-top: 3px; }
+    .tab-btn small { font-size: 0.68rem; font-weight: 600; margin-top: 3px; opacity: 0.9; }
     .tab-btn.active { background: var(--unieuro-blue); color: white; }
     .tab-btn.promo-btn { border-color: var(--unieuro-orange); color: #C2410C; }
     .tab-btn.promo-btn.active { background: var(--unieuro-orange); color: white; }
@@ -526,6 +593,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .pdf-controls {
@@ -534,6 +602,7 @@
       align-items: center;
       gap: 6px;
       margin: 10px 0;
+      flex-wrap: wrap;
     }
 
     .canvas-wrapper {
@@ -545,11 +614,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
     #pdfCanvas, #pdfCanvasRico { max-width: 100%; height: auto; display: block; }
     .crop-toolbar { display: none; gap: 8px; margin-top: 10px; }
 
+    /* BANNER RICONDIZIONATO */
     .rico-hero-banner {
       background: linear-gradient(135deg, #059669, #047857);
       color: white;
@@ -558,9 +629,16 @@
       margin-bottom: 12px;
       text-align: center;
       border: 2px solid #6EE7B7;
+      box-shadow: 0 5px 15px rgba(5, 150, 105, 0.25);
     }
 
-    .rico-hero-banner h3 { font-size: 1.02rem; font-weight: 900; text-transform: uppercase; }
+    .rico-hero-banner h3 {
+      font-size: 1.02rem;
+      font-weight: 900;
+      line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
 
     .btn-portale-rico {
       display: flex;
@@ -576,10 +654,13 @@
       padding: 14px;
       font-size: 0.92rem;
       font-weight: 900;
+      text-align: center;
       text-decoration: none;
       text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(0, 45, 98, 0.25);
     }
 
+    /* TESSERA UNIEURO CLUB */
     .club-card {
       background: linear-gradient(135deg, var(--unieuro-blue), var(--unieuro-dark));
       color: white;
@@ -589,73 +670,203 @@
       box-shadow: 0 6px 16px rgba(0, 45, 98, 0.25);
     }
 
-    .club-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .badge-orange { background: var(--unieuro-orange); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; }
-    .barcode-box { background: white; color: #000; padding: 12px 8px; border-radius: 12px; text-align: center; margin: 10px 0; }
+    .club-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .badge-orange {
+      background: var(--unieuro-orange);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .barcode-box {
+      background: white;
+      color: #000;
+      padding: 12px 8px;
+      border-radius: 12px;
+      text-align: center;
+      margin: 10px 0;
+      overflow-x: auto;
+    }
+
     #barcodeSvg { max-width: 100%; height: auto; }
-    #cameraScannerBox { display: none; background: #000; border-radius: 12px; overflow: hidden; margin-top: 10px; border: 2px solid var(--unieuro-orange); }
+
+    #cameraScannerBox {
+      display: none;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 2px solid var(--unieuro-orange);
+    }
 
     .btn-request-digital-card {
-      display: block; width: 100%; margin-top: 12px;
+      display: block;
+      width: 100%;
+      margin-top: 12px;
       background: linear-gradient(135deg, #FF6700, #E65100);
-      color: white; border-radius: 12px; padding: 12px;
-      font-size: 0.82rem; font-weight: 900; text-align: center;
-      text-decoration: none; text-transform: uppercase;
+      color: white;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      line-height: 1.35;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-transform: uppercase;
     }
 
     .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 0.83rem; font-weight: 700; color: #334155; margin-bottom: 5px; }
+    .form-group label {
+      display: block;
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 5px;
+    }
+
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-    input[type="text"], input[type="tel"], input[type="email"], input[type="search"], input[type="date"], select, textarea {
-      width: 100%; padding: 11px 13px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.95rem; background: #F8FAFC; color: var(--text-main); outline: none;
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="search"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: #F8FAFC;
+      color: var(--text-main);
+      outline: none;
     }
 
     .input-row { display: flex; gap: 8px; }
-    .btn { border: none; border-radius: 10px; padding: 11px 16px; font-size: 0.92rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
     .btn-blue { background: var(--unieuro-blue); color: white; }
     .btn-orange { background: var(--unieuro-orange); color: white; }
     .btn-green { background: #16A34A; color: white; }
-    .btn-red { background: var(--DC2626, #DC2626); color: white; }
+    .btn-red { background: #DC2626; color: white; }
     .btn-purple { background: #6D28D9; color: white; }
     .btn-outline { background: white; color: var(--unieuro-blue); border: 1.5px solid var(--unieuro-blue); }
     .btn-block { width: 100%; }
 
     .crop-preview-box {
-      display: none; background: #FFF7ED; border: 1.5px dashed var(--unieuro-orange); border-radius: 10px; padding: 10px; margin-bottom: 12px; align-items: center; justify-content: space-between; gap: 10px;
+      display: none;
+      background: #FFF7ED;
+      border: 1.5px dashed var(--unieuro-orange);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 12px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
+
     .crop-preview-box img { max-height: 70px; border-radius: 6px; }
 
-    .toast { display: none; background: #DCFCE7; color: #166534; border: 1.5px solid #86EFAC; padding: 14px; border-radius: 12px; font-weight: 700; text-align: center; margin-top: 14px; }
+    .toast {
+      display: none;
+      background: #DCFCE7;
+      color: #166534;
+      border: 1.5px solid #86EFAC;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 14px;
+    }
 
+    /* MOTTO FINALE */
     .motto-footer {
       background: linear-gradient(135deg, var(--unieuro-dark), var(--unieuro-blue));
-      color: white; text-align: center; padding: 18px 16px; border-radius: 16px; border-bottom: 4px solid var(--unieuro-orange); margin-top: 8px;
+      color: white;
+      text-align: center;
+      padding: 18px 16px;
+      border-radius: 16px;
+      border-bottom: 4px solid var(--unieuro-orange);
+      box-shadow: 0 4px 14px rgba(0, 24, 56, 0.2);
+      margin-top: 8px;
     }
-    .motto-footer p { font-size: 1.15rem; font-weight: 900; text-transform: uppercase; }
-    .motto-footer span { display: block; font-size: 0.8rem; color: #FFD1B3; font-weight: 700; margin-top: 4px; }
+
+    .motto-footer p {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #FFFFFF;
+    }
+
+    .motto-footer span {
+      display: block;
+      font-size: 0.8rem;
+      color: #FFD1B3;
+      font-weight: 700;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
 
+  <!-- POPUP AUTOMATICO ALL'APERTURA PER INSTALLARE L'APP SULLA HOME -->
   <div id="installPwaModal" class="install-modal-overlay">
     <div class="install-modal-card">
-      <img src="icona.png" alt="Unieuro RC" onerror="this.style.display='none'">
+      <img src="icona.png" alt="Unieuro RC" style="width:72px; height:72px; max-width:72px; max-height:72px; border-radius:16px; margin:0 auto 12px; display:block; object-fit:contain; background:#002D62; padding:6px;" onerror="this.style.display='none'">
       <h2 style="color:var(--unieuro-blue); font-size:1.2rem; margin-bottom:6px;">📲 Installa UNIEURO RC IN TASCA!</h2>
-      <p style="font-size:0.9rem; color:#475569; line-height:1.4; margin-bottom:14px;">Aggiungi <strong>UNIEURO RC IN TASCA</strong> alla schermata Home del tuo telefono.</p>
-      <button type="button" id="btnTriggerInstall" class="btn btn-orange btn-block" style="padding:14px; font-size:1rem; margin-bottom:10px;" onclick="eseguiInstallazioneHome()">➕ INSTALLA SULLA HOME</button>
+      <p style="font-size:0.9rem; color:#475569; line-height:1.4; margin-bottom:14px;">
+        Aggiungi <strong>UNIEURO RC IN TASCA</strong> alla schermata Home del tuo telefono per aprirla con un solo tocco.
+      </p>
+
+      <button type="button" id="btnTriggerInstall" class="btn btn-orange btn-block" style="padding:14px; font-size:1rem; margin-bottom:10px;" onclick="eseguiInstallazioneHome()">
+        ➕ INSTALLA SULLA HOME
+      </button>
+
       <div id="iosInstallBox" class="ios-instructions">
-        <strong>🍏 Come inserirla su iPhone:</strong><br> 1. Tocca <strong>Condividi</strong> ⬆️.<br> 2. Tocca <strong>"Aggiungi alla schermata Home" ➕</strong>.<br> 3. Tocca <strong>Aggiungi</strong>.
+        <strong>🍏 Come inserirla sulla Home del tuo iPhone:</strong><br>
+        1. Tocca l'icona <strong>Condividi</strong> <span style="font-size:1.1rem;">⬆️</span> in basso sullo schermo.<br>
+        2. Scorri e tocca <strong>"Aggiungi alla schermata Home" ➕</strong>.<br>
+        3. Tocca <strong>Aggiungi</strong> in alto a destra.
       </div>
-      <button type="button" class="btn btn-outline btn-block" onclick="chiudiPopupInstallazione()" style="padding:10px; font-size:0.85rem;">Continua senza installare</button>
+
+      <button type="button" class="btn btn-outline btn-block" onclick="chiudiPopupInstallazione()" style="padding:10px; font-size:0.85rem;">
+        Continua senza installare
+      </button>
     </div>
   </div>
 
+  <!-- HEADER + STATO APERTO/CHIUSO + ORARI -->
   <header>
     <div class="header-brand">
       <img src="icona.png" alt="Unieuro" onerror="this.style.display='none'">
       <h1>UNIEURO REGGIO CALABRIA IN TASCA</h1>
     </div>
+
     <div class="status-bar">
       <div id="storeStatusBadge" class="status-badge open">
         <span class="status-dot"></span>
@@ -663,55 +874,94 @@
       </div>
       <button type="button" class="btn-orari" onclick="toggleOrari()">🕒 Vedi Orari</button>
     </div>
+
     <div id="orariPopup" class="orari-popup">
-      📅 Lunedì - Sabato: <strong>09:00 - 13:00</strong> e <strong>15:00 - 20:00</strong><br> Domenica: <strong>CHIUSO</strong>
+      <strong>📅 ORARI DI APERTURA NEGOZIO:</strong><br>
+      Lunedì - Sabato: <strong>09:00 - 13:00</strong> e <strong>15:00 - 20:00</strong><br>
+      Domenica: <strong>CHIUSO</strong>
     </div>
   </header>
 
   <div class="container">
+
+    <!-- Banner rapido di installazione se non ancora installata -->
     <div id="topInstallBanner" onclick="apriPopupInstallazioneManuale()">
       <div style="display:flex; align-items:center; gap:10px;">
         <span style="font-size:1.5rem;">📲</span>
-        <div style="font-size:0.85rem; line-height:1.25;"><strong style="font-size:0.92rem; display:block;">METTI L'APP SULLA HOME</strong>Tocca qui per installare</div>
+        <div style="font-size:0.85rem; line-height:1.25;">
+          <strong style="font-size:0.92rem; display:block;">METTI L'APP SULLA SCHERMATA HOME</strong>
+          Tocca qui per installare UNIEURO RC IN TASCA
+        </div>
       </div>
       <span style="background:white; color:var(--unieuro-orange); padding:6px 10px; border-radius:8px; font-weight:900; font-size:0.78rem;">INSTALLA</span>
     </div>
 
+    <!-- PULSANTI MAPS E SOCIAL -->
     <div class="quick-links">
-      <a href="https://maps.app.goo.gl/EuhFSxA1GGnfu1mJ7" target="_blank" rel="noopener" class="quick-btn btn-maps">Maps</a>
-      <a href="https://www.instagram.com/unieuroreggiocalabria/" target="_blank" rel="noopener" class="quick-btn btn-instagram">Instagram</a>
-      <a href="https://www.facebook.com/search/top?q=unieuro%20reggio%20calabria" target="_blank" rel="noopener" class="quick-btn btn-facebook">Facebook</a>
+      <a href="https://maps.app.goo.gl/EuhFSxA1GGnfu1mJ7" target="_blank" rel="noopener" class="quick-btn btn-maps">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Maps
+      </a>
+      <a href="https://www.instagram.com/unieuroreggiocalabria/" target="_blank" rel="noopener" class="quick-btn btn-instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.facebook.com/search/top?q=unieuro%20reggio%20calabria" target="_blank" rel="noopener" class="quick-btn btn-facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+        Facebook
+      </a>
     </div>
 
+    <!-- 1. SEZIONE RICHIESTE AI REPARTI + SALTA FILA NELLO STESSO PANNELLO -->
     <div class="card orange-border" id="sezioneRepartiCard">
-      <div class="card-title"><span>📢 Seleziona il Reparto per Richiesta</span></div>
+      <div class="card-title">
+        <span>📢 Seleziona il Reparto per Richiesta</span>
+      </div>
 
       <div id="cropPreviewContainer" class="crop-preview-box">
         <div style="display:flex; align-items:center; gap:10px;">
           <img id="cropPreviewImg" src="" alt="Ritaglio">
-          <div style="font-size:0.84rem; font-weight:700; color:var(--unieuro-blue);">📎 Offerta ritagliata pronta! Clicca sul reparto o prenota il Salta Fila.</div>
+          <div style="font-size:0.84rem; font-weight:700; color:var(--unieuro-blue);">
+            📎 Offerta ritagliata pronta! Clicca sul reparto o prenota il Salta Fila.
+          </div>
         </div>
         <button type="button" class="btn btn-red" style="padding:6px 10px; font-size:0.78rem;" onclick="rimuoviRitaglio()">Rimuovi</button>
       </div>
 
+      <!-- Pulsanti Reparti Raggruppati -->
       <div class="reparti-grid">
         <button type="button" class="reparto-btn" onclick="selezionaReparto('ELETTRODOMESTICI', this)">
-          <span class="icon">🧺☕</span> ELETTRODOMESTICI <small>Grandi e Piccoli</small>
+          <span class="icon">🧺☕</span>
+          ELETTRODOMESTICI
+          <small>Grandi e Piccoli</small>
         </button>
+
         <button type="button" class="reparto-btn" onclick="selezionaReparto('TELEFONIA', this)">
-          <span class="icon">📱</span> TELEFONIA <small>Smartphone e Accessori</small>
+          <span class="icon">📱</span>
+          TELEFONIA
+          <small>Smartphone e Accessori</small>
         </button>
+
         <button type="button" class="reparto-btn" onclick="selezionaReparto('INFORMATICA / TV', this)">
-          <span class="icon">💻📺</span> INFORMATICA / TV <small>PC, Tablet, TV e Audio</small>
+          <span class="icon">💻📺</span>
+          INFORMATICA / TV
+          <small>PC, Tablet, TV e Audio</small>
         </button>
+
         <button type="button" class="reparto-btn" onclick="selezionaReparto('ASSISTENZA', this)">
-          <span class="icon">🛠️</span> ASSISTENZA <small>Supporto e Garanzie</small>
+          <span class="icon">🛠️</span>
+          ASSISTENZA
+          <small>Supporto e Garanzie</small>
         </button>
+
         <button type="button" class="reparto-btn full-width" onclick="selezionaReparto('RITIRO RAEE', this)">
-          <span class="icon">♻️</span> RITIRO RAEE <small>(da effettuare presso negozio)</small>
+          <span class="icon">♻️</span>
+          RITIRO RAEE
+          <small>(da effettuare presso negozio)</small>
         </button>
       </div>
 
+      <!-- Modulo Richiesta Reparto -->
       <div id="formContainerBox">
         <div class="selected-reparto-banner">
           <span id="repartoSceltoLabel">Reparto selezionato</span>
@@ -720,18 +970,25 @@
 
         <form id="requestForm" onsubmit="inviaRichiesta(event)" autocomplete="off">
           <input type="hidden" id="repartoHidden" required>
+
           <div class="form-group" id="boxSottoRepartoAssistenza" style="display:none; background:#FFF7ED; padding:10px; border-radius:10px; border:1.5px solid var(--unieuro-orange);">
             <label for="repartoAssistenzaSelect" style="color:#C2410C;">🛠️ Per quale reparto richiedi Assistenza? *</label>
             <select id="repartoAssistenzaSelect">
-              <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI</option>
+              <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
               <option value="TELEFONIA">📱 TELEFONIA</option>
               <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
             </select>
           </div>
 
           <div class="grid-2">
-            <div class="form-group"><label for="nomeCliente">Nome *</label><input type="text" id="nomeCliente" placeholder="Es. Mario" required></div>
-            <div class="form-group"><label for="cognomeCliente">Cognome *</label><input type="text" id="cognomeCliente" placeholder="Es. Rossi" required></div>
+            <div class="form-group">
+              <label for="nomeCliente">Nome *</label>
+              <input type="text" id="nomeCliente" placeholder="Es. Mario" required>
+            </div>
+            <div class="form-group">
+              <label for="cognomeCliente">Cognome *</label>
+              <input type="text" id="cognomeCliente" placeholder="Es. Rossi" required>
+            </div>
           </div>
 
           <div class="form-group">
@@ -742,22 +999,38 @@
             </select>
           </div>
 
-          <div class="form-group" id="boxTelefono"><label for="telefonoCliente">Numero di Telefono *</label><input type="tel" id="telefonoCliente" placeholder="Inserisci il numero" required></div>
-          <div class="form-group" id="boxEmail" style="display:none;"><label for="emailCliente">Indirizzo Email *</label><input type="email" id="emailCliente" placeholder="esempio@email.it"></div>
-          <div class="form-group"><label for="noteCliente">Note Richiesta *</label><textarea id="noteCliente" rows="3" placeholder="Dettagli prodotto o richiesta..." required></textarea></div>
+          <div class="form-group" id="boxTelefono">
+            <label for="telefonoCliente">Numero di Telefono *</label>
+            <input type="tel" id="telefonoCliente" placeholder="Inserisci il tuo numero di telefono" required>
+          </div>
 
-          <button type="submit" id="btnSubmit" class="btn btn-orange btn-block" style="padding:14px; font-size:1rem;">🚀 Invia Richiesta al Reparto</button>
+          <div class="form-group" id="boxEmail" style="display:none;">
+            <label for="emailCliente">Indirizzo Email *</label>
+            <input type="email" id="emailCliente" placeholder="esempio@email.it">
+          </div>
+
+          <div class="form-group">
+            <label for="noteCliente">Note Richiesta *</label>
+            <textarea id="noteCliente" rows="3" placeholder="Scrivi qui i dettagli del prodotto o della tua richiesta..." required></textarea>
+          </div>
+
+          <button type="submit" id="btnSubmit" class="btn btn-orange btn-block" style="padding:14px; font-size:1rem;">
+            🚀 Invia Richiesta al Reparto
+          </button>
         </form>
       </div>
 
-      <div id="confirmToast" class="toast">✅ Richiesta inviata con successo! Il reparto ti ricontatterà.</div>
+      <div id="confirmToast" class="toast">
+        ✅ Richiesta inviata con successo! Il reparto ti ricontatterà al più presto.
+      </div>
 
+      <!-- SALTA FILA COLLEGATO NELLO STESSO PANNELLO -->
       <div class="saltafila-divider">
         <button type="button" class="saltafila-banner" onclick="toggleSaltaFila()">
           <div class="saltafila-icon">🎟️</div>
           <div class="saltafila-text">
-            <strong>SALTA FILA: Prenota il tuo turno</strong>
-            <span>(Da prenotare con 1 giorno d'anticipo) • Tocca qui</span>
+            <strong>SALTA FILA: Prenota qui il tuo turno senza fare file in negozio</strong>
+            <span>(Da prenotare con 1 giorno d'anticipo) • Tocca qui per scegliere data e ora</span>
           </div>
         </button>
 
@@ -772,7 +1045,7 @@
               <label for="sfReparto">Seleziona il Reparto *</label>
               <select id="sfReparto" required onchange="verificaAssistenzaSaltaFila()">
                 <option value="">-- Scegli Reparto --</option>
-                <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI</option>
+                <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
                 <option value="TELEFONIA">📱 TELEFONIA</option>
                 <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
                 <option value="ASSISTENZA">🛠️ ASSISTENZA</option>
@@ -781,27 +1054,48 @@
             </div>
 
             <div class="form-group" id="sfBoxAssistenzaReparto" style="display:none; background:#F5F3FF; padding:10px; border-radius:10px; border:1.5px solid #C4B5FD;">
-              <label for="sfRepartoAssistenza" style="color:#5B21B6;">🛠️ Reparto Assistenza *</label>
+              <label for="sfRepartoAssistenza" style="color:#5B21B6;">🛠️ Per quale reparto prenoti l'Assistenza? *</label>
               <select id="sfRepartoAssistenza">
-                <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI</option>
+                <option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI (Grandi e Piccoli)</option>
                 <option value="TELEFONIA">📱 TELEFONIA</option>
                 <option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option>
               </select>
             </div>
 
             <div class="datetime-highlight">
-              <div style="font-size:0.8rem; font-weight:800; color:#5B21B6; margin-bottom:8px;">⏰ Scegli Giorno e Ora (da domani, Lun-Sab)</div>
+              <div style="font-size:0.8rem; font-weight:800; color:#5B21B6; margin-bottom:8px;">
+                ⏰ Scegli Giorno e Ora (Disponibile solo a partire da domani, Lun-Sab)
+              </div>
               <div class="grid-2">
-                <div class="form-group" style="margin-bottom:0;"><label for="sfData">Data *</label><input type="date" id="sfData" required onchange="verificaGiornoSaltaFila()"></div>
                 <div class="form-group" style="margin-bottom:0;">
-                  <label for="sfOra">Ora *</label>
+                  <label for="sfData">Data (da domani) *</label>
+                  <input type="date" id="sfData" required onchange="verificaGiornoSaltaFila()">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="sfOra">Ora Appuntamento *</label>
                   <select id="sfOra" required>
                     <option value="">-- Scegli Ora --</option>
-                    <optgroup label="Mattina">
-                      <option value="09:00">09:00</option><option value="09:30">09:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option>
+                    <optgroup label="Mattina (09:00 - 13:00)">
+                      <option value="09:00">09:00</option>
+                      <option value="09:30">09:30</option>
+                      <option value="10:00">10:00</option>
+                      <option value="10:30">10:30</option>
+                      <option value="11:00">11:00</option>
+                      <option value="11:30">11:30</option>
+                      <option value="12:00">12:00</option>
+                      <option value="12:30">12:30</option>
                     </optgroup>
-                    <optgroup label="Pomeriggio">
-                      <option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option>
+                    <optgroup label="Pomeriggio (15:00 - 20:00)">
+                      <option value="15:00">15:00</option>
+                      <option value="15:30">15:30</option>
+                      <option value="16:00">16:00</option>
+                      <option value="16:30">16:30</option>
+                      <option value="17:00">17:00</option>
+                      <option value="17:30">17:30</option>
+                      <option value="18:00">18:00</option>
+                      <option value="18:30">18:30</option>
+                      <option value="19:00">19:00</option>
+                      <option value="19:30">19:30</option>
                     </optgroup>
                   </select>
                 </div>
@@ -809,8 +1103,14 @@
             </div>
 
             <div class="grid-2">
-              <div class="form-group"><label for="sfNome">Nome *</label><input type="text" id="sfNome" placeholder="Es. Mario" required></div>
-              <div class="form-group"><label for="sfCognome">Cognome *</label><input type="text" id="sfCognome" placeholder="Es. Rossi" required></div>
+              <div class="form-group">
+                <label for="sfNome">Nome *</label>
+                <input type="text" id="sfNome" placeholder="Es. Mario" required>
+              </div>
+              <div class="form-group">
+                <label for="sfCognome">Cognome *</label>
+                <input type="text" id="sfCognome" placeholder="Es. Rossi" required>
+              </div>
             </div>
 
             <div class="form-group">
@@ -821,49 +1121,88 @@
               </select>
             </div>
 
-            <div class="form-group" id="sfBoxTelefono"><label for="sfTelefono">Telefono *</label><input type="tel" id="sfTelefono" placeholder="Numero" required></div>
-            <div class="form-group" id="sfBoxEmail" style="display:none;"><label for="sfEmail">Email *</label><input type="email" id="sfEmail" placeholder="esempio@email.it"></div>
-            <div class="form-group"><label for="sfNote">Note *</label><textarea id="sfNote" rows="3" placeholder="Prodotto o esigenza..." required></textarea></div>
+            <div class="form-group" id="sfBoxTelefono">
+              <label for="sfTelefono">Numero di Telefono *</label>
+              <input type="tel" id="sfTelefono" placeholder="Inserisci il tuo numero di telefono" required>
+            </div>
 
-            <button type="submit" id="btnSubmitSF" class="btn btn-purple btn-block" style="padding:14px; font-size:1rem;">🎟️ Conferma Salta Fila</button>
+            <div class="form-group" id="sfBoxEmail" style="display:none;">
+              <label for="sfEmail">Indirizzo Email *</label>
+              <input type="email" id="sfEmail" placeholder="esempio@email.it">
+            </div>
+
+            <div class="form-group">
+              <label for="sfNote">Note / Prodotto di interesse *</label>
+              <textarea id="sfNote" rows="3" placeholder="Indica per quale prodotto o esigenza prenoti il turno..." required></textarea>
+            </div>
+
+            <button type="submit" id="btnSubmitSF" class="btn btn-purple btn-block" style="padding:14px; font-size:1rem;">
+              🎟️ Conferma Prenotazione Salta Fila
+            </button>
           </form>
         </div>
 
-        <div id="confirmToastSF" class="toast">✅ Prenotazione Salta Fila inviata! Ti aspettiamo in negozio.</div>
+        <div id="confirmToastSF" class="toast">
+          ✅ Prenotazione Salta Fila inviata! Ti aspettiamo in negozio nel giorno e nell'orario scelti.
+        </div>
       </div>
     </div>
 
+    <!-- 2. RICHIESTA FACILE CON MESSAGGIO VOCALE (SMISTATA SUI 2 NUMERI WA) -->
     <div class="wa-helper-box">
-      <div class="wa-helper-title"><span>👵👴 Richiesta Facile con Messaggio Vocale</span></div>
-      <div class="wa-pre-steps">
-        <div>📱 Toccando un pulsante, si aprirà WhatsApp nella chat del reparto.</div>
-        <div>🗣️ Tieni premuto il microfono verde e invia un vocale!</div>
+      <div class="wa-helper-title">
+        <span>👵👴 Richiesta Facile con Messaggio Vocale</span>
       </div>
+      <div class="wa-pre-steps">
+        <div>📱 <strong>Cosa farà l'app:</strong> Toccando uno dei pulsanti verdi qui sotto, si aprirà subito WhatsApp nella chat del reparto scelto.</div>
+        <div>🗣️ <strong>Cosa dovrai fare tu:</strong> Tieni premuto il microfono verde in basso a destra su WhatsApp e dicci a voce il tuo nome e cosa ti serve!</div>
+      </div>
+
       <a href="https://wa.me/390965340336" target="_blank" rel="noopener" class="wa-audio-banner" onclick="mostraSchermataWhatsAppAperta('0965 340336', 'https://wa.me/390965340336')">
         <div class="wa-audio-icon">🧺☕</div>
-        <div class="wa-audio-text"><strong>Audio per ELETTRODOMESTICI o RAEE</strong><span>WA 0965 340336</span></div>
+        <div class="wa-audio-text">
+          <strong>Inviaci un audio per ELETTRODOMESTICI o RAEE</strong>
+          <span>👉 Al resto ci pensiamo noi! Tocca qui (WA 0965 340336)</span>
+        </div>
       </a>
+
       <a href="https://wa.me/390965598722" target="_blank" rel="noopener" class="wa-audio-banner" onclick="mostraSchermataWhatsAppAperta('0965 598722', 'https://wa.me/390965598722')">
         <div class="wa-audio-icon">📱📺</div>
-        <div class="wa-audio-text"><strong>Audio per TELEFONIA, PC o TV</strong><span>WA 0965 598722</span></div>
+        <div class="wa-audio-text">
+          <strong>Inviaci un audio per TELEFONIA, PC o TV</strong>
+          <span>👉 Al resto ci pensiamo noi! Tocca qui (WA 0965 598722)</span>
+        </div>
       </a>
     </div>
 
+    <!-- 3. VOLANTINO & PROMO RITAGLIABILI -->
     <div class="card">
-      <div class="card-title"><span>📖 Sfoglia Offerte e Ritaglia</span></div>
-      <div class="pdf-tabs">
-        <button type="button" id="btnTabVolantino" class="tab-btn active" onclick="caricaPdf('volantino.pdf', 'btnTabVolantino')">📄 VOLANTINO<small>Offerte correnti</small></button>
-        <button type="button" id="btnTabPromo" class="tab-btn promo-btn" onclick="caricaPdf('promo.pdf', 'btnTabPromo')">🔥 PROMO APP<small>Riservate app</small></button>
+      <div class="card-title">
+        <span>📖 Sfoglia Offerte e Ritaglia</span>
       </div>
+
+      <div class="pdf-tabs">
+        <button type="button" id="btnTabVolantino" class="tab-btn active" onclick="caricaPdf('volantino.pdf', 'btnTabVolantino')">
+          📄 VOLANTINO
+          <small>Offerte correnti</small>
+        </button>
+        <button type="button" id="btnTabPromo" class="tab-btn promo-btn" onclick="caricaPdf('promo.pdf', 'btnTabPromo')">
+          🔥 PROMO APP...ETITOSE
+          <small>Riservate ai possessori di app Unieuro Reggio Calabria in Tasca</small>
+        </button>
+      </div>
+
       <div class="input-row" style="margin-bottom:10px;">
-        <input type="search" id="pdfSearchInput" placeholder="Cerca prodotto..." autocomplete="off">
+        <input type="search" id="pdfSearchInput" placeholder="Cerca prodotto (es. Lavatrice, TV)..." autocomplete="off">
         <button type="button" class="btn btn-blue" onclick="cercaNelPdf()">🔍 Cerca</button>
       </div>
+
       <div id="searchNavBar" class="search-nav-bar">
         <button type="button" class="btn btn-outline" style="padding:6px 10px; font-size:0.8rem;" onclick="navigaRisultato(-1)">◀ Prec</button>
-        <span id="searchStatus" style="font-size:0.82rem; color:var(--unieuro-blue); font-weight:800;"></span>
+        <span id="searchStatus" style="font-size:0.82rem; color:var(--unieuro-blue); font-weight:800; text-align:center;"></span>
         <button type="button" class="btn btn-outline" style="padding:6px 10px; font-size:0.8rem;" onclick="navigaRisultato(1)">Succ ▶</button>
       </div>
+
       <div class="pdf-controls">
         <div style="display:flex; gap:6px; align-items:center;">
           <button type="button" class="btn btn-outline" onclick="cambiaPagina(-1)">◀</button>
@@ -872,15 +1211,23 @@
         </div>
         <button type="button" id="btnStartCrop" class="btn btn-orange" onclick="avviaRitaglio()">✂️ Ritaglia Offerta</button>
       </div>
+
       <div id="cropToolbar" class="crop-toolbar">
         <button type="button" class="btn btn-green btn-block" onclick="confermaRitaglio()">✅ Allega Ritaglio e Scegli Reparto</button>
         <button type="button" class="btn btn-red" onclick="annullaRitaglio()">✖</button>
       </div>
-      <div class="canvas-wrapper"><canvas id="pdfCanvas"></canvas></div>
+
+      <div class="canvas-wrapper">
+        <canvas id="pdfCanvas"></canvas>
+      </div>
     </div>
 
+    <!-- 4. SEZIONE RICONDIZIONATO -->
     <div class="card green-border">
-      <div class="rico-hero-banner"><h3>♻️ HAI MAI PENSATO AL RICONDIZIONATO?</h3></div>
+      <div class="rico-hero-banner">
+        <h3>♻️ HAI MAI PENSATO AL RICONDIZIONATO?<br>SCOPRI PERCHÉ POTREBBE ESSERE LA SCELTA GIUSTA</h3>
+      </div>
+
       <div class="pdf-controls">
         <div style="display:flex; gap:6px; align-items:center;">
           <button type="button" class="btn btn-outline" onclick="cambiaPaginaRico(-1)">◀</button>
@@ -889,58 +1236,101 @@
         </div>
         <button type="button" id="btnStartCropRico" class="btn btn-orange" onclick="avviaRitaglioRico()">✂️ Ritaglia Offerta</button>
       </div>
+
       <div id="cropToolbarRico" class="crop-toolbar">
         <button type="button" class="btn btn-green btn-block" onclick="confermaRitaglioRico()">✅ Allega Ritaglio e Scegli Reparto</button>
         <button type="button" class="btn btn-red" onclick="annullaRitaglioRico()">✖</button>
       </div>
-      <div class="canvas-wrapper"><canvas id="pdfCanvasRico"></canvas></div>
-      <a href="https://www.unieuro.it" id="linkPortaleRicondizionati" target="_blank" rel="noopener" class="btn-portale-rico">🌐 VAI AL PORTALE RICONDIZIONATI</a>
+
+      <div class="canvas-wrapper">
+        <canvas id="pdfCanvasRico"></canvas>
+      </div>
+
+      <a href="https://www.unieuro.it" id="linkPortaleRicondizionati" target="_blank" rel="noopener" class="btn-portale-rico">
+        🌐 VAI AL NOSTRO PORTALE RICONDIZIONATI
+      </a>
     </div>
 
+    <!-- 5. LA TUA TESSERA UNIEURO -->
     <div class="club-card">
-      <div class="club-header"><strong>💳 La Tua Tessera Unieuro</strong><span class="badge-orange">Unieuro Club</span></div>
+      <div class="club-header">
+        <strong>💳 La Tua Tessera Unieuro</strong>
+        <span class="badge-orange">Unieuro Club</span>
+      </div>
+
       <div id="cardForm">
         <div class="input-row" style="margin-bottom:8px;">
-          <input type="text" id="cardInput" placeholder="Inserisci codice tessera..." style="background:white;">
+          <input type="text" id="cardInput" placeholder="Inserisci codice tessera manualmente..." style="background:white;">
           <button type="button" class="btn btn-orange" onclick="salvaTessera()">Salva</button>
         </div>
-        <button type="button" class="btn btn-block" style="background:rgba(255,255,255,0.18); color:white; border:1px solid rgba(255,255,255,0.45);" onclick="avviaScannerFotocamera()">📷 Scansiona con Fotocamera</button>
+        <button type="button" class="btn btn-block" style="background:rgba(255,255,255,0.18); color:white; border:1px solid rgba(255,255,255,0.45);" onclick="avviaScannerFotocamera()">
+          📷 Scansiona Tessera con Fotocamera
+        </button>
       </div>
+
       <div id="cameraScannerBox">
         <div id="readerCamera" style="width:100%;"></div>
         <button type="button" class="btn btn-red btn-block" style="border-radius:0;" onclick="fermaScannerFotocamera()">✖ Chiudi Fotocamera</button>
       </div>
+
       <div id="cardSaved" style="display:none;">
-        <div class="barcode-box"><svg id="barcodeSvg"></svg></div>
+        <div class="barcode-box">
+          <svg id="barcodeSvg"></svg>
+        </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
-          <small style="color:#CBD5E1; font-size:0.75rem;">Mostra in cassa</small>
+          <small style="color:#CBD5E1; font-size:0.75rem;">Mostra il codice in cassa</small>
           <div style="display:flex; gap:6px;">
             <button type="button" class="btn" style="background:rgba(255,255,255,0.2); color:white; padding:6px 10px; font-size:0.78rem;" onclick="avviaScannerFotocamera()">📷 Scansiona</button>
             <button type="button" class="btn" style="background:rgba(255,255,255,0.2); color:white; padding:6px 10px; font-size:0.78rem;" onclick="modificaTessera()">✏️ Manuale</button>
           </div>
         </div>
       </div>
-      <a href="https://loyaltyapp.unieuro.it/home?code=702" target="_blank" rel="noopener" class="btn-request-digital-card">✨ RICHIEDI CARD UNIEURO DIGITAL</a>
+
+      <a href="https://loyaltyapp.unieuro.it/home?code=702" target="_blank" rel="noopener" class="btn-request-digital-card">
+        ✨ NON HAI LA TESSERA? CLICCA QUI PER RICHIEDERE LA TUA CARD UNIEURO IN FORMATO DIGITAL
+      </a>
     </div>
 
+    <!-- 6. MOTTO FINALE -->
     <div class="motto-footer">
       <p>"E COME SEMPRE, GRAZIE"</p>
       <span>Unieuro Reggio Calabria</span>
     </div>
+
   </div>
 
+  <!-- MODALE GUIDA WHATSAPP AUDIO -->
   <div id="waGuideModal" class="wa-modal-overlay">
     <div class="wa-modal-card">
       <h2 style="color:#15803D; font-size:1.22rem; margin-bottom:10px;">✅ WhatsApp si sta aprendo!</h2>
-      <button type="button" class="btn-voice-guide" onclick="leggiIstruzioniAVoce()">🔊 Ascolta a voce cosa fare</button>
+
+      <button type="button" class="btn-voice-guide" onclick="leggiIstruzioniAVoce()">
+        🔊 Ascolta a voce cosa fare
+      </button>
+
       <div class="wa-step-box" style="background:#FEFCE8; border-color:#FDE047;">
-        <strong>🗣️ Nella chat di WhatsApp:</strong><br>1. Tieni premuto il <strong>Microfono 🎤</strong>.<br>2. Dicci il tuo nome e la tua richiesta.<br>3. Solleva per inviare.
+        <strong>🗣️ Ricorda cosa fare nella chat di WhatsApp:</strong><br>
+        1. Tieni premuto col dito il <strong>Microfono verde 🎤</strong> in basso a destra.<br>
+        2. Dicci a voce il tuo <strong>Nome</strong> e la tua <strong>richiesta</strong>.<br>
+        3. Solleva il dito per inviare il vocale.
       </div>
-      <a href="https://wa.me/390965598722" id="waModalReopenLink" target="_blank" rel="noopener" class="btn-go-wa" style="margin-bottom:10px;">🔄 Riapri WhatsApp</a>
-      <button type="button" class="btn btn-outline btn-block" onclick="chiudiGuidaWhatsApp()" style="padding:13px;">✖ Torna all'App</button>
+
+      <div class="wa-step-box" style="background:#F0FDF4; border-color:#86EFAC;">
+        <strong>🤝 Hai già inviato il messaggio vocale?</strong><br>
+        Allora <strong>hai finito!</strong> Il nostro reparto ha ricevuto il tuo audio sul numero <strong id="waModalNumeroLabel">0965 598722</strong> e ti ricontatterà al più presto.
+      </div>
+
+      <a href="https://wa.me/390965598722" id="waModalReopenLink" target="_blank" rel="noopener" class="btn-go-wa" style="margin-bottom:10px;">
+        🔄 Riapri la chat WhatsApp di Unieuro
+      </a>
+
+      <button type="button" class="btn btn-outline btn-block" onclick="chiudiGuidaWhatsApp()" style="padding:13px;">
+        ✖ Torna all'App Unieuro
+      </button>
     </div>
   </div>
 
+  <!-- Librerie esterne: PDF.js, Cropper.js, JsBarcode, Html5-QRCode -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
@@ -954,7 +1344,9 @@
 
     function getNumeroWhatsAppReparto(repartoScelto, sottoRepartoAssistenza) {
       const target = (repartoScelto === 'ASSISTENZA' ? (sottoRepartoAssistenza || 'ELETTRODOMESTICI') : repartoScelto).toUpperCase();
-      if (target.includes('ELETTRODOMESTICI') || target.includes('RAEE')) return "0965340336";
+      if (target.includes('ELETTRODOMESTICI') || target.includes('RAEE')) {
+        return "0965340336";
+      }
       return "0965598722";
     }
 
@@ -963,66 +1355,124 @@
     let pdfDoc = null, currentPage = 1, cropperInstance = null;
     let pdfDocRico = null, currentPageRico = 1, cropperInstanceRico = null;
     let croppedBase64 = "", html5QrCodeScanner = null;
+    let searchMatches = [], currentMatchIdx = 0;
+
     let deferredInstallPrompt = null;
+    function isAppGiaInstallata() {
+      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    }
+    function isDispositivoIOS() {
+      return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+    }
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredInstallPrompt = e;
-      if (!window.matchMedia('(display-mode: standalone)').matches) {
+      if (!isAppGiaInstallata()) {
         document.getElementById('topInstallBanner').style.display = 'flex';
+        document.getElementById('btnTriggerInstall').style.display = 'inline-flex';
+        document.getElementById('iosInstallBox').style.display = 'none';
         document.getElementById('installPwaModal').style.display = 'flex';
       }
     });
 
-    window.apriPopupInstallazioneManuale = function() { document.getElementById('installPwaModal').style.display = 'flex'; };
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+      document.getElementById('installPwaModal').style.display = 'none';
+      document.getElementById('topInstallBanner').style.display = 'none';
+    });
+
+    function verificaPropostaInstallazioneAllApertura() {
+      if (isAppGiaInstallata()) {
+        document.getElementById('installPwaModal').style.display = 'none';
+        document.getElementById('topInstallBanner').style.display = 'none';
+        return;
+      }
+      document.getElementById('topInstallBanner').style.display = 'flex';
+      if (isDispositivoIOS()) {
+        document.getElementById('btnTriggerInstall').style.display = 'none';
+        document.getElementById('iosInstallBox').style.display = 'block';
+      }
+      document.getElementById('installPwaModal').style.display = 'flex';
+    }
+
+    window.apriPopupInstallazioneManuale = function() {
+      document.getElementById('installPwaModal').style.display = 'flex';
+    };
+
     window.eseguiInstallazioneHome = async function() {
       if (deferredInstallPrompt) {
         deferredInstallPrompt.prompt();
         await deferredInstallPrompt.userChoice;
         deferredInstallPrompt = null;
       } else {
-        alert("Usa il menu del browser (3 puntini) e seleziona 'Aggiungi a schermata Home'.");
+        alert("Per aggiungere l'app alla schermata Home, tocca il menu del browser (i 3 puntini ⋮ in alto a destra) e seleziona 'Aggiungi a schermata Home' o 'Installa app'.");
       }
       document.getElementById('installPwaModal').style.display = 'none';
     };
-    window.chiudiPopupInstallazione = function() { document.getElementById('installPwaModal').style.display = 'none'; };
+
+    window.chiudiPopupInstallazione = function() {
+      document.getElementById('installPwaModal').style.display = 'none';
+    };
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
 
     function aggiornaStatoNegozio() {
-      const now = new Date(), day = now.getDay(), min = now.getHours() * 60 + now.getMinutes();
-      const aperto = (day >= 1 && day <= 6) && ((min >= 540 && min < 780) || (min >= 900 && min < 1200));
+      const now = new Date();
+      const day = now.getDay();
+      const minutiAttuali = now.getHours() * 60 + now.getMinutes();
+      const apertoMattina = minutiAttuali >= 540 && minutiAttuali < 780;
+      const apertoPomeriggio = minutiAttuali >= 900 && minutiAttuali < 1200;
+      const isAperto = (day >= 1 && day <= 6) && (apertoMattina || apertoPomeriggio);
+
       const badge = document.getElementById('storeStatusBadge');
       const text = document.getElementById('storeStatusText');
-      badge.className = aperto ? 'status-badge open' : 'status-badge closed';
-      text.textContent = aperto ? 'SIAMO APERTI' : 'SIAMO CHIUSI';
+      if (isAperto) {
+        badge.className = 'status-badge open';
+        text.textContent = 'SIAMO APERTI';
+      } else {
+        badge.className = 'status-badge closed';
+        text.textContent = 'SIAMO CHIUSI';
+      }
     }
 
     window.toggleOrari = function() {
       const box = document.getElementById('orariPopup');
-      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+      if (box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
     };
 
-    window.mostraSchermataWhatsAppAperta = function(num, url) {
-      document.getElementById('waModalReopenLink').href = url;
-      document.getElementById('waGuideModal').style.display = 'flex';
+    window.mostraSchermataWhatsAppAperta = function(numLabel, urlWa) {
+      if (numLabel) document.getElementById('waModalNumeroLabel').textContent = numLabel;
+      if (urlWa) document.getElementById('waModalReopenLink').href = urlWa;
+      const modal = document.getElementById('waGuideModal');
+      if (modal) modal.style.display = 'flex';
     };
+
     window.chiudiGuidaWhatsApp = function() {
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      document.getElementById('waGuideModal').style.display = 'none';
+      const modal = document.getElementById('waGuideModal');
+      if (modal) modal.style.display = 'none';
     };
+
     window.leggiIstruzioniAVoce = function() {
       if (!('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
-      const msg = new SpeechSynthesisUtterance("Tieni premuto il microfono verde su WhatsApp e dicci il tuo nome e la tua richiesta.");
-      msg.lang = 'it-IT'; window.speechSynthesis.speak(msg);
+      const msg = new SpeechSynthesisUtterance("Nella chat di WhatsApp, tieni premuto il microfono verde in basso a destra, dicci il tuo nome e la tua richiesta, e solleva il dito per inviare.");
+      msg.lang = 'it-IT';
+      window.speechSynthesis.speak(msg);
     };
 
     window.selezionaReparto = function(nomeReparto, btnElement) {
       chiudiSaltaFila();
       document.querySelectorAll('.reparto-btn').forEach(b => b.classList.remove('selected'));
       if (btnElement) btnElement.classList.add('selected');
+
       document.getElementById('repartoHidden').value = nomeReparto;
-      document.getElementById('repartoSceltoLabel').textContent = '📍 ' + nomeReparto;
+      document.getElementById('repartoSceltoLabel').textContent = '📍 Reparto: ' + nomeReparto;
       document.getElementById('boxSottoRepartoAssistenza').style.display = (nomeReparto === 'ASSISTENZA') ? 'block' : 'none';
+
       const formBox = document.getElementById('formContainerBox');
       formBox.style.display = 'block';
       formBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1037,12 +1487,18 @@
       const metodo = document.getElementById('metodoRicontatto').value;
       document.getElementById('boxTelefono').style.display = metodo === 'Telefono' ? 'block' : 'none';
       document.getElementById('boxEmail').style.display = metodo === 'Telefono' ? 'none' : 'block';
+      document.getElementById('telefonoCliente').required = (metodo === 'Telefono');
+      document.getElementById('emailCliente').required = (metodo !== 'Telefono');
     };
 
-    // PULIZIA NUMERO PURIFICATO SENZA ZERO INIZIALE FORZATO
-    function pulisciNumeroPuro(raw) {
-      if (!raw) return "";
-      return String(raw).replace(/[\s\-\.\(\)]/g, '').replace(/^(\+39|0039)/, '');
+    // Pulisce il numero rimuovendo eventuali zeri iniziali o +39
+    function pulisciNumeroSenzaZero(rawPhone) {
+      if (!rawPhone) return "";
+      let clean = String(rawPhone).replace(/[\s\-\.\(\)]/g, '').replace(/^(\+39|0039)/, '');
+      if (clean.startsWith('0')) {
+        clean = clean.substring(1);
+      }
+      return clean;
     }
 
     window.inviaRichiesta = async function(e) {
@@ -1050,9 +1506,9 @@
       const repartoBase = document.getElementById('repartoHidden').value;
       if (!repartoBase) return;
 
-      const sottoRep = document.getElementById('repartoAssistenzaSelect').value;
-      const numeroWaDest = getNumeroWhatsAppReparto(repartoBase, sottoRep);
-      const repartoFinale = repartoBase === 'ASSISTENZA' ? `ASSISTENZA (${sottoRep})` : repartoBase;
+      const sottoRepartoAss = document.getElementById('repartoAssistenzaSelect').value;
+      const numeroWaDest = getNumeroWhatsAppReparto(repartoBase, sottoRepartoAss);
+      const repartoFinale = (repartoBase === 'ASSISTENZA') ? `ASSISTENZA (${sottoRepartoAss})` : repartoBase;
 
       const btn = document.getElementById('btnSubmit');
       btn.disabled = true; btn.textContent = '⏳ Invio in corso...';
@@ -1063,9 +1519,9 @@
         timestamp: new Date().toLocaleString("it-IT"),
         reparto: repartoFinale,
         waDestinatario: numeroWaDest,
-        tipoRichiesta: repartoBase === 'RITIRO RAEE' ? 'Ritiro RAEE' : `Richiesta Cliente (WA ${numeroWaDest})`,
+        tipoRichiesta: repartoBase === 'RITIRO RAEE' ? 'Ritiro RAEE (in negozio)' : `Richiesta Cliente (WA ${numeroWaDest})`,
         nomeCliente: `${document.getElementById('nomeCliente').value.trim()} ${document.getElementById('cognomeCliente').value.trim()}`,
-        telefono: pulisciNumeroPuro(document.getElementById('telefonoCliente').value.trim()),
+        telefono: pulisciNumeroSenzaZero(document.getElementById('telefonoCliente').value.trim()),
         emailCliente: document.getElementById('emailCliente').value.trim(),
         preferenzaContatto: document.getElementById('metodoRicontatto').value,
         noteCliente: document.getElementById('noteCliente').value.trim(),
@@ -1077,7 +1533,11 @@
       fetch(`https://ntfy.sh/unieuro_rc_wa_${numeroWaDest}`, { method: 'POST', body: JSON.stringify({ ...payload, image: "" }) }).catch(() => {});
 
       try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+        await fetch(SCRIPT_URL, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
       } catch (err) {}
 
       btn.disabled = false; btn.textContent = '🚀 Invia Richiesta al Reparto';
@@ -1100,13 +1560,18 @@
 
     function impostaMinimoDataSaltaFila() {
       const inputData = document.getElementById('sfData');
-      if (inputData) { inputData.min = getDataDomaniISO(); if (!inputData.value) inputData.value = inputData.min; }
+      if (inputData) {
+        inputData.min = getDataDomaniISO();
+        if (!inputData.value || inputData.value < inputData.min) inputData.value = inputData.min;
+      }
     }
 
     window.verificaGiornoSaltaFila = function() {
       const inputData = document.getElementById('sfData');
-      if (inputData && new Date(inputData.value).getDay() === 0) {
-        alert("La domenica il negozio è chiuso.");
+      if (!inputData || !inputData.value) return;
+      const d = new Date(inputData.value);
+      if (d.getDay() === 0) {
+        alert("La domenica il negozio è chiuso. Seleziona un giorno dal Lunedì al Sabato.");
         inputData.value = getDataDomaniISO();
       }
     };
@@ -1116,23 +1581,31 @@
       const box = document.getElementById('saltaFilaBox');
       const isHidden = box.style.display === 'none' || box.style.display === '';
       box.style.display = isHidden ? 'block' : 'none';
-      if (isHidden) { impostaMinimoDataSaltaFila(); box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+      if (isHidden) {
+        impostaMinimoDataSaltaFila();
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     };
-    window.chiudiSaltaFila = function() { document.getElementById('saltaFilaBox').style.display = 'none'; };
+
+    window.chiudiSaltaFila = function() {
+      document.getElementById('saltaFilaBox').style.display = 'none';
+    };
 
     window.aggiornaCampiContattoSF = function() {
-      const m = document.getElementById('sfMetodo').value;
-      document.getElementById('sfBoxTelefono').style.display = m === 'Telefono' ? 'block' : 'none';
-      document.getElementById('sfBoxEmail').style.display = m === 'Telefono' ? 'none' : 'block';
+      const metodo = document.getElementById('sfMetodo').value;
+      document.getElementById('sfBoxTelefono').style.display = metodo === 'Telefono' ? 'block' : 'none';
+      document.getElementById('sfBoxEmail').style.display = metodo === 'Telefono' ? 'none' : 'block';
     };
 
     window.inviaSaltaFila = async function(e) {
       e.preventDefault();
-      const repB = document.getElementById('sfReparto').value;
+      const repartoBase = document.getElementById('sfReparto').value;
       const sottoRep = document.getElementById('sfRepartoAssistenza').value;
-      const numeroWaDest = getNumeroWhatsAppReparto(repB, sottoRep);
-      const repFin = repB === 'ASSISTENZA' ? `ASSISTENZA (${sottoRep})` : repB;
-      const data = document.getElementById('sfData').value.split('-');
+      const numeroWaDest = getNumeroWhatsAppReparto(repartoBase, sottoRep);
+      const repartoFinale = (repartoBase === 'ASSISTENZA') ? `ASSISTENZA (${sottoRep})` : repartoBase;
+      const dataScelta = document.getElementById('sfData').value;
+      const oraScelta = document.getElementById('sfOra').value;
+      const parts = dataScelta.split('-');
 
       const btn = document.getElementById('btnSubmitSF');
       btn.disabled = true; btn.textContent = '⏳ Prenotazione in corso...';
@@ -1141,14 +1614,14 @@
         action: "create",
         id: "REQ-" + Date.now(),
         timestamp: new Date().toLocaleString("it-IT"),
-        reparto: repFin,
+        reparto: repartoFinale,
         waDestinatario: numeroWaDest,
-        tipoRichiesta: `🎟️ SALTA FILA (${data[2]}/${data[1]}/${data[0]} ore ${document.getElementById('sfOra').value})`,
+        tipoRichiesta: `🎟️ SALTA FILA (${parts[2]}/${parts[1]}/${parts[0]} ore ${oraScelta} - WA ${numeroWaDest})`,
         nomeCliente: `${document.getElementById('sfNome').value.trim()} ${document.getElementById('sfCognome').value.trim()}`,
-        telefono: pulisciNumeroPuro(document.getElementById('sfTelefono').value.trim()),
+        telefono: pulisciNumeroSenzaZero(document.getElementById('sfTelefono').value.trim()),
         emailCliente: document.getElementById('sfEmail').value.trim(),
         preferenzaContatto: document.getElementById('sfMetodo').value,
-        noteCliente: `[🎟️ SALTA FILA] ${document.getElementById('sfNote').value.trim()}`,
+        noteCliente: `[🎟️ SALTA FILA - ${parts[2]}/${parts[1]}/${parts[0]} ore ${oraScelta}] ${document.getElementById('sfNote').value.trim()}`,
         stato: "Aperta",
         image: croppedBase64
       };
@@ -1157,14 +1630,21 @@
       fetch(`https://ntfy.sh/unieuro_rc_wa_${numeroWaDest}`, { method: 'POST', body: JSON.stringify({ ...payload, image: "" }) }).catch(() => {});
 
       try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+        await fetch(SCRIPT_URL, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
       } catch (err) {}
 
-      btn.disabled = false; btn.textContent = '🎟️ Conferma Salta Fila';
+      btn.disabled = false; btn.textContent = '🎟️ Conferma Prenotazione Salta Fila';
       document.getElementById('saltaFilaForm').reset();
-      chiudiSaltaFila(); rimuoviRitaglio();
+      chiudiSaltaFila();
+      rimuoviRitaglio();
+
       const toast = document.getElementById('confirmToastSF');
-      toast.style.display = 'block'; setTimeout(() => { toast.style.display = 'none'; }, 5000);
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 5000);
     };
 
     window.caricaPdf = async function(url, tabId) {
@@ -1173,19 +1653,56 @@
       document.getElementById('btnTabVolantino').classList.remove('active');
       document.getElementById('btnTabPromo').classList.remove('active');
       document.getElementById(tabId).classList.add('active');
-      try { pdfDoc = await pdfjsLib.getDocument(url).promise; currentPage = 1; await renderPagina(currentPage); } catch (e) {}
+      try {
+        pdfDoc = await pdfjsLib.getDocument(url).promise;
+        currentPage = 1;
+        await renderPagina(currentPage);
+      } catch (e) {}
     };
 
     async function renderPagina(num) {
       if (!pdfDoc) return;
-      const page = await pdfDoc.getPage(num), canvas = document.getElementById('pdfCanvas'), ctx = canvas.getContext('2d'), vp = page.getViewport({ scale: 1.4 });
-      canvas.width = vp.width; canvas.height = vp.height;
-      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+      const page = await pdfDoc.getPage(num);
+      const canvas = document.getElementById('pdfCanvas');
+      const ctx = canvas.getContext('2d');
+      const viewport = page.getViewport({ scale: 1.4 });
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      await page.render({ canvasContext: ctx, viewport: viewport }).promise;
       document.getElementById('pageIndicator').textContent = `Pag. ${num} / ${pdfDoc.numPages}`;
     }
 
     window.cambiaPagina = function(delta) {
-      if (pdfDoc && currentPage + delta >= 1 && currentPage + delta <= pdfDoc.numPages) { currentPage += delta; renderPagina(currentPage); }
+      if (!pdfDoc) return;
+      const next = currentPage + delta;
+      if (next >= 1 && next <= pdfDoc.numPages) { currentPage = next; renderPagina(currentPage); }
+    };
+
+    window.cercaNelPdf = async function() {
+      const q = document.getElementById('pdfSearchInput').value.trim().toLowerCase();
+      if (!q || !pdfDoc) return;
+      document.getElementById('searchNavBar').style.display = 'flex';
+      searchMatches = [];
+      for (let i = 1; i <= pdfDoc.numPages; i++) {
+        const page = await pdfDoc.getPage(i);
+        const txt = await page.getTextContent();
+        if (txt.items.map(item => item.str).join(' ').toLowerCase().includes(q)) searchMatches.push(i);
+      }
+      if (searchMatches.length > 0) {
+        currentMatchIdx = 0;
+        currentPage = searchMatches[0];
+        await renderPagina(currentPage);
+        document.getElementById('searchStatus').textContent = `Risultato 1 di ${searchMatches.length} (Pag. ${currentPage})`;
+      } else {
+        document.getElementById('searchStatus').textContent = `⚠️ Nessun risultato`;
+      }
+    };
+
+    window.navigaRisultato = function(delta) {
+      if (searchMatches.length <= 1) return;
+      currentMatchIdx = (currentMatchIdx + delta + searchMatches.length) % searchMatches.length;
+      currentPage = searchMatches[currentMatchIdx];
+      renderPagina(currentPage);
+      document.getElementById('searchStatus').textContent = `Risultato ${currentMatchIdx + 1} di ${searchMatches.length} (Pag. ${currentPage})`;
     };
 
     window.avviaRitaglio = function() {
@@ -1213,25 +1730,37 @@
     };
 
     async function caricaPdfRicondizionato() {
+      const canvas = document.getElementById('pdfCanvasRico');
       try {
         pdfDocRico = await pdfjsLib.getDocument('ricondizionato.pdf').promise;
-        currentPageRico = 1; await renderPaginaRico(1);
+        currentPageRico = 1;
+        await renderPaginaRico(currentPageRico);
       } catch (e) {
-        const c = document.getElementById('pdfCanvasRico');
-        if (c) { c.width = 500; c.height = 180; const x = c.getContext('2d'); x.fillStyle = '#F0FDF4'; x.fillRect(0,0,500,180); x.fillStyle = '#047857'; x.font = 'bold 15px sans-serif'; x.textAlign = 'center'; x.fillText('♻️ Volantino Ricondizionati in arrivo!', 250, 95); }
+        if (canvas) {
+          canvas.width = 500; canvas.height = 200;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#F0FDF4'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#047857'; ctx.font = 'bold 15px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('♻️ Volantino Ricondizionati in arrivo!', 250, 95);
+        }
       }
     }
 
     async function renderPaginaRico(num) {
       if (!pdfDocRico) return;
-      const page = await pdfDocRico.getPage(num), canvas = document.getElementById('pdfCanvasRico'), ctx = canvas.getContext('2d'), vp = page.getViewport({ scale: 1.4 });
-      canvas.width = vp.width; canvas.height = vp.height;
-      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+      const page = await pdfDocRico.getPage(num);
+      const canvas = document.getElementById('pdfCanvasRico');
+      const ctx = canvas.getContext('2d');
+      const viewport = page.getViewport({ scale: 1.4 });
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      await page.render({ canvasContext: ctx, viewport: viewport }).promise;
       document.getElementById('pageIndicatorRico').textContent = `Pag. ${num} / ${pdfDocRico.numPages}`;
     }
 
     window.cambiaPaginaRico = function(delta) {
-      if (pdfDocRico && currentPageRico + delta >= 1 && currentPageRico + delta <= pdfDocRico.numPages) { currentPageRico += delta; renderPaginaRico(currentPageRico); }
+      if (!pdfDocRico) return;
+      const next = currentPageRico + delta;
+      if (next >= 1 && next <= pdfDocRico.numPages) { currentPageRico = next; renderPaginaRico(currentPageRico); }
     };
 
     window.avviaRitaglioRico = function() {
@@ -1259,59 +1788,104 @@
     };
 
     window.rimuoviRitaglio = function() {
-      croppedBase64 = ""; document.getElementById('cropPreviewImg').src = ''; document.getElementById('cropPreviewContainer').style.display = 'none';
+      croppedBase64 = "";
+      document.getElementById('cropPreviewImg').src = '';
+      document.getElementById('cropPreviewContainer').style.display = 'none';
     };
+
+    function disegnaBarcodeCassa(code) {
+      try {
+        JsBarcode("#barcodeSvg", code, { format: "CODE128", lineColor: "#000000", background: "#FFFFFF", width: 2.2, height: 65, displayValue: true, fontSize: 18, fontOptions: "bold", margin: 6 });
+      } catch (e) {}
+    }
 
     function caricaTessera() {
       const code = localStorage.getItem(CARD_KEY);
       if (code && code.trim() !== '') {
         document.getElementById('cardForm').style.display = 'none';
         document.getElementById('cardSaved').style.display = 'block';
-        try { JsBarcode("#barcodeSvg", code.trim(), { format: "CODE128", width: 2.2, height: 65, displayValue: true, fontSize: 18 }); } catch(e){}
+        disegnaBarcodeCassa(code.trim());
       } else {
-        document.getElementById('cardForm').style.display = 'block'; document.getElementById('cardSaved').style.display = 'none';
+        document.getElementById('cardForm').style.display = 'block';
+        document.getElementById('cardSaved').style.display = 'none';
       }
     }
 
-    window.salvaTessera = function(c) {
-      const val = (c || document.getElementById('cardInput').value).trim();
+    window.salvaTessera = function(codicePassato) {
+      const val = (codicePassato || document.getElementById('cardInput').value).trim();
       if (!val) return;
-      localStorage.setItem(CARD_KEY, val); fermaScannerFotocamera(); caricaTessera();
+      localStorage.setItem(CARD_KEY, val);
+      fermaScannerFotocamera();
+      caricaTessera();
     };
 
     window.modificaTessera = function() {
       fermaScannerFotocamera();
       document.getElementById('cardInput').value = localStorage.getItem(CARD_KEY) || '';
-      document.getElementById('cardForm').style.display = 'block'; document.getElementById('cardSaved').style.display = 'none';
+      document.getElementById('cardForm').style.display = 'block';
+      document.getElementById('cardSaved').style.display = 'none';
     };
 
     window.avviaScannerFotocamera = async function() {
-      document.getElementById('cameraScannerBox').style.display = 'block';
-      if (html5QrCodeScanner) await fermaScannerFotocamera();
+      const box = document.getElementById('cameraScannerBox');
+      box.style.display = 'block';
+      if (html5QrCodeScanner) { await fermaScannerFotocamera(); box.style.display = 'block'; }
       html5QrCodeScanner = new Html5Qrcode("readerCamera");
       try {
-        await html5QrCodeScanner.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 120 } }, t => { if(t) salvaTessera(t); }, () => {});
-      } catch(e) { alert("Fotocamera non disponibile."); fermaScannerFotocamera(); }
+        await html5QrCodeScanner.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 120 } }, (decodedText) => { if (decodedText) salvaTessera(decodedText); }, () => {});
+      } catch (err) {
+        alert("Impossibile accedere alla fotocamera.");
+        fermaScannerFotocamera();
+      }
     };
 
     window.fermaScannerFotocamera = async function() {
-      if (html5QrCodeScanner) { try { await html5QrCodeScanner.stop(); await html5QrCodeScanner.clear(); } catch(e){} html5QrCodeScanner = null; }
-      const b = document.getElementById('cameraScannerBox'); if(b) b.style.display = 'none';
+      if (html5QrCodeScanner) {
+        try { await html5QrCodeScanner.stop(); await html5QrCodeScanner.clear(); } catch (e) {}
+        html5QrCodeScanner = null;
+      }
+      const box = document.getElementById('cameraScannerBox');
+      if (box) box.style.display = 'none';
     };
 
     function resetCampiTemporanei() {
-      document.getElementById('requestForm').reset();
-      document.getElementById('saltaFilaForm').reset();
-      chiudiFormReparto(); chiudiSaltaFila(); fermaScannerFotocamera(); chiudiGuidaWhatsApp();
+      const form = document.getElementById('requestForm');
+      if (form) form.reset();
+      const sfForm = document.getElementById('saltaFilaForm');
+      if (sfForm) sfForm.reset();
+      verificaAssistenzaSaltaFila();
+      aggiornaCampiContatto();
+      aggiornaCampiContattoSF();
+      chiudiFormReparto();
+      chiudiSaltaFila();
+      fermaScannerFotocamera();
+      chiudiGuidaWhatsApp();
+      document.getElementById('pdfSearchInput').value = '';
+      document.getElementById('searchNavBar').style.display = 'none';
       annullaRitaglio(); annullaRitaglioRico(); rimuoviRitaglio();
     }
 
+    let timerInattivita;
+    function riavviaTimer() {
+      clearTimeout(timerInattivita);
+      timerInattivita = setTimeout(resetCampiTemporanei, 180000);
+    }
+
+    ['click', 'touchstart', 'keydown', 'scroll', 'input'].forEach(ev => {
+      document.addEventListener(ev, riavviaTimer, { passive: true });
+    });
+
     window.addEventListener('pageshow', () => {
       document.getElementById('linkPortaleRicondizionati').href = PORTALE_RICONDIZIONATI_URL;
-      aggiornaStatoNegozio(); caricaTessera(); impostaMinimoDataSaltaFila();
+      aggiornaStatoNegozio();
+      caricaTessera();
+      impostaMinimoDataSaltaFila();
+      verificaPropostaInstallazioneAllApertura();
+      riavviaTimer();
       if (!pdfDoc) caricaPdf('volantino.pdf', 'btnTabVolantino');
       if (!pdfDocRico) caricaPdfRicondizionato();
     });
+
     setInterval(aggiornaStatoNegozio, 60000);
   </script>
 </body>
