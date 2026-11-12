@@ -21,7 +21,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     body { background: var(--bg-color); color: #1E293B; padding: 16px; }
     .container { max-width: 1180px; margin: 0 auto; }
-    
+
     header {
       background: linear-gradient(135deg, var(--unieuro-dark), var(--unieuro-blue));
       color: white; padding: 18px 22px; border-radius: 16px; border-bottom: 4px solid var(--unieuro-orange);
@@ -112,6 +112,20 @@
     .badge-est { background: #FFEDD5; color: #C2410C; border: 1px solid #FDBA74; }
 
     .cliente-nome { font-size: 1.1rem; font-weight: 900; color: var(--unieuro-blue); margin-top: 4px; }
+
+    .ricontatto-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .ricontatto-wa { background: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
+    .ricontatto-tel { background: #E0F2FE; color: #0369A1; border: 1px solid #7DD3FC; }
+
     .note-box { background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 10px 12px; font-size: 0.9rem; line-height: 1.45; color: #1E293B; }
     .ritaglio-preview { text-align: center; background: #FFF7ED; border: 1.5px dashed var(--unieuro-orange); border-radius: 10px; padding: 8px; }
     .ritaglio-preview img { max-width: 100%; max-height: 170px; border-radius: 6px; cursor: pointer; }
@@ -169,7 +183,7 @@
         </select>
         <button type="button" class="btn btn-purple" onclick="testaNotificaSovrapposta()">🧪 Prova Avviso (4s)</button>
         <button type="button" class="btn btn-print" onclick="window.print()">🖨️ Stampa Elenco</button>
-        <button type="button" class="btn btn-outline" style="background:rgba(255,255,255,0.15); color:white; border-color:white;" onclick="caricaPratiche()">🔄 Aggiorna</button>
+        <button type="button" class="btn btn-outline" style="background:rgba(255,255,255,0.15); color:white; border-color:white;" onclick="caricaPratiche(true)">🔄 Aggiorna</button>
       </div>
     </header>
 
@@ -187,7 +201,7 @@
       <div class="internal-header">
         <div>
           <h2 style="color:var(--internal-purple); font-size:1.15rem; font-weight:900;">📞 Inserisci Nuova Richiesta Telefonica / Interna</h2>
-          <small style="color:#64748B;">Invio immediato al pannello del reparto destinatario</small>
+          <small style="color:#64748B;">Invio immediato al pannello del reparto destinatario (solo Telefono obbligatorio)</small>
         </div>
         <button type="button" class="btn btn-outline" onclick="toggleModuloInterna()">✖ Chiudi</button>
       </div>
@@ -206,8 +220,8 @@
             </select>
           </div>
           <div class="form-group" style="margin-bottom:0;">
-            <label for="intOperatore">Assegna all'Operatore *</label>
-            <select id="intOperatore" required>
+            <label for="intOperatore">Assegna all'Operatore</label>
+            <select id="intOperatore">
               <option value="TUTTO IL REPARTO">-- Tutto il Reparto --</option>
               <option value="PEPPE M.">PEPPE M.</option><option value="DAGO">DAGO</option><option value="DANIELE">DANIELE</option><option value="GIORGIO">GIORGIO</option><option value="PAOLO">PAOLO</option><option value="MIMMO">MIMMO</option><option value="OUSMANE">OUSMANE</option><option value="TONINO">TONINO (RAEE)</option>
             </select>
@@ -215,17 +229,23 @@
         </div>
 
         <div class="form-group" id="intBoxSottoReparto" style="display:none; background:#F5F3FF; padding:10px; border-radius:10px; border:1.5px solid #C4B5FD;">
-          <label for="intSottoReparto" style="color:#5B21B6;">🛠️ Specifica il Reparto Assistenza *</label>
+          <label for="intSottoReparto" style="color:#5B21B6;">🛠️ Specifica il Reparto Assistenza</label>
           <select id="intSottoReparto"><option value="ELETTRODOMESTICI">🧺☕ ELETTRODOMESTICI</option><option value="TELEFONIA">📱 TELEFONIA</option><option value="INFORMATICA / TV">💻📺 INFORMATICA / TV</option></select>
         </div>
 
         <div class="form-grid-2">
-          <div class="form-group" style="margin-bottom:0;"><label for="intNomeCliente">Nome e Cognome Cliente *</label><input type="text" id="intNomeCliente" placeholder="Es. Mario Rossi" required></div>
-          <div class="form-group" style="margin-bottom:0;"><label for="intTelefono">Telefono Cliente *</label><input type="tel" id="intTelefono" placeholder="Es. 3331234567" required></div>
+          <div class="form-group" style="margin-bottom:0;"><label for="intTelefono">Telefono Cliente (Obbligatorio) *</label><input type="tel" id="intTelefono" placeholder="Es. 3331234567" required></div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="intMetodo">Metodo di Ricontatto</label>
+            <select id="intMetodo">
+              <option value="Telefono">📞 Telefono</option>
+              <option value="WhatsApp">💬 WhatsApp</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group"><label for="intEmail">Email Cliente (opzionale)</label><input type="email" id="intEmail" placeholder="esempio@email.it"></div>
-        <div class="form-group"><label for="intNote">Dettagli Richiesta Telefonica / Prodotto *</label><textarea id="intNote" rows="3" placeholder="Dettagli..." required></textarea></div>
+        <div class="form-group"><label for="intNomeCliente">Nome e Cognome Cliente (opzionale)</label><input type="text" id="intNomeCliente" placeholder="Es. Mario Rossi"></div>
+        <div class="form-group"><label for="intNote">Dettagli Richiesta Telefonica / Prodotto (opzionale)</label><textarea id="intNote" rows="3" placeholder="Dettagli..."></textarea></div>
 
         <button type="submit" id="btnSubmitInt" class="btn btn-purple" style="width:100%; padding:13px; font-size:0.98rem;">📨 Registra e Invia al Reparto</button>
       </form>
@@ -263,7 +283,7 @@
         <button type="button" id="tabGestite" class="btn btn-outline" onclick="cambiaFiltroStato('Gestita')">✅ Gestite (<span id="countGestite">0</span>)</button>
       </div>
       <div style="min-width:260px; flex:1; max-width:380px;">
-        <input type="search" id="searchInputReparto" placeholder="🔍 Cerca cliente, telefono, prodotto..." oninput="renderPratiche()">
+        <input type="search" id="searchInputReparto" placeholder="🔍 Cerca cliente, telefono, prodotto..." oninput="renderPratiche(true)">
       </div>
     </div>
 
@@ -285,15 +305,40 @@
     let idGiaNotificati = new Set();
     let primoCaricamentoCompletato = false;
     let intervalloSuonoAllarme = null;
-    let intervalloTitoloLampeggiante = null;
     let audioContextGlobal = null;
     let finestraPopupEsterna = null;
+
+    // MEMORIA BOZZE: Impedisce che Operatore e Note si cancellino durante l'aggiornamento automatico
+    const bozzeOperatore = {};
+    const bozzeNote = {};
+    let ultimaFirmaDatiServer = "";
+
+    window.salvaBozzaOperatore = function(id, val) {
+      bozzeOperatore[id] = val;
+    };
+
+    window.salvaBozzaNota = function(id, val) {
+      bozzeNote[id] = val;
+    };
+
+    function isUtenteStaCompilandoScheda() {
+      const el = document.activeElement;
+      if (!el) return false;
+      const container = document.getElementById('listaPraticheContainer');
+      return container && container.contains(el) && (el.tagName === 'SELECT' || el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+    }
 
     function isPraticaInterna(p) {
       const idStr = String(p.id || '').toUpperCase();
       const tipoStr = String(p.tipoRichiesta || '').toUpperCase();
       const noteStr = String(p.noteCliente || '').toUpperCase();
       return idStr.startsWith('INT-') || tipoStr.includes('INTERNO') || noteStr.includes('DA INTERNO');
+    }
+
+    function normalizzaMetodoRicontatto(val) {
+      const s = String(val || '').toUpperCase();
+      if (s.includes('WHATSAPP') || s.includes('WA')) return 'WhatsApp';
+      return 'Telefono';
     }
 
     window.toggleModuloInterna = function() {
@@ -320,7 +365,6 @@
       return '0965598722';
     }
 
-    // PULIZIA NUMERO: RIMUOVE SEMPRE LO ZERO INIZIALE SE PRESENTE (es. 03451679875 -> 3451679875)
     function pulisciNumeroSenzaZero(rawPhone) {
       if (!rawPhone) return "";
       let clean = String(rawPhone).replace(/[\s\-\.\(\)]/g, '').replace(/^(\+39|0039)/, '');
@@ -332,6 +376,12 @@
 
     window.inviaRichiestaInternaUnificata = async function(e) {
       e.preventDefault();
+      const tel = pulisciNumeroSenzaZero(document.getElementById('intTelefono').value.trim());
+      if (!tel) {
+        alert("Inserisci il numero di telefono del cliente.");
+        return;
+      }
+
       const btn = document.getElementById('btnSubmitInt');
       btn.disabled = true; btn.textContent = '⏳ Registrazione...';
 
@@ -341,10 +391,9 @@
       const repartoFinale = repartoBase === 'ASSISTENZA' ? `ASSISTENZA (${sottoRep})` : repartoBase;
 
       const operatore = document.getElementById('intOperatore').value;
-      const cliente = document.getElementById('intNomeCliente').value.trim();
-      const tel = pulisciNumeroSenzaZero(document.getElementById('intTelefono').value.trim());
-      const email = document.getElementById('intEmail').value.trim();
-      const note = document.getElementById('intNote').value.trim();
+      const cliente = document.getElementById('intNomeCliente').value.trim() || "Cliente";
+      const metodo = document.getElementById('intMetodo').value;
+      const note = document.getElementById('intNote').value.trim() || "Richiesta ricontatto telefonico";
 
       const idPratica = "INT-" + Date.now();
       const timestamp = new Date().toLocaleString("it-IT");
@@ -358,8 +407,8 @@
         tipoRichiesta: `📞 DA INTERNO (Per: ${operatore})`,
         nomeCliente: cliente,
         telefono: tel,
-        emailCliente: email,
-        preferenzaContatto: "Telefono / WhatsApp",
+        emailCliente: "",
+        preferenzaContatto: metodo,
         noteCliente: `[📞 DA INTERNO - Per: ${operatore}] ${note}`,
         operatore: operatore === 'TUTTO IL REPARTO' ? '' : operatore,
         stato: "Aperta",
@@ -369,7 +418,7 @@
 
       idGiaNotificati.add(idPratica);
       praticheGlobali.unshift(payload);
-      renderPratiche();
+      renderPratiche(true);
 
       fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
       try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) }); } catch (err) {}
@@ -444,6 +493,7 @@
           reparto: repartoAttivoPC === 'TUTTI' ? 'ELETTRODOMESTICI' : repartoAttivoPC,
           nomeCliente: "Mario Rossi (PROVA)",
           telefono: "3331234567",
+          preferenzaContatto: "WhatsApp",
           noteCliente: "Test avviso sovrapposizione.",
           tipoRichiesta: "Test Avviso"
         });
@@ -465,7 +515,7 @@
       document.getElementById('btnOrig_TUTTE').className = orig === 'TUTTE' ? 'origine-btn active-all' : 'origine-btn';
       document.getElementById('btnOrig_ESTERNE').className = orig === 'ESTERNE' ? 'origine-btn active-est' : 'origine-btn';
       document.getElementById('btnOrig_INTERNE').className = orig === 'INTERNE' ? 'origine-btn active-int' : 'origine-btn';
-      renderPratiche();
+      renderPratiche(true);
     };
 
     window.impostaRepartoPC = function(rep) {
@@ -477,14 +527,14 @@
       document.getElementById('btnRep_RITIRO_RAEE').classList.toggle('active', rep === 'RITIRO RAEE');
       document.getElementById('btnRep_TUTTI').classList.toggle('active', rep === 'TUTTI');
       document.getElementById('headerTitoloReparto').textContent = rep === 'TUTTI' ? '🖥️ Pannello Unico: Tutti i Reparti' : `🖥️ Pannello Unico: ${rep}`;
-      renderPratiche();
+      renderPratiche(true);
     };
 
     window.cambiaFiltroStato = function(nuovoStato) {
       filtroStato = nuovoStato;
       document.getElementById('tabAperte').className = nuovoStato === 'Aperta' ? 'btn btn-blue' : 'btn btn-outline';
       document.getElementById('tabGestite').className = nuovoStato === 'Gestita' ? 'btn btn-blue' : 'btn btn-outline';
-      renderPratiche();
+      renderPratiche(true);
     };
 
     function formattaPerWhatsApp(rawPhone) {
@@ -496,37 +546,42 @@
     function scattaAllarmeCompleto(p) {
       if (!praticaAppartieneAlRepartoPC(p)) return;
       const isInt = isPraticaInterna(p), etichetta = isInt ? "📞 RICHIESTA INTERNA" : "📱 RICHIESTA ESTERNA (APP)";
-      mostraAllarmeSchermoIntero(p, etichetta);
+      const metodoRic = normalizzaMetodoRicontatto(p.preferenzaContatto);
+      mostraAllarmeSchermoIntero(p, etichetta, metodoRic);
 
       if ("Notification" in window && Notification.permission === "granted") {
         try {
-          const n = new Notification(`🚨 ${etichetta}: ${p.reparto}`, { body: `Cliente: ${p.nomeCliente}\n${p.noteCliente}`, icon: "icona.png", requireInteraction: true });
+          const n = new Notification(`🚨 ${etichetta}: ${p.reparto}`, {
+            body: `Cliente: ${p.nomeCliente} (${p.telefono})\nMetodo di ricontatto: ${metodoRic}\n${p.noteCliente}`,
+            icon: "icona.png",
+            requireInteraction: true
+          });
           n.onclick = () => { window.focus(); n.close(); };
         } catch (e) {}
       }
 
       try {
-        const width = 490, height = 470, left = Math.round((window.screen.width - width) / 2), top = Math.round((window.screen.height - height) / 2);
+        const width = 490, height = 490, left = Math.round((window.screen.width - width) / 2), top = Math.round((window.screen.height - height) / 2);
         if (finestraPopupEsterna && !finestraPopupEsterna.closed) finestraPopupEsterna.close();
         finestraPopupEsterna = window.open("", "AllarmeUnieuroReparto", `popup=yes,width=${width},height=${height},left=${left},top=${top}`);
         if (finestraPopupEsterna) {
           const telWa = formattaPerWhatsApp(p.telefono);
           const linkWa = `whatsapp://send?phone=${telWa}&text=${encodeURIComponent(`Gentile ${p.nomeCliente}, ti scriviamo da Unieuro.`)}`;
-          finestraPopupEsterna.document.write(`<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><style>body { font-family: sans-serif; background: ${isInt ? '#5B21B6' : '#DC2626'}; color: white; padding: 18px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 90vh; } .box { background: white; color: #1E293B; border-radius: 18px; padding: 20px; width: 100%; box-shadow: 0 12px 30px rgba(0,0,0,0.4); border-top: 8px solid #FF6700; } h2 { color: ${isInt ? '#5B21B6' : '#DC2626'}; } .info { background: #FFF7ED; border: 2px solid #FF6700; border-radius: 12px; padding: 12px; text-align: left; margin-bottom: 14px; } .btn { display: block; width: 100%; padding: 13px; border-radius: 10px; font-weight: 900; text-decoration: none; border: none; cursor: pointer; margin-bottom: 8px; } .btn-wa { background: #16A34A; color: white; } .btn-open { background: #002D62; color: white; }</style></head>
-          <body><div class="box"><h2>🚨 ${etichetta}<br>📍 ${p.reparto}</h2><div class="info"><strong>Cliente:</strong> ${p.nomeCliente}<br><strong>Tel:</strong> ${p.telefono || '-'}<br><strong>Note:</strong> ${p.noteCliente || '-'}</div>${telWa ? `<a href="${linkWa}" class="btn btn-wa" onclick="window.opener.fermaAllarmeNuovaRichiesta(); window.close();">💬 WhatsApp PC</a>` : ''}<button class="btn btn-open" onclick="window.opener.focus(); window.opener.fermaAllarmeNuovaRichiesta(); window.close();">🖥️ Vai al Pannello</button></div></body></html>`);
+          finestraPopupEsterna.document.write(`<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><style>body { font-family: sans-serif; background: ${isInt ? '#5B21B6' : '#DC2626'}; color: white; padding: 18px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 90vh; } .box { background: white; color: #1E293B; border-radius: 18px; padding: 20px; width: 100%; box-shadow: 0 12px 30px rgba(0,0,0,0.4); border-top: 8px solid #FF6700; } h2 { color: ${isInt ? '#5B21B6' : '#DC2626'}; margin-top:0; } .info { background: #FFF7ED; border: 2px solid #FF6700; border-radius: 12px; padding: 12px; text-align: left; margin-bottom: 14px; line-height: 1.5; } .btn { display: block; width: 100%; padding: 13px; border-radius: 10px; font-weight: 900; text-decoration: none; border: none; cursor: pointer; margin-bottom: 8px; box-sizing: border-box; } .btn-wa { background: #16A34A; color: white; } .btn-open { background: #002D62; color: white; }</style></head>
+          <body><div class="box"><h2>🚨 ${etichetta}<br>📍 ${p.reparto}</h2><div class="info"><strong>👤 Cliente:</strong> ${p.nomeCliente}<br><strong>📞 Tel:</strong> ${p.telefono || '-'}<br><strong>📲 Metodo di ricontatto:</strong> ${metodoRic}<br><strong>📝 Note:</strong> ${p.noteCliente || '-'}</div>${telWa ? `<a href="${linkWa}" class="btn btn-wa" onclick="window.opener.fermaAllarmeNuovaRichiesta(); window.close();">💬 WhatsApp PC</a>` : ''}<button class="btn btn-open" onclick="window.opener.focus(); window.opener.fermaAllarmeNuovaRichiesta(); window.close();">🖥️ Vai al Pannello</button></div></body></html>`);
           finestraPopupEsterna.focus();
         }
       } catch (err) {}
     }
 
-    function mostraAllarmeSchermoIntero(p, etichetta) {
+    function mostraAllarmeSchermoIntero(p, etichetta, metodoRic) {
       riproduciSirena();
       clearInterval(intervalloSuonoAllarme);
       intervalloSuonoAllarme = setInterval(riproduciSirena, 4500);
 
       const telWa = formattaPerWhatsApp(p.telefono);
       document.getElementById('alarmModalTitle').textContent = `🚨 ${etichetta}!`;
-      document.getElementById('alarmDetailsBox').innerHTML = `<strong>📍 Reparto:</strong> ${p.reparto}<br><strong>👤 Cliente:</strong> ${p.nomeCliente}<br><strong>📞 Telefono:</strong> ${p.telefono || '-'}<br><strong>📝 Note:</strong> ${p.noteCliente || '-'}`;
+      document.getElementById('alarmDetailsBox').innerHTML = `<strong>📍 Reparto:</strong> ${p.reparto}<br><strong>👤 Cliente:</strong> ${p.nomeCliente}<br><strong>📞 Telefono:</strong> ${p.telefono || '-'}<br><strong>📲 Metodo di ricontatto:</strong> ${metodoRic}<br><strong>📝 Note:</strong> ${p.noteCliente || '-'}`;
       const btnWa = document.getElementById('alarmBtnWhatsAppApp');
       if (telWa) {
         btnWa.href = `whatsapp://send?phone=${telWa}&text=${encodeURIComponent(`Gentile ${p.nomeCliente}, ti scriviamo da Unieuro.`)}`;
@@ -546,33 +601,33 @@
       if (!p) return;
       const haImg = p.image && String(p.image).startsWith('data:image');
       const isInt = isPraticaInterna(p);
+      const metodoRic = normalizzaMetodoRicontatto(p.preferenzaContatto);
       const w = window.open('', '_blank', 'width=750,height=800');
       w.document.write(`<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><title>Stampa Pratica ${p.id}</title>
-        <style>body { font-family: sans-serif; padding: 28px; color: #1E293B; } .head { border-bottom: 3px solid #002D62; padding-bottom: 12px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; } h1 { color: #002D62; font-size: 1.35rem; margin: 0; } .box { border: 1.5px solid #94A3B8; border-radius: 10px; padding: 16px; margin-bottom: 16px; } .notes { background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 14px; margin-bottom: 16px; } img { max-width: 100%; max-height: 360px; border-radius: 8px; margin-top: 8px; }</style>
+        <style>body { font-family: sans-serif; padding: 28px; color: #1E293B; } .head { border-bottom: 3px solid #002D62; padding-bottom: 12px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; } h1 { color: #002D62; font-size: 1.35rem; margin: 0; } .box { border: 1.5px solid #94A3B8; border-radius: 10px; padding: 16px; margin-bottom: 16px; line-height: 1.6; } .notes { background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 14px; margin-bottom: 16px; } img { max-width: 100%; max-height: 360px; border-radius: 8px; margin-top: 8px; }</style>
       </head><body onload="window.print();">
         <div class="head"><div><h1>UNIEURO - SCHEDA</h1><small>ID: <strong>${p.id}</strong></small></div><div><strong>${isInt ? 'INTERNA' : 'ESTERNA'}</strong></div></div>
-        <div class="box"><strong>Reparto:</strong> ${p.reparto}<br><strong>Cliente:</strong> ${p.nomeCliente}<br><strong>Tel:</strong> ${p.telefono || '-'}</div>
+        <div class="box"><strong>Reparto:</strong> ${p.reparto}<br><strong>Cliente:</strong> ${p.nomeCliente}<br><strong>Tel:</strong> ${p.telefono || '-'}<br><strong>Metodo di ricontatto:</strong> ${metodoRic}</div>
         <div class="notes"><strong>Note:</strong><br>${p.noteCliente || '-'}</div>
         ${haImg ? `<div style="text-align:center;"><img src="${p.image}"></div>` : ''}
       </body></html>`);
       w.document.close();
     };
 
-    async function caricaPratiche() {
+    async function caricaPratiche(forzaRender = false) {
       try {
         const res = await fetch(`${SCRIPT_URL}?action=get&_t=${Date.now()}`, { redirect: 'follow' });
         const data = await res.json();
         const lista = Array.isArray(data) ? data : (data.data || []);
 
-        praticheGlobali = lista.map(row => ({
+        const nuovePratiche = lista.map(row => ({
           id: String(row.id || row['ID Pratica'] || ''),
           timestamp: row.timestamp || row['Data e Ora'] || '',
           tipoRichiesta: String(row.tipoRichiesta || row['Tipo Richiesta'] || 'Richiesta Cliente'),
           reparto: String(row.reparto || row['Reparto'] || ''),
           nomeCliente: String(row.nomeCliente || row['Nome Cliente'] || 'Cliente'),
-          // APPLICA PULIZIA AUTOMATICA PER RIMUOVERE LO 0 INIZIALE
           telefono: pulisciNumeroSenzaZero(row.telefono || row['Telefono'] || ''),
-          emailCliente: String(row.emailCliente || row['Email Cliente'] || ''),
+          preferenzaContatto: normalizzaMetodoRicontatto(row.preferenzaContatto || row['Preferenza Contatto'] || 'Telefono'),
           noteCliente: String(row.noteCliente || row['Dettagli / Note Cliente'] || ''),
           stato: String(row.stato || row['Stato'] || 'Aperta'),
           noteRepartista: String(row.noteRepartista || row['Note Repartista'] || ''),
@@ -581,21 +636,34 @@
         })).filter(p => p.id);
 
         if (!primoCaricamentoCompletato) {
-          praticheGlobali.forEach(p => idGiaNotificati.add(p.id));
+          nuovePratiche.forEach(p => idGiaNotificati.add(p.id));
           primoCaricamentoCompletato = true;
         } else {
-          praticheGlobali.forEach(p => {
+          nuovePratiche.forEach(p => {
             if (!idGiaNotificati.has(p.id) && p.stato !== 'Gestita') {
               idGiaNotificati.add(p.id);
               scattaAllarmeCompleto(p);
             }
           });
         }
-        renderPratiche();
+
+        // Firma dei dati per capire se è cambiato qualcosa sul server
+        const nuovaFirma = JSON.stringify(nuovePratiche.map(p => `${p.id}_${p.stato}_${p.operatore}_${p.noteRepartista}`));
+        praticheGlobali = nuovePratiche;
+
+        // Se l'utente sta selezionando l'operatore o scrivendo nella casella Esito e non ha premuto Aggiorna manualmente, NON ridisegna la pagina!
+        if (!forzaRender && (nuovaFirma === ultimaFirmaDatiServer || isUtenteStaCompilandoScheda())) {
+          return;
+        }
+
+        ultimaFirmaDatiServer = nuovaFirma;
+        renderPratiche(true);
       } catch (e) {}
     }
 
-    function renderPratiche() {
+    function renderPratiche(forza = false) {
+      if (!forza && isUtenteStaCompilandoScheda()) return;
+
       const container = document.getElementById('listaPraticheContainer');
       const query = (document.getElementById('searchInputReparto')?.value || '').trim().toLowerCase();
 
@@ -641,7 +709,15 @@
         const telWa = formattaPerWhatsApp(p.telefono);
         const linkWhatsAppApp = `whatsapp://send?phone=${telWa}&text=${encodeURIComponent(`Gentile ${p.nomeCliente}, ti scriviamo da Unieuro.`)}`;
         const haImg = p.image && String(p.image).startsWith('data:image');
-        const opDefault = p.reparto.toUpperCase().includes('RAEE') ? 'TONINO' : (p.operatore || '');
+
+        const metodoRic = normalizzaMetodoRicontatto(p.preferenzaContatto);
+        const isWaPref = metodoRic === 'WhatsApp';
+
+        // Ripristina eventuale selezione/testo in corso dell'operatore senza perderlo
+        const opDefault = bozzeOperatore[p.id] !== undefined
+          ? bozzeOperatore[p.id]
+          : (p.reparto.toUpperCase().includes('RAEE') ? 'TONINO' : (p.operatore || ''));
+        const notaBozza = (bozzeNote[p.id] !== undefined ? bozzeNote[p.id] : '').replace(/"/g, '&quot;');
 
         return `
           <div class="${cardClass}">
@@ -653,6 +729,11 @@
               </div>
               <div class="cliente-nome">👤 ${p.nomeCliente}</div>
               <div style="font-size:0.78rem; color:#64748B; margin-bottom:8px;">🕒 ${p.timestamp} • <strong>${p.tipoRichiesta}</strong></div>
+
+              <div class="ricontatto-pill ${isWaPref ? 'ricontatto-wa' : 'ricontatto-tel'}">
+                ${isWaPref ? '💬' : '📞'} Metodo di ricontatto: <span>${metodoRic}</span>
+              </div>
+
               <div class="note-box"><strong>📝 Note:</strong><br>${p.noteCliente || '-'}</div>
               ${haImg ? `<div class="ritaglio-preview" style="margin-top:10px;"><img src="${p.image}" onclick="window.open().document.write('<img src=${p.image}>')"></div>` : ''}
             </div>
@@ -664,7 +745,7 @@
               <button type="button" class="btn btn-print" onclick="stampaSingolaPratica('${p.id}')">🖨️ Stampa Scheda</button>
               ${p.stato !== 'Gestita' ? `
                 <div class="close-form-row">
-                  <select id="op_${p.id}">
+                  <select id="op_${p.id}" onchange="salvaBozzaOperatore('${p.id}', this.value)">
                     <option value="">-- Operatore --</option>
                     <option value="PEPPE M." ${opDefault === 'PEPPE M.' ? 'selected' : ''}>PEPPE M.</option>
                     <option value="DAGO" ${opDefault === 'DAGO' ? 'selected' : ''}>DAGO</option>
@@ -675,10 +756,10 @@
                     <option value="OUSMANE" ${opDefault === 'OUSMANE' ? 'selected' : ''}>OUSMANE</option>
                     <option value="TONINO" ${opDefault === 'TONINO' ? 'selected' : ''}>TONINO</option>
                   </select>
-                  <input type="text" id="note_${p.id}" placeholder="Esito...">
+                  <input type="text" id="note_${p.id}" value="${notaBozza}" oninput="salvaBozzaNota('${p.id}', this.value)" placeholder="Esito...">
                 </div>
                 <button type="button" class="btn btn-orange" onclick="chiudiPraticaDaPostazione('${p.id}')">✔ Segna come Gestita</button>
-              ` : `<div style="font-size:0.82rem; color:#166534; background:#DCFCE7; padding:8px; border-radius:8px; font-weight:700;">✔ Gestita da: <strong>${p.operatore || '-'}</strong></div>`}
+              ` : `<div style="font-size:0.82rem; color:#166534; background:#DCFCE7; padding:8px; border-radius:8px; font-weight:700;">✔ Gestita da: <strong>${p.operatore || '-'}</strong><br>Esito: ${p.noteRepartista || '-'}</div>`}
             </div>
           </div>
         `;
@@ -690,13 +771,16 @@
       const note = document.getElementById(`note_${id}`).value.trim() || "Gestita";
       if (!op) { alert("Seleziona il tuo nome operatore."); return; }
 
+      delete bozzeOperatore[id];
+      delete bozzeNote[id];
+
       const updatePayload = { action: "update", id: id, stato: "Gestita", operatore: op, noteRepartista: note };
       const idx = praticheGlobali.findIndex(item => item.id === id);
       if (idx !== -1) {
         praticheGlobali[idx].stato = "Gestita";
         praticheGlobali[idx].operatore = op;
         praticheGlobali[idx].noteRepartista = note;
-        renderPratiche();
+        renderPratiche(true);
       }
 
       fetch(`https://ntfy.sh/${NTFY_TOPIC}`, { method: 'POST', body: JSON.stringify(updatePayload) }).catch(() => {});
@@ -714,9 +798,9 @@
               if (payload.action === "create" && payload.id && !idGiaNotificati.has(payload.id)) {
                 idGiaNotificati.add(payload.id);
                 scattaAllarmeCompleto(payload);
-                setTimeout(caricaPratiche, 1000);
+                setTimeout(() => caricaPratiche(false), 1000);
               } else if (payload.action === "update") {
-                setTimeout(caricaPratiche, 1000);
+                setTimeout(() => caricaPratiche(false), 1000);
               }
             }
           } catch (err) {}
@@ -727,9 +811,9 @@
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('volumeSelect').value = String(volumeNotifica);
       impostaRepartoPC(repartoAttivoPC);
-      caricaPratiche();
+      caricaPratiche(true);
       avviaAscoltoLive();
-      setInterval(caricaPratiche, 7000);
+      setInterval(() => caricaPratiche(false), 7000);
     });
   </script>
 </body>
